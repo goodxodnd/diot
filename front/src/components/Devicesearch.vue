@@ -2,7 +2,7 @@
   <div>
     <div class="row">
         <div class="col-md-2.5">
-          <div class="main-title">All Device List</div>
+          <div class="main-title"> Device List</div>
         </div>
         <div class="col-md-8">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
