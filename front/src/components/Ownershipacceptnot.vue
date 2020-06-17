@@ -27,8 +27,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-8">
           <b-card class="card05" title="Set Alram" sub-title="Device Info">
-             <b-button class= "accept">Accept</b-button><b-button class="reject">Reject</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
+               <b-card-text><br><br><b> No Request.</b><br><br></b-card-text>
           </b-card>
           <b-card class="card06" title="Ownership log">
             <b-card-text>

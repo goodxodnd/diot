@@ -1,5 +1,5 @@
 <template>
- <div class="Sidebar">
+ <div class="Sidebar" v-show="isLogin">
   <div class="header">
        <svg class="lock" width="60px" height="60px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M11.5 8h-7a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-7-1a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7zm0-3a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
@@ -9,68 +9,84 @@
   <div class="menu">
    <div class="title-menu">Device</div>
     <div class="main-menu">
-      <router-link to="/devicesearch">Search</router-link>
+      <router-link to="/devicesearch" style="color:white;">Search</router-link>
     </div>
     <div class="main-menu">
-      <router-link to="/devicelist">List</router-link>
+      <router-link to="/devicelist" style="color:white;">List</router-link>
     </div>
     <div class="main-menu">
-      <router-link to="/deviceregister">Register</router-link>
+      <router-link to="/deviceregister" style="color:white;">Register</router-link>
     </div>
     <br>
     <br>
    <div class="title-menu">Service</div>
     <div class="main-menu">
-      <router-link to="/service">My Service</router-link>
+      <router-link to="/service" style="color:white;">My Service</router-link>
     </div>
     <div class="main-menu">
-       <router-link to="/serviceregister">Register</router-link;>
+       <router-link to="/serviceregister" style="color:white;">Register</router-link>
     </div>
     <br>
     <br>
    <div class="title-menu">Authority</div>
     <div class="main-menu">
-      <router-link to="/authorityrequest">Request</router-link>
+      <router-link to="/authorityrequest" style="color:white;">Request</router-link>
     </div>
     <div class="main-menu">
-       <router-link to="/authorityaccept">Accept</router-link>
+       <router-link to="/authorityaccept" style="color:white;">Accept</router-link>
     </div>
     <br>
     <br>
    <div class="title-menu">Ownership</div>
     <div class="main-menu">
-      <router-link to="/ownershiprequest">Request</router-link>
+      <router-link to="/ownershiprequest" style="color:white;">Request</router-link>
     </div>
     <div class="main-menu">
-       <router-link to="/ownershipaccept">Accept</router-link>
+       <router-link to="/ownershipaccept" style="color:white;">Accept</router-link>
     </div>
     <br>
     <br>
    <div class="title-menu">Tier</div>
     <div class="main-menu">
-      <router-link to="/tierrequest">Request</router-link>
+      <router-link to="/tierrequest" style="color:white;">Request</router-link>
    </div>
     <div class="main-menu">
-      <router-link to="/tieraccpet">Accept</router-link>
+      <router-link to="/tieraccpet" style="color:white;">Accept</router-link>
     </div>
     <div class="main-menu">
-      <router-link to="/tiermanagement">Management</router-link>
+      <router-link to="/tiermanagement" style="color:white;">Management</router-link>
     </div>
     <div class="main-menu">
-      <router-link to="/tierserviceset">Service Setting</router-link>
+      <router-link to="/tierserviceset" style="color:white;">Service Setting</router-link>
     </div>
+    <br>
+    <div class="title-menu" @click="logout()">Sign out</div>
 </div>
  </div>
 </template>
 
-
-  </div>
-
- </div>
-</template>
-
 <script>
+import { mapState, mapActions } from "vuex"
+  export default {
+
+    data () {
+      return{
+
+      }
+    },
+    computed: {
+        ...mapState(["isLogin"])
+    },
+    methods: {
+        ...mapActions(["logout"]),
+
+
+
+      }
+    }
 </script>
+
+
 
 <style>
 .Sidebar {

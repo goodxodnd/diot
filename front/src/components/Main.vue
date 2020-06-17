@@ -7,7 +7,7 @@
             <router-link to="/signin">
               <b-button variant="light" class="sign-in">SIGN IN</b-button>
             </router-link>
-            <router-link to ="signup">
+            <router-link to ="/signup">
               <b-button class="sign-up">SIGN UP</b-button>
             </router-link>
         </div>

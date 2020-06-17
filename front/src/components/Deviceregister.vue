@@ -19,7 +19,7 @@
               <label class="txt05">Public Key</label>
               <input class="key" type="text" placeholder="Enter Public Key"/>
             </div>
-            <b-button variant="light" class="signup">R E G I S T R A T I O N</b-button></div>
+            <b-button variant="light" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
 
           </div>
         <div class="col-md-2"></div>
@@ -39,7 +39,7 @@ font-size: 50px;
 .box {
 background-color: #E7E7E7;
 position: relative;
-top:90px;
+top:70px;
 left: 190px;
 width:700px;
 height:640px;
@@ -60,7 +60,7 @@ width: 400px;
 height: 45px;
 position: relative;
 top: 75px;
-left: 33px;
+left: 18px;
 }
 .type {
 width: 400px;
@@ -109,7 +109,7 @@ left: 130px;
 .txt02 {
 position: relative;
 top:115px;
-left: -373px;
+left: -385px;
 }
 .txt03 {
 position: relative;

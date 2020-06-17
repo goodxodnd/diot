@@ -50,7 +50,7 @@ export default new Vuex.Store({
                         //         }
                         //     }
                             commit('loginSuccess')
-                            router.push("/")
+                            router.push("/dashboard")
                         }
                     else {
                         alert(' Check your Id&PW 1 ');
@@ -95,7 +95,7 @@ export default new Vuex.Store({
         },
         logout({commit}) {
                 commit("logout")
-                router.push("/login")
+                router.push("/signin")
             },
     }
 })

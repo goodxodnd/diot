@@ -1,7 +1,6 @@
 <template>
 <div class="container">
     <div class="row">
-        <div class="col-md-1"></div>
         <div class="col-md-5">
           <div class="box01">
             <div class="box01-text">Welcome to diot</div>
@@ -14,16 +13,17 @@
           <div class="box02">
             <div class="box02-text">Sign In</div>
             <div class="box02-signin">
-              <input class="id" v-model="did" name="did" type="text" placeholder="Enter DID Numer"/>
+              <input class="did-number" v-model="did" name="did" type="text" placeholder="Enter DID Numer"/>
               <br>
               <input class="password" v-model="password" name="password" type="password" placeholder="Enter Password"/>
             </div>
             <b-button @click="login({ did, password})" variant="light" class="signin">S I G N  I N</b-button></div>
           <div class="question">
-            <a href="/signup.vue">Sign up here</a>
+            <a href="/signup.vue"><b>Sign up here</b></a>
           </div>
         </div>
         <div class="col-md-1"></div>
+      <div class="col-md-1"></div>
     </div>
 </div>
 </template>
@@ -53,6 +53,7 @@ export default {
 .box01 {
 background-color: #3d6098;
 position: relative;
+  left:-70px;
 top:145px;
 width:475px;
 height:500px;
@@ -76,8 +77,8 @@ color: white;
 }
 .know-more {
 font-weight: bold;
-font-size: 15px;
-width: 110px;
+font-size: 12px;
+width: 120px;
 height: 35px;
 position: relative;
 top: 190px;
@@ -87,6 +88,7 @@ left: 85px;
 .box02 {
 background-color: #E7E7E7;
 position: relative;
+  left:-70px;
 top:145px;
 width:475px;
 height:500px;
@@ -103,7 +105,7 @@ left: 160px;
 .box02-signin{
 font-size: 20px;
 }
-.id {
+.did-number {
 width: 250px;
 height: 45px;
 position: relative;

@@ -13,6 +13,14 @@ def get_main():
         abort(404)
 
 
+@view_page.route('/dashboard', methods=['GET'])
+def get_dashboard():
+    try:
+        return render_template('index.html')
+    except TemplateNotFound:
+        abort(404)
+
+
 @view_page.route('/signin', methods=['GET'])
 def get_signin():
     try:
