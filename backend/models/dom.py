@@ -34,9 +34,10 @@ class Docu():
 class User(Docu):
     """ 사용자 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self,  did, email, logpass, gethpass):
+    def __init__(self, account, did, email, logpass, gethpass):
         """ 초기화 함수
         Args:
+            account (str): blockchain account
             did (str): 사용자 did
             email (str): 사용자 이메일
             logpass (str): 사용자의 로그인 패스워드
@@ -44,6 +45,7 @@ class User(Docu):
        """
         super().__init__()
         self.collection = 'users'
+        self.doc['account'] = account
         self.doc['did'] = did
         self.doc['email'] = email
         self.doc['logpass'] = logpass

@@ -1,18 +1,21 @@
 from flask import Blueprint,request,Response,jsonify
+from datetime import timedelta, datetime
 import json
+import jwt
 from bson import json_util
 from backend.models.dom import User
+from backend.controller.core import EthCore
+core = EthCore()
 from backend.models.database import ZenMongo
+
+
+
 from pymongo import MongoClient, collection
 
 
 api_page = Blueprint('api_page',__name__)
 api_page.resource = {'JWT_SECRET_KEY': '8akdjfl*#Q@OS)_Dkljdlkdja'}
 
-
-@api_page.route('/tiki', methods=["GET", "POST"])
-def tiki_taka():
-    return("taka")
 
 
 @api_page.route('/register', methods=['POST'])
@@ -23,11 +26,20 @@ def register():
     logpass = request.json['password']
     gethpass = logpass + 'xaaa'
 
-    user = User(did, email, logpass, gethpass)
+
+    # call core
+    params = {'password': gethpass, 'did': did, 'email': email, 'logpass': logpass }
+    print(params)
+    result = core.createAccount(params)
+
+
+    #get account addr
+    account = result['accountAddr']
+    user = User(account, did, email, logpass, gethpass)
 
     # add user to db
-    result = api_page.resource['mongo'].add_user(user)
-    response = json.dumps(result, default=json_util.default)
+    mongoResult = api_page.resource['mongo'].add_user(user)
+    response = json.dumps(mongoResult, default=json_util.default)
     return response
 
 
@@ -43,23 +55,69 @@ def login():
 
     # compare it with DB
     result = api_page.resource['mongo'].auth_user_by_did(login_did, login_pass)
+
     print(result)
     if result['code'] == 200:
-        # # Login Success
-        # payload = {
-        #     'email': login_email,
-        #     'exp': datetime.utcnow() + timedelta(seconds=60 * 60)
-        # }
-        # token = jwt.encode(payload, api_page.resource['JWT_SECRET_KEY'], 'HS256')
+        # Login Success
+        payload = {
+            'did': login_did,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60)
+        }
+        token = jwt.encode(payload, api_page.resource['JWT_SECRET_KEY'], 'HS256')
         return jsonify({
             'code': 200,
-            # 'access_token': token.decode('UTF-8')
+            'access_token': token.decode('UTF-8')
         })
     else:
         # Login Fail
         return jsonify({
             'code': 404
         })
+
+@api_page.route('/fill_eth', methods=['GET'])
+def fill_eth(*args, **kwargs):
+    did = kwargs['did']
+
+    user_info = api_page.resource['mongo'].find_user_by_email(did)
+    if user_info['code'] == 200:
+        # get params
+        params = {
+                "to": user_info['payload']['account'],
+                "amount": 100
+            }
+
+        payload = {"params": params}
+
+        # call core
+        result = core.fillEth(payload)
+        response = json.dumps(result, default=json_util.default)
+        return response
+        print(response)
+    else:
+        return user_info
+
+@api_page.route('/balance', methods=['GET'])
+def getbalance(*args, **kwargs):
+    did = request.headers.get('did')
+
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
+
+    if user_info['code'] == 200:
+
+        # get params
+        print(user_info)
+
+        payload = user_info['payload']
+        parameters = { }
+        parameters['account'] = payload['account']
+
+        # call core
+        result = core.getBalance(parameters)
+        response = json.dumps(result, default=json_util.default)
+        return response
+    else:
+        return user_info
+
 
 
 @api_page.route('/add_user', methods=['GET'])

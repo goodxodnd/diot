@@ -14,7 +14,7 @@ class ZenMongo():
 
     """
 
-    def __init__(self, url='mongodb://mj:16900', dbname='diot'):
+    def __init__(self, url='mongodb://210.114.89.53:16900', dbname='diot'):
         """ 초기화 함수
         Args:
             url (str): mongodb의 URL, 생성시 지정 가능함.
@@ -218,11 +218,11 @@ class ZenMongo():
             result = self.replace_one('users', query, user.get_doc())
         return result
 
-    def find_user_by_email(self, email):
+    def find_user_by_did(self, did):
         """ 사용자를 account로 검색
 
         Args:
-            email: 사용자의 email
+            did: 사용자의 did
 
         Returns:
             result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
@@ -230,7 +230,7 @@ class ZenMongo():
                            에러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        query = {'email': email}
+        query = {'did': did}
         return self.find_one('users', query)
 
     def auth_user_by_did(self, did, passwd):

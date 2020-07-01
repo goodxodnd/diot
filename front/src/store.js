@@ -42,13 +42,13 @@ export default new Vuex.Store({
                     let response = res.data
                     if(response['code'] == '200')
                         {
-                        // sessionStorage.setItem("access_token", response['access_token'])
-                        // let token = sessionStorage.getItem("access_token")
-                        // let config = {
-                        //     headers: {
-                        //         "Authorization": token
-                        //         }
-                        //     }
+                        sessionStorage.setItem("access_token", response['access_token'])
+                        let token = sessionStorage.getItem("access_token")
+                        let config = {
+                            headers: {
+                                "Authorization": token
+                                }
+                            }
                             commit('loginSuccess')
                             router.push("/dashboard")
                         }
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                     {
                         console.log(response)
                         if (response['code'] == '404') {
-                            alert(' Already exist ID')
+                            alert(' Already exist DID')
                         } else {
                             alert(' Register Success')
                             router.go(-1)

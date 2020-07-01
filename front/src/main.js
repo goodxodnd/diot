@@ -13,7 +13,7 @@ import axios from 'axios'
 Vue.config.productionTip = false
 
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 
 // /* eslint-disable no-new */
 // new Vue({

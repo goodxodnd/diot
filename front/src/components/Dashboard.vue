@@ -3,9 +3,13 @@
         <div class="col-md-12">
           <div class="main-title">Dashboard</div>
         </div>
+      <div>
+          <b-button @click="fill_eth()">charging Eth</b-button>
+        <p>Ethereum Balance: {{balance}} Wei</p>
+      </div>
         <div class="col-md-7">
           <div class="Authority-box">
-            <b-card class="card01" title="Authority Request result"><b-button class= "more brn-primary-outline " style="color:black; background-color:transparent; outline:none;">+More</b-button>
+            <b-card class="card01" title="Authority Request result"><b-button class= "more brn-primary-outline " style="color:black; background-color:transparent; outline:none;">+More1</b-button>
                <b-card-text>
                   <img src="../assets/user.png" style="position:relative; top:-20px; ">
                  <div class="content01"><b>TOM</b><br>Request Authority to Print</div>
@@ -13,7 +17,7 @@
             </b-card>
              </div>
           <div class="Ownership-box">
-             <b-card class="card02" title="Ownership Request result"><b-button class= "more brn-primary-outline " style="color:black; background-color:transparent; outline:none;">+More</b-button>
+             <b-card class="card02" title="Ownership Request result"><b-button class= "more brn-primary-outline "  variant="dark" @click="showMsgBoxOne()" style="color:black; background-color:transparent; outline:none;">+More</b-button>
                <b-card-text>
                    <img src="../assets/user.png" style="position:relative; top:-20px; ">
                  <div class="content01"><b>CHOI</b><br>Request Ownership to Print</div>
@@ -110,6 +114,59 @@
 </template>
 
 <script>
+import axios from 'axios'
+import ethmodal from './ethmodal'
+
+  export default {
+    data() {
+      return {
+        balance: 0
+      }
+    },
+    components: {
+      ethmodal
+    },
+    methods: {
+      fill_eth() {
+        const path = 'http://localhost:9999/api/fill_eth'
+        const did = sessionStorage.getItem("did")
+
+        axios
+        .get(path, { params: {},
+            headers:{
+              "did": did
+          },
+        })
+        .then(response => {
+          this.balance = response.data.result.balance
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      },
+      getJSONResponse(){
+        const did = sessionStorage.getItem("did")
+        const path = 'http://localhost:9999/api/balance'
+
+        axios(path, {params: {},
+          headers: {
+            "did" : did
+          },
+        })
+        .then(response => {
+          this.balance = response.data.result.balance
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+
+    },
+    created() {
+      this.getJSONResponse()
+    }
+  }
+
 </script>
 
 <style>
