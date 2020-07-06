@@ -1,10 +1,12 @@
 from flask import Blueprint,request,Response,jsonify
 from datetime import timedelta, datetime
+from functools import wraps
 import json
 import jwt
 from bson import json_util
 from backend.models.dom import User
 from backend.controller.core import EthCore
+from backend.models.dom import DApp
 core = EthCore()
 from backend.models.database import ZenMongo
 
@@ -17,6 +19,32 @@ api_page = Blueprint('api_page',__name__)
 api_page.resource = {'JWT_SECRET_KEY': '8akdjfl*#Q@OS)_Dkljdlkdja'}
 
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        print(request.headers)
+        access_token = request.headers.get('Authorization')
+        if access_token is not None:
+            try:
+                payload = jwt.decode(access_token, api_page.resource['JWT_SECRET_KEY'], 'HS256')
+            except jwt.InvalidTokenError as ex:
+                payload = None
+                print(ex)
+
+            if payload is None:
+                print('111')
+                return Response(status=401)
+
+            email = payload['email']
+            kwargs['email'] = email
+        else:
+            print('222')
+            return Response(status=401)
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
 
 @api_page.route('/register', methods=['POST'])
 def register():
@@ -26,21 +54,26 @@ def register():
     logpass = request.json['password']
     gethpass = logpass + 'xaaa'
 
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
+    print(user_info)
+    if user_info['code'] == 200:
+        # Same Did in Mongo
+        return jsonify({
+            'code': 404
+        })
+    else:
+        # call core
+        params = {'password': gethpass, 'did': did, 'email': email, 'logpass': logpass }
+        result = core.createAccount(params)
 
-    # call core
-    params = {'password': gethpass, 'did': did, 'email': email, 'logpass': logpass }
-    print(params)
-    result = core.createAccount(params)
+        # get account addr
+        account = result['accountAddr']
+        user = User(account, did, email, logpass, gethpass)
 
-
-    #get account addr
-    account = result['accountAddr']
-    user = User(account, did, email, logpass, gethpass)
-
-    # add user to db
-    mongoResult = api_page.resource['mongo'].add_user(user)
-    response = json.dumps(mongoResult, default=json_util.default)
-    return response
+        # add user to db
+        mongoResult = api_page.resource['mongo'].add_user(user)
+        response = json.dumps(mongoResult, default=json_util.default)
+        return response
 
 
 @api_page.route('/signin', methods=['POST'])
@@ -74,16 +107,37 @@ def login():
             'code': 404
         })
 
+#
+# @api_page.route('/add_dapp', methods=['GET', 'POST'])
+# def add_dapp(*args, **kwargs):
+#     did = kwargs['did']
+#
+#     result = api_page.resource['mongo'].find_user_by_did(did)
+#     if result['code'] == 200:
+#         user = result['payload']
+#         name = request.json['name']
+#         desc = request.json['desc']
+#         abi = request.json['abi']
+#         binary = request.json['bin']
+#         dapp = DApp(user, name, desc, abi, binary)
+#         result = api_page.resource['mongo'].add_dapp(dapp)
+#
+#     print(result)
+#     ret_val = jsonify(result)
+#     print(ret_val)
+#     return ret_val
+
+
 @api_page.route('/fill_eth', methods=['GET'])
 def fill_eth(*args, **kwargs):
-    did = kwargs['did']
+    did = request.headers.get('did')
 
-    user_info = api_page.resource['mongo'].find_user_by_email(did)
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
     if user_info['code'] == 200:
         # get params
         params = {
                 "to": user_info['payload']['account'],
-                "amount": 100
+                "amount": 5
             }
 
         payload = {"params": params}
@@ -95,6 +149,7 @@ def fill_eth(*args, **kwargs):
         print(response)
     else:
         return user_info
+
 
 @api_page.route('/balance', methods=['GET'])
 def getbalance(*args, **kwargs):
@@ -114,9 +169,30 @@ def getbalance(*args, **kwargs):
         # call core
         result = core.getBalance(parameters)
         response = json.dumps(result, default=json_util.default)
+        print(response)
         return response
     else:
         return user_info
+
+
+@api_page.route('/add_dapp', methods=['GET', 'POST'])
+def add_dapp(*args, **kwargs):
+    did = kwargs['did']
+
+    result = api_page.resource['mongo'].find_user_by_did(did)
+    if result['code'] == 200:
+        user = result['payload']
+        name = request.json['name']
+        desc = request.json['desc']
+        abi = request.json['abi']
+        binary = request.json['bin']
+        dapp = DApp(user, name, desc, abi, binary)
+        result = api_page.resource['mongo'].add_dapp(dapp)
+
+    print(result)
+    ret_val = jsonify(result)
+    print(ret_val)
+    return ret_val
 
 
 

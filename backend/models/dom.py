@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
 
-
+import datetime
 from flask import json
 
 class Docu():
@@ -57,3 +57,28 @@ class User(Docu):
              str: account를 반환함.
         """
         return self.doc['account']
+
+
+class DApp(Docu):
+    """ DApp 정보를 갖고 있는 Object Mapper """
+
+    def __init__(self, user, name, desc, abi, binary, public=False):
+        """ 초기화 함수
+        Args:
+            user (User): DApp의 소유자
+            dapp_name (str): dapp의 이름
+            desc (str): dapp의 description.
+            abi (str): dapp abi
+            binary (str): dapp binary
+            public (bool): 다른 사용자가 볼 수 있음. 디폴트는 false
+       """
+        super().__init__()
+        self.collection = 'dapps'
+        self.doc['user'] = user['_id']
+        self.doc['name'] = name
+        self.doc['desc'] = desc
+        self.doc['abi'] = abi
+        self.doc['bin'] = binary
+        self.doc['public'] = public
+        self.doc['upload_time'] = datetime.datetime.now()
+

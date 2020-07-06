@@ -154,6 +154,75 @@ class ZenMongo():
         except PyMongoError as ex:
             return False
 
+    #############################################
+    # DAPP utility methods
+    #############################################
+
+    def add_dapp(self, dapp):
+        """ DApp을 MongoDB에 추가
+
+        Args:
+            dapp: 사용자 정보를 담고있는 DApp 인스턴스
+
+        Returns:
+            result (dict): 저장 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        return self.add_one('dapps', dapp.get_doc())
+
+    def del_dapp_by_id(self, oid):
+        """ DApp을 id 정보를 이용해서 삭제
+
+        Note:
+            DApp을 삭제하는 것이 맞는지 잘 모르겠음.
+            Disable로 하는 것인 Deployed된 DApp이 있으므로 더 나은 방법이 될 것임.
+            나중에 판단할 것.
+
+        Args:
+            oid: DApp의 MongoDB document id (_id)
+
+        Returns:
+            result (dict): 삭제 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'_id': ObjectId(oid)}
+        return self.del_one('dapps', query)
+
+    def find_dapp_by_email(self, email):
+        """ DApp을 소유자의 email로 검색
+
+        Args:
+            email: 소유자의 email
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 다수의 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        result = self.find_user_by_email(email)
+        if result['code'] == 200:
+            print(result['payload']['_id'])
+            query = {'user': result['payload']['_id']}
+            return self.find('dapps', query)
+        else:
+            return result
+
+    def find_dapp_by_id(self, oid):
+        """ DApp을 DApp의 id로 검색
+
+        Args:
+            oid: DApp의 MongoDB document id (_id)
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'_id': ObjectId(oid)}
+        return self.find_one('dapps', query)
+
 
     #############################################
     # utility methods for users
@@ -270,3 +339,149 @@ class ZenMongo():
     def auth_user_by_email(self, email, passwd):
         query = {'email': email, 'logpass': passwd}
         return self.find_one('users', query)
+
+
+    #############################################
+    # Deployed DAPP utility methods
+    #############################################
+    def add_deployed(self, deployed):
+        """ DApp의 Deploy 정보를 추가
+
+        Args:
+            deployed: Deploy 정보를 담고있는 Docu.
+
+        Returns:
+            result (dict): 저장 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        return self.add_one('deploys', deployed)
+
+    def find_deployed_by_account(self, account):
+        """ 설치된 DApp을 소유자의 account로 검색
+
+        Args:
+            account: 소유자의 account
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 다수의 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        result = self.find_user_by_account(account)
+        if result['code'] == 200:
+            query = {'user': result['payload']['_id']}
+            return self.find('deploys', query)
+        else:
+            return result
+
+    def find_deployed_by_id(self, oid):
+        """ 설치된 DApp을 설치된 DApp의 id로 검색
+
+        Args:
+            oid: 설치된 DApp의 MongoDB document id (_id)
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'_id': ObjectId(oid)}
+        result = self.find_one('deploys', query)
+        if result['code'] == 200:
+            dapp_info = self.find_dapp_by_id(result['payload']['dapp_id'])
+            if dapp_info['code'] == 200:
+                result['payload']['abi'] = dapp_info['payload']['abi']
+            else:
+                return dapp_info
+
+        return result
+
+    def find_deployed_by_email(self, email):
+        """ 설치된 DApp을 설치된 DApp의 id로 검색
+
+        Args:
+            email: 설치된 DApp의 User's email
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'owner_email': email}
+        result = self.find('deploys', query)
+        if result['code'] == 200:
+            ret = {'code': 200}
+            payload = []
+            for doc in result['payload']:
+                print(doc['dapp_id'])
+                dapp_info = self.find_dapp_by_id(doc['dapp_id'])
+                if dapp_info['code'] == 200:
+                    doc['abi'] = dapp_info['payload']['abi']
+                    payload.append(doc)
+                else:
+                    print('No Dapp')
+                    return dapp_info
+            ret['payload'] = payload
+            return ret
+        else:
+            print("No Deploys")
+            return result
+
+    def find_deployed_by_dapp(self, dapp):
+        """ 설치된 DApp을 DApp의 id로 검색
+
+        Args:
+            dapp: 설치된 DApp에 대응되는 instance
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 다수의 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        result = self.find_dapp_by_id(dapp['_id'])
+        if result['code'] == 200:
+            query = {'dapp': ObjectId(result['payload']['_id'])}
+            return self.find('deploys', query)
+        else:
+            return result
+
+    def find_deployed_by_addr(self, addr):
+        """ 설치된 DApp을 설치된 주소로 검색
+
+        Args:
+            addr: 설치된 DApp의 주소
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'contact_addr': addr}
+        return self.find_one('deploys', query)
+
+    #############################################
+    # utility functions for DAPP + Deployed
+    #############################################
+    def find_deployed_with_dapp(self, addr):
+        """ 설치된 DApp을 설치된 주소로 검색하고, dapp 함수 호출을 위한 기본적인 정보를 제공
+
+        Args:
+            addr: 설치된 DApp의 주소
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           이때, abi에 대한 정보도 같이 제공함.
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        result = self.find_deployed_by_addr(addr)
+        if result['code'] == 200:
+            dapp_result = self.find_dapp_by_id(result['payload']['dapp'])
+            result['payload']['abi'] = dapp_result['payload']['abi']
+        return result

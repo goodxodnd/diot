@@ -27,5 +27,8 @@ Vue.use(BootstrapVue);
 new Vue({
   router,
   store,
+  beforeCreate() {
+    this.$store.dispatch("loginRefresh")
+  },
   render: h => h(App),
 }).$mount('#app');

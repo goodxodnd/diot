@@ -134,6 +134,8 @@ import ethmodal from './ethmodal'
         axios
         .get(path, { params: {},
             headers:{
+
+
               "did": did
           },
         })
@@ -147,14 +149,16 @@ import ethmodal from './ethmodal'
       getJSONResponse(){
         const did = sessionStorage.getItem("did")
         const path = 'http://localhost:9999/api/balance'
-
+        const token = sessionStorage.getItem("access_token")
         axios(path, {params: {},
           headers: {
+            "Authorization" :token,
             "did" : did
           },
         })
         .then(response => {
-          this.balance = response.data.result.balance
+          console.log(response)
+          this.balance = response.data.balance
         })
         .catch(error => {
           console.log(error)

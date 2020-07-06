@@ -16,7 +16,9 @@ class EthCore:
         self.w3 = Web3(HTTPProvider(url))
 
     # Account의 밸런스 값을 조회해서 넘겨주는 루틴
+
     def getBalance(self, parameters):
+        print(parameters)
         balance = self.w3.eth.getBalance(
             self.w3.toChecksumAddress(parameters['account']))
 
@@ -24,6 +26,8 @@ class EthCore:
         retValue = {'code': ResCode.OK.value}
         retValue['account'] = parameters['account']
         retValue['balance'] = balance
+
+        print(retValue)
 
         return retValue
 
@@ -241,7 +245,6 @@ class EthCore:
 
         return retValue
 
-
     # Account를 생성
     def createAccount(self, payload):
         # 파라미터를 먼저 얻음.
@@ -266,14 +269,16 @@ class EthCore:
 
         # unlock Adam's pass
         adam_account = self.w3.toChecksumAddress(CONFIG['ADAM'])
-        self.w3.geth.personal.unlockAccount(adam_account, 'yes36%')
+        noah_account = self.w3.toChecksumAddress(CONFIG['NOAH'])
+        # self.w3.geth.personal.unlockAccount(adam_account, 'yes36%')
 
         # 파라미터를 먼저 얻음.
         parameters = payload['params']
+        print(parameters)
 
         args = {}
         args['to'] = self.w3.toChecksumAddress(parameters['to'])
-        args['from'] = adam_account
+        args['from'] = noah_account
         args['value'] = parameters['amount']* pow(10 ,18)
 
         # 해당 사용자의 패스워드를 이용해서 Unlock 함.
@@ -290,4 +295,11 @@ class EthCore:
         retValue = {'code': ResCode.OK.value}
         retValue['balance'] = balance
 
+        return retValue
+
+    def keyEncrypt(self, payload):
+
+        # Account 생성 후 Key 전달
+
+        retValue = { 'key' : 'aaaa'}
         return retValue

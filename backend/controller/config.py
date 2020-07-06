@@ -7,7 +7,8 @@ CONFIG = {
     'S-CHANNEL': 'resChannel',      # Sending Channel
     'RPC-URL': 'http://210.114.89.52:8545', # RPC URL, 실제 적용 시에 적절한 값으로 바뀌어야 함.
     'GANACHE': 'http://localhost:7545', # Ganache URL,
-    'ADAM': '0xb3b4ef17ba517e75b79169354fd9dfff51b9d592'
+    'ADAM': '0xb3b4ef17ba517e75b79169354fd9dfff51b9d592',
+    'NOAH' : '0x0a2CEa78fb5eDF9D7D959e486fdFbd988f705a55'
 }
 
 CMD = {
