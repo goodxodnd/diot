@@ -35,8 +35,8 @@ def login_required(f):
                 print('111')
                 return Response(status=401)
 
-            email = payload['email']
-            kwargs['email'] = email
+            did = payload['did']
+            kwargs['did'] = did
         else:
             print('222')
             return Response(status=401)
@@ -129,6 +129,7 @@ def login():
 
 
 @api_page.route('/fill_eth', methods=['GET'])
+@login_required
 def fill_eth(*args, **kwargs):
     did = request.headers.get('did')
 
@@ -152,6 +153,7 @@ def fill_eth(*args, **kwargs):
 
 
 @api_page.route('/balance', methods=['GET'])
+@login_required
 def getbalance(*args, **kwargs):
     did = request.headers.get('did')
 
@@ -176,6 +178,7 @@ def getbalance(*args, **kwargs):
 
 
 @api_page.route('/add_dapp', methods=['GET', 'POST'])
+@login_required
 def add_dapp(*args, **kwargs):
     did = kwargs['did']
 

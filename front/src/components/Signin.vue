@@ -53,8 +53,8 @@ export default {
 .box01 {
 background-color: #3d6098;
 position: relative;
-  left:-70px;
-top:145px;
+  left:-100px;
+top:300px;
 width:475px;
 height:500px;
 border-top-left-radius:50px;
@@ -88,8 +88,8 @@ left: 85px;
 .box02 {
 background-color: #E7E7E7;
 position: relative;
-  left:-70px;
-top:145px;
+  left:-100px;
+top:300px;
 width:475px;
 height:500px;
 border-top-right-radius:50px;

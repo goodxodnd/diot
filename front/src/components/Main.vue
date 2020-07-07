@@ -1,9 +1,8 @@
 <template>
 <div class="container">
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4" id="main">
-          <div class="main-title">WELCOME TO DIOT</div>
+        <div class="col-md-8" id="main">
+          <div class="main-title01">WELCOME TO DIOT</div>
             <router-link to="/signin">
               <b-button variant="light" class="sign-in">SIGN IN</b-button>
             </router-link>
@@ -20,20 +19,22 @@
 </script>
 
 <style>
-.main-title {
-font-size: 36px;
+.main-title01 {
+font-size: 50px;
 font-weight: bold;
 color: black;
 position: relative;
-top:300px;
+top:350px;
+  left:100px;
 }
 .sign-in {
 font-weight: bold;
 font-size: 25px;
-width: 150px;
-height: 50px;
+width: 200px;
+height: 70px;
 position: relative;
-top: 350px;
+top: 450px;
+  left:120px;
 
 }
 .sign-up {
@@ -41,10 +42,10 @@ font-weight: bold;
 font-size: 25px;
 background-color: #f04b4c;
 color: white;
-width: 150px;
-height: 50px;
+width: 200px;
+height: 70px;
 position: relative;
-top: 350px;
-left:20px;
+top: 450px;
+left:190px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
  <div class="Sidebar" v-show="isLogin">
   <div class="header">
-       <svg class="lock" width="60px" height="60px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+       <svg class="lock" width="70%" height="70%" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M11.5 8h-7a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-7-1a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7zm0-3a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
        </svg>
        <div class="title"> diot </div>
@@ -94,44 +94,44 @@ background-color: pink;
 position: sticky;
     top: 4rem;
     z-index: 1000;
-    height:1000px;
+    height:1127px;
 }
 .header {
 background-color: #3d6098;
 height: 80px;
 }
 .title {
-font-size: 60px;
+font-size: 3.5em;
 color: white;
 position: relative;
-top:-65px;
-left: 100px;
+top:-70%;
+left: 40%;
 }
 .menu{
 background-color:#213159;
-height:1000px;
+height:1127px;
 padding: 1.5rem;
 }
 .title-menu{
-font-size: 22px;
+font-size: 1.5em;
 font-weight: bold;
 color: white;
 position: relative;
-left:40px;
-top:15px;
+left:10%;
+top:0%;
 }
 .main-menu{
-font-size: 15px;
+font-size: 1em;
 color: white;
 position: relative;
-top:20px;
-left:55px;
+top:1%;
+left:20%;
 }
 .lock {
 color: white;
 position: relative;
 top: 10px;
-left: 30px;
+left: -15%;
 }
 
 </style>
