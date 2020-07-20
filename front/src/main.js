@@ -7,13 +7,20 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueMq from 'vue-mq'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 
 Vue.config.productionTip = false
 
 
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue,VueMq, {
+  breakpoints: {
+    mobile: 1600,
+    desktop:Infinity,
+  },
+  defaultBreakpoint:'md'
+});
 
 // /* eslint-disable no-new */
 // new Vue({

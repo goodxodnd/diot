@@ -25,7 +25,7 @@
 position: relative;
 top: 30px;
 font-weight: bold;
-font-size: 50px;
+font-size: 3em;
 }
 .box01{
 position: relative;

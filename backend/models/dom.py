@@ -34,7 +34,7 @@ class Docu():
 class User(Docu):
     """ 사용자 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, account, did, email, logpass, gethpass):
+    def __init__(self, account, did, email, logpass, gethpass, coreAccount, corePrvkey):
         """ 초기화 함수
         Args:
             account (str): blockchain account
@@ -50,6 +50,8 @@ class User(Docu):
         self.doc['email'] = email
         self.doc['logpass'] = logpass
         self.doc['gethpass'] = gethpass
+        self.doc['coreAccount'] = coreAccount
+        self.doc['corePrvkey'] = corePrvkey
 
     def get_account(self):
         """ 사용자 로그인 account를 반환

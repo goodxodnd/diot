@@ -1,44 +1,63 @@
 <template>
     <div class="row">
         <div class="col-md-2">
-          <div class= "sub-title">All Device List</div>
+          <div class= "authority-sub-title">All Device List</div>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-9">
-          <div class="main-title">Authority Request</div>
+          <div class="authority-main-title">Authority Request</div>
         </div>
         <div class="col-md-2">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <b-card class="card01" title="Device name"><b-button class= "authority">Authority</b-button>
+            <b-card class="authority-request-card01" title="Device name">
                <b-card-text>
-               service-<br>2020.06.15<br>Tier
+               service-<br>2020.06.15<br>Tier<br>
+                 <b-button class= "authority-btn" style="color:white; background-color:#f04b4c;">Authority</b-button>
                </b-card-text>
             </b-card>
-            <b-card class="card02" title="Device name"><b-button class= "authority">Authority</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-            <b-card class="card03" title="Device name"><b-button class= "authority">Authority</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-             <b-card class="card04" title="Device name"><b-button class= "authority">Authority</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-          </div>
+        </div>
         <div class="col-md-1"></div>
         <div class="col-md-8">
-          <b-card class="card05" title="Set Alram" sub-title="Device Info"><b-button class= "request">Request</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-          </b-card>
-          <b-card class="card06" title="Stop Watch" sub-title="Device Info"><b-button class= "request">Request</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-          </b-card>
-          <b-card class="card07" title="Timer" sub-title="Device Info"><b-button class= "request">Request</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-          </b-card>
-          <b-card class="card08" title="Timer" sub-title="Device Info"><b-button class= "request">Request</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
+          <b-card class="authority-request-card05" title="Set Alram" sub-title="Device Info">
+            <b-button class= "request">Request</b-button>
+            <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
           </b-card>
         </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <b-card class="authority-request-card02" title="Device name">
+            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+              <b-button class= "authority-btn" style="color:white; background-color:#f04b4c;">Authority</b-button>
+            </b-card-text>
+
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+          <b-card class="authority-request-card06" title="Service Info">
+            <b-card-text></b-card-text>
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <b-card class="authority-request-card03" title="Device name">
+            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+              <b-button class= "authority-btn" style="color:white; background-color:#f04b4c;">Authority</b-button>
+            </b-card-text>
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <b-card class="authority-request-card04" title="Device name">
+            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+             <b-button class= "authority-btn" style="color:white; background-color:#f04b4c;">Authority</b-button>
+            </b-card-text>
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8"></div>
         <div class="col-md-1"></div>
     </div>
 
@@ -48,17 +67,17 @@
 </script>
 
 <style>
-.sub-title {
+.authority-sub-title {
 position: relative;
-top: 45px;
+top: 70%;
 font-weight: bold;
-font-size: 38px;
+font-size: 1.7em;
 }
-.main-title {
+.authority-main-title {
 position: relative;
-top: 30px;
+top: 40%;
 font-weight: bold;
-font-size: 50px;
+font-size: 3em;
 }
 .form-control {
   border: 1px solid #3d6098;
@@ -67,28 +86,28 @@ font-size: 50px;
   top: 50px;
   width: 250px;
 }
-.authority {
+.authority-btn {
 position: relative;
-top: 80px;
-left: 110px;
+top: 40%;
+left: 40%;
 background-color: #f04b4c;
-width:100px;
+width:60%;
 }
-.card01 {
+.authority-request-card01 {
 position: relative;
-top:80px;
+top:35%;
 }
-.card02 {
+.authority-request-card02 {
 position: relative;
-top:110px;
+top:25%;
 }
-.card03 {
+.authority-request-card03 {
 position: relative;
-top:140px;
+top:-60%;
 }
-.card04 {
+.authority-request-card04 {
 position: relative;
-top:170px;
+top:-45%;
 }
 .request {
 position: relative;
@@ -97,23 +116,22 @@ left: 950px;
 background-color: #f04b4c;
 width:100px;
 }
-.card05 {
+.reject {
+position: relative;
+top: 0px;
+left: 850px;
+background-color: #f04b4c;
+width:100px;
+}
+.authority-request-card05 {
 position: relative;
 top: 80px;
 }
-.card06 {
+.authority-request-card06 {
 position: relative;
 top: 120px;
+height:450px;
 }
-.card07 {
-position: relative;
-top: 160px;
-}
-.card08 {
-position: relative;
-top: 200px;
-}
-
 
 
 

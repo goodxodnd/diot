@@ -4,7 +4,11 @@
        <svg class="lock" width="70%" height="70%" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M11.5 8h-7a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-7-1a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7zm0-3a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
        </svg>
-       <div class="title"> diot </div>
+       <div class="title">
+         <router-link to="/dashboard" style="color:white;">
+         diot
+         </router-link>
+       </div>
   </div>
   <div class="menu">
    <div class="title-menu">Device</div>
@@ -46,18 +50,12 @@
     </div>
     <br>
     <br>
-   <div class="title-menu">Tier</div>
+   <div class="title-menu">Ticket</div>
     <div class="main-menu">
-      <router-link to="/tierrequest" style="color:white;">Request</router-link>
+      <router-link to="/tierrequest" style="color:white;">My Ticket</router-link>
    </div>
     <div class="main-menu">
-      <router-link to="/tieraccpet" style="color:white;">Accept</router-link>
-    </div>
-    <div class="main-menu">
-      <router-link to="/tiermanagement" style="color:white;">Management</router-link>
-    </div>
-    <div class="main-menu">
-      <router-link to="/tierserviceset" style="color:white;">Service Setting</router-link>
+      <router-link to="/tieraccpet" style="color:white;">Register</router-link>
     </div>
     <br>
     <div class="title-menu" @click="logout()">Sign out</div>
@@ -91,8 +89,8 @@ import { mapState, mapActions } from "vuex"
 <style>
 .Sidebar {
 background-color: pink;
-position: sticky;
-    top: 4rem;
+position: relative;
+    top: -0.5%;
     z-index: 1000;
     height:1127px;
 }

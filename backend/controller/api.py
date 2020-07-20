@@ -7,10 +7,11 @@ from bson import json_util
 from backend.models.dom import User
 from backend.controller.core import EthCore
 from backend.models.dom import DApp
+from backend.controller.core import KeyManager
 core = EthCore()
 from backend.models.database import ZenMongo
 
-
+key_manager = KeyManager(passphrase='abcd')
 
 from pymongo import MongoClient, collection
 
@@ -66,9 +67,12 @@ def register():
         params = {'password': gethpass, 'did': did, 'email': email, 'logpass': logpass }
         result = core.createAccount(params)
 
+        #core Account Creation
+        coreAccount, corePrvkey = key_manager.create_account(logpass)
+
         # get account addr
         account = result['accountAddr']
-        user = User(account, did, email, logpass, gethpass)
+        user = User(account, did, email, logpass, gethpass, coreAccount, corePrvkey)
 
         # add user to db
         mongoResult = api_page.resource['mongo'].add_user(user)

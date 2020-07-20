@@ -5,7 +5,7 @@
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-9">
-          <div class="main-title">Tier Request</div>
+          <div class="main-title">Ownership Request</div>
         </div>
         <div class="col-md-2">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">

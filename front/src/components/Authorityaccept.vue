@@ -1,46 +1,37 @@
 <template>
     <div class="row">
         <div class="col-md-2">
-          <div class= "sub-title">My Device List</div>
+          <div class= "sub-title">All Device List</div>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-9">
-          <div class="main-title">Authority Accept</div>
+          <div class="main-title">Ownership Request</div>
         </div>
         <div class="col-md-2">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <b-card class="card01" title="Device name"><b-button class= "authority">Authority</b-button>
+            <b-card class="card01" title="Device name"><b-button class= "ownership">Ownership</b-button>
                <b-card-text>
                service-<br>2020.06.15<br>Tier
                </b-card-text>
             </b-card>
-            <b-card class="card02" title="Device name"><b-button class= "authority">Authority</b-button>
+            <b-card class="card02" title="Device name"><b-button class= "ownership">Ownership</b-button>
                <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
             </b-card>
-            <b-card class="card03" title="Device name"><b-button class= "authority">Authority</b-button>
+            <b-card class="card03" title="Device name"><b-button class= "ownership">Ownership</b-button>
                <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
             </b-card>
-             <b-card class="card04" title="Device name"><b-button class= "authority">Authority</b-button>
+             <b-card class="card04" title="Device name"><b-button class= "ownership">Ownership</b-button>
                <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
             </b-card>
           </div>
         <div class="col-md-1"></div>
         <div class="col-md-8">
           <b-card class="card05" title="Set Alram" sub-title="Device Info">
-             <b-button class= "accept">Accept</b-button><b-button class="reject">Reject</b-button>
+             <b-button class= "request">Request</b-button>
                <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
           </b-card>
-          <b-card class="card06" title="Stop Watch" sub-title="Device Info">
-             <b-button class= "accept">Accept</b-button><b-button class="reject">Reject</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-          </b-card>
-          <b-card class="card07" title="Timer" sub-title="Device Info">
-            <b-button class= "accept">Accept</b-button><b-button class="reject">Reject</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-          </b-card>
-          <b-card class="card08" title="Timer" sub-title="Device Info">
-             <b-button class= "accept">Accept</b-button><b-button class="reject">Reject</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
+          <b-card class="card06" title="Service Info">
+            <b-card-text></b-card-text>
           </b-card>
         </div>
         <div class="col-md-1"></div>
@@ -71,12 +62,12 @@ font-size: 50px;
   top: 50px;
   width: 250px;
 }
-.authority {
+.ownership {
 position: relative;
 top: 80px;
 left: 110px;
 background-color: #f04b4c;
-width:100px;
+width:110px;
 }
 .card01 {
 position: relative;
@@ -94,7 +85,7 @@ top:140px;
 position: relative;
 top:170px;
 }
-.accept {
+.request {
 position: relative;
 top: -60px;
 left: 950px;
@@ -115,16 +106,8 @@ top: 80px;
 .card06 {
 position: relative;
 top: 120px;
+height:450px;
 }
-.card07 {
-position: relative;
-top: 160px;
-}
-.card08 {
-position: relative;
-top: 200px;
-}
-
 
 
 
