@@ -64,7 +64,7 @@ class User(Docu):
 class DApp(Docu):
     """ DApp 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, user, name, desc, abi, binary, public=False):
+    def __init__(self, user, name, desc, abi, binary,contractAddress, public=False):
         """ 초기화 함수
         Args:
             user (User): DApp의 소유자
@@ -83,4 +83,25 @@ class DApp(Docu):
         self.doc['bin'] = binary
         self.doc['public'] = public
         self.doc['upload_time'] = datetime.datetime.now()
+        # add
+        self.doc['contractAddress'] = contractAddress
 
+
+class Device(Docu):
+    """ Device DApp 정보를 갖고 있는 Object Mapper """
+
+    def __init__(self, deviceName, deviceType, devicedesc,contractAddress, public=False):
+        """ 초기화 함수
+        Args:
+            user (User): DApp의 소유자
+            deviceName (str): dapp의 이름
+            desc (str): dapp의 description.
+            public (bool): 다른 사용자가 볼 수 있음. 디폴트는 false
+       """
+        super().__init__()
+        self.collection = 'device'
+        self.doc['deviceName'] = deviceName
+        self.doc['deviceType'] = deviceType
+        self.doc['desc'] = devicedesc
+        self.doc['public'] = public
+        self.doc['upload_time'] = datetime.datetime.now()

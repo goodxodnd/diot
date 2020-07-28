@@ -1,10 +1,11 @@
+from bson import json_util
 from flask import Blueprint,request,Response,jsonify
 from datetime import timedelta, datetime
 from functools import wraps
 import json
 import jwt
-from bson import json_util
 from backend.models.dom import User
+from backend.models.dom import Device
 from backend.controller.core import EthCore
 from backend.models.dom import DApp
 from backend.controller.core import KeyManager
@@ -80,6 +81,7 @@ def register():
         return response
 
 
+
 @api_page.route('/signin', methods=['POST'])
 def login():
     login_did = request.json['did']
@@ -95,11 +97,24 @@ def login():
 
     print(result)
     if result['code'] == 200:
+        # check DB (System dapp develope)
+
+        # ret = ownership_manager.deploy_system_dapp(CONFIG['SYSTEM_EOA'])
+        # if ret['code'] == ResCode.OK.value:
+        #     system_dapp_addr = ret['deployResult']['contractAddress']
+        #     ownership_manager.set_system_dapp(system_dapp_addr)
+
         # Login Success
         payload = {
             'did': login_did,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60)
         }
+
+        # User Dapp Deployment -> (example) John
+        # ret = ownership_manager.deploy_user_dapp(CONFIG['JOHN_EOA'], system_dapp_addr)
+        # if ret['code'] == ResCode.OK.value:
+        #     john_dapp_addr = ret['deployResult']['contractAddress']
+
         token = jwt.encode(payload, api_page.resource['JWT_SECRET_KEY'], 'HS256')
         return jsonify({
             'code': 200,
@@ -110,26 +125,6 @@ def login():
         return jsonify({
             'code': 404
         })
-
-#
-# @api_page.route('/add_dapp', methods=['GET', 'POST'])
-# def add_dapp(*args, **kwargs):
-#     did = kwargs['did']
-#
-#     result = api_page.resource['mongo'].find_user_by_did(did)
-#     if result['code'] == 200:
-#         user = result['payload']
-#         name = request.json['name']
-#         desc = request.json['desc']
-#         abi = request.json['abi']
-#         binary = request.json['bin']
-#         dapp = DApp(user, name, desc, abi, binary)
-#         result = api_page.resource['mongo'].add_dapp(dapp)
-#
-#     print(result)
-#     ret_val = jsonify(result)
-#     print(ret_val)
-#     return ret_val
 
 
 @api_page.route('/fill_eth', methods=['GET'])
@@ -201,6 +196,20 @@ def add_dapp(*args, **kwargs):
     print(ret_val)
     return ret_val
 
+
+@api_page.route('/add_device', methods=['GET', 'POST'])
+@login_required
+def add_device():
+    deviceName = request.json['deviceName']
+    deviceType = request.json['deviceType']
+    info = request.json['info']
+    didNum = request.json['didNum']
+    publicKey = request.json['publicKey']
+
+    device = Device(deviceName, deviceType, info, didNum, publicKey)
+    mongoResult = api_page.resource['mongo'].add_device(device)
+    response = json.dumps(mongoResult, default=json_util.default)
+    return response
 
 
 @api_page.route('/add_user', methods=['GET'])

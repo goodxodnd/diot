@@ -9,7 +9,135 @@ from web3 import Web3, HTTPProvider
 from .config import CONFIG, ResCode, NetType, Mode
 import json
 from hexbytes import HexBytes
+from backend.controller import dapp
 import web3
+
+
+class OwnershipManager():
+    def __init__(self, core):
+        self.core = core
+
+    # It must be called before other method except "deploy_system_dapp()"
+    def set_system_dapp(self, system_dapp_addr):
+        self.system_dapp_addr = system_dapp_addr
+
+    def deploy_system_dapp(self, account, gethpass='1234'):
+        # Deploy User DApp
+        params = {}
+        params['account'] = account
+        params['gethpass'] = gethpass
+        params['abi'] = dapp.SystemAbi
+        params['bin'] = dapp.SystemBin
+        ret = self.core.deployDApp(params)
+        print(ret)
+        return ret
+
+    def deploy_user_dapp(self, account, gethpass):
+        # Deploy User DApp
+        params = {}
+        params['account'] = account
+        params['gethpass'] = gethpass
+        params['abi'] = dapp.UserAbi
+        params['bin'] = dapp.UserBin
+        params['kwargs'] = {'_addrSystem': self.system_dapp_addr}
+        ret = self.core.deployDApp(params)
+        print(ret)
+        return ret
+
+    def deploy_device_dapp(self, owner_account, gethpass):
+        # Device DApp
+        params = {}
+        params['account'] = owner_account
+        params['gethpass'] = gethpass
+        params['abi'] = dapp.DeviceAbi
+        params['bin'] = dapp.DeviceBin
+        ret = self.core.deployDApp(params)
+        print(ret)
+        return ret
+
+    def deploy_owner_ticket(self, owner_account, gethpass, user_dapp_addr, device_dapp_addr):
+        # Owner Ticket DApp
+        params = {}
+        params['account'] = owner_account
+        params['gethpass'] = gethpass
+        params['abi'] = dapp.OwnerTicketAbi
+        params['bin'] = dapp.OwnerTicketBin
+        kwargs = {'_userDAppAddr': user_dapp_addr}
+        kwargs['_deviceDAppAddr'] = device_dapp_addr
+        params['kwargs'] = kwargs
+        ret = self.core.deployDApp(params)
+        print(ret)
+        return ret
+
+    # the request from a user to claim the ownership
+    def request_change_owner(self, account, gethpass, requester_dapp_addr, device_did, payload):
+        params = {}
+        params['account'] = account  # shoud be changed with a real account
+        params['gethpass'] = gethpass
+        params['abi'] = dapp.UserAbi
+        params['contractAddress'] = requester_dapp_addr
+        params['functionName'] = 'sendRequest'
+        params['kwargs'] = {'_deviceDID': device_did, '_payload': payload}
+
+        ret = self.core.callTx(params)
+        print(ret)
+        return ret
+
+    # change the ownership by the owner
+    def change_owner(self, account, gethpass, user_dapp_addr, ticket_addr, user_did):
+        params = {}
+        params['account'] = account  # shoud be changed with a real account
+        params['gethpass'] = gethpass
+        params['abi'] = dapp.UserAbi
+        params['contractAddress'] = user_dapp_addr
+        params['functionName'] = 'acceptRequest'
+        params['kwargs'] = {'_addrTicket': ticket_addr, '_userDID': user_did}
+
+        ret = self.core.callTx(params)
+        print(ret)
+        return ret
+
+    def set_owner_ticket(self, account, gethpass, device_dapp_addr, owner_ticket_addr):
+        params = {}
+        params['account'] = account
+        params['gethpass'] = gethpass  # todo must setup this gethpath before running
+        params['abi'] = dapp.DeviceAbi
+        params['contractAddress'] = device_dapp_addr
+        params['functionName'] = 'setOwnerTicket'
+        kwargs = {}
+        kwargs['_ticketAddr'] = owner_ticket_addr
+        params['kwargs'] = kwargs
+
+        return self.core.callTx(params)
+
+
+    def register_member(self, did, eoa_addr, dapp_addr):
+        # add did
+        params = {}
+        params['account'] = CONFIG['SYSTEM_EOA']
+        params['gethpass'] = CONFIG['SYSTEM_GETHPASS']  # todo must setup this gethpath before running
+        params['abi'] = dapp.SystemAbi
+        params['contractAddress'] = self.system_dapp_addr
+        params['functionName'] = 'addMember'
+        kwargs = {}
+        kwargs['_did'] = did
+        kwargs['_addrEOA'] = eoa_addr
+        kwargs['_addrCA'] = dapp_addr
+        params['kwargs'] = kwargs
+
+        return self.core.callTx(params)
+
+    def get_ca_addr(self, requester_dapp_addr, did):
+        # Get CA Addr
+        params = {}
+        params['abi'] = dapp.SystemAbi
+        params['account'] = requester_dapp_addr
+        params['contractAddress'] = self.system_dapp_addr
+        params['functionName'] = 'getCAAddr'
+        params['kwargs'] = {'_did': did}
+
+        ret = self.core.callFunction(params)
+        return ret
 
 
 class KeyManager():

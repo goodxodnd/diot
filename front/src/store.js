@@ -83,6 +83,22 @@ export default new Vuex.Store({
                 alert('password is not same')
             }
         },
+        submit({commit}, deviceObj) {
+         console.log(deviceObj)
+          axios
+            .post("http://localhost:9999/api/add_device", deviceObj)
+            .then(res => {
+              let response = res.data
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+                console.log('device register success')
+              }
+            })
+        }
+        ,
         loginRefresh( {commit} ) {
             let token = sessionStorage.getItem("access_token");
             if (token != null) {

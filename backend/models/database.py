@@ -325,6 +325,7 @@ class ZenMongo():
         """ 사용자를 id로 검색
 
         Args:
+
             oid: 사용자의 MongoDB document id (_id)
 
         Returns:
@@ -339,6 +340,53 @@ class ZenMongo():
     def auth_user_by_email(self, email, passwd):
         query = {'email': email, 'logpass': passwd}
         return self.find_one('users', query)
+    ########################
+    # Device Methods
+    ########################
+
+    def add_device(self, device):
+        """ 사용자를 추가
+
+        Args:
+            device: 사용자 정보를 담고있는 Device 인스턴스
+
+        Returns:
+            result (dict): 저장 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        return self.add_one('device', device.get_doc())
+
+    def del_device_by_id(self, oid):
+        """ device를 id 정보를 이용해서 삭제
+
+        Note:
+            이게 account로 삭제하는 것보다 보안이 높을 수 있음.
+
+        Args:
+            oid: 사용자의 MongoDB document id (_id)
+
+        Returns:
+            result (dict): 삭제 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'_id': ObjectId(oid)}
+        return self.del_one('device', query)
+
+    def find_device_by_did(self, device):
+        """ device를 account로 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'device': device}
+        return self.find_one('users', query)
+
 
 
     #############################################
@@ -428,6 +476,20 @@ class ZenMongo():
             return ret
         else:
             print("No Deploys")
+            return result
+
+    # add
+    # check dapp exists
+    def find_deployed_dapp(self, contractAddress):
+
+        query = {'contractAddress' : contractAddress}
+        result = self.find('contractAddress', query)
+        if result['code'] == 200:
+            ret = {'code': 200}
+
+            return ret
+        else:
+            print('No Dapp')
             return result
 
     def find_deployed_by_dapp(self, dapp):
