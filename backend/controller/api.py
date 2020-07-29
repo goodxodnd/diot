@@ -6,12 +6,16 @@ import json
 import jwt
 from backend.models.dom import User
 from backend.models.dom import Device
-from backend.controller.core import EthCore
+from backend.controller.core import EthCore2
 from backend.models.dom import DApp
 from backend.controller.core import KeyManager
-core = EthCore()
+from backend.controller.config import CONFIG, Mode, ResCode
+from backend.controller.core import OwnershipManager
+
 from backend.models.database import ZenMongo
 
+core = EthCore2(url=CONFIG['RPC-URL'], mode=Mode.PRODUCT)
+ownership_manager = OwnershipManager(core)
 key_manager = KeyManager(passphrase='abcd')
 
 from pymongo import MongoClient, collection
@@ -57,29 +61,31 @@ def register():
     gethpass = logpass + 'xaaa'
 
     user_info = api_page.resource['mongo'].find_user_by_did(did)
-    print(user_info)
     if user_info['code'] == 200:
         # Same Did in Mongo
         return jsonify({
-            'code': 404
+            'a-code': 404
         })
     else:
-        # call core
-        params = {'password': gethpass, 'did': did, 'email': email, 'logpass': logpass }
-        result = core.createAccount(params)
-
+        print('a-3')
         #core Account Creation
         coreAccount, corePrvkey = key_manager.create_account(logpass)
 
+        print(coreAccount, corePrvkey)
+
+        # Deploy user dapp
+        ret = ownership_manager.deploy_user_dapp(coreAccount, gethpass=logpass)
+        if ret['code'] == ResCode.OK.value:
+            user_dapp_addr = ret['deployResult']['contractAddress']
+            print('b',user_dapp_addr)
+
         # get account addr
-        account = result['accountAddr']
-        user = User(account, did, email, logpass, gethpass, coreAccount, corePrvkey)
+        user = User(did, email, logpass, gethpass, coreAccount, corePrvkey,user_dapp_addr)
 
         # add user to db
         mongoResult = api_page.resource['mongo'].add_user(user)
         response = json.dumps(mongoResult, default=json_util.default)
         return response
-
 
 
 @api_page.route('/signin', methods=['POST'])
@@ -88,6 +94,8 @@ def login():
     # login_pwd = bcrypt.hashpw(request.json['password'].encode('UTF-8'), bcrypt.gensalt())
     login_pwd = request.json['password'].encode('UTF-8')
     login_pass = login_pwd.decode('ascii')
+
+    print(login_did)
 
     # get a hash pwd from the given pwd
     # hashed_pwd = bcrypt.hashpw(login_pwd, bcrypt.gensalt())
@@ -165,7 +173,7 @@ def getbalance(*args, **kwargs):
 
         payload = user_info['payload']
         parameters = { }
-        parameters['account'] = payload['account']
+        parameters['account'] = payload['coreAccount']
 
         # call core
         result = core.getBalance(parameters)

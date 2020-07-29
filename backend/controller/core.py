@@ -1,16 +1,14 @@
+from web3 import Web3, HTTPProvider
+from backend.controller.config import CONFIG, ResCode, Mode, NetType
+import json
+from hexbytes import HexBytes
 import base64
 import hashlib
-import time
 from Crypto.Cipher import AES
 import os
 from eth_account import Account
 from eth_keys import keys
-from web3 import Web3, HTTPProvider
-from .config import CONFIG, ResCode, NetType, Mode
-import json
-from hexbytes import HexBytes
 from backend.controller import dapp
-import web3
 
 
 class OwnershipManager():
@@ -25,18 +23,17 @@ class OwnershipManager():
         # Deploy User DApp
         params = {}
         params['account'] = account
-        params['gethpass'] = gethpass
+        params['passwd'] = gethpass
         params['abi'] = dapp.SystemAbi
         params['bin'] = dapp.SystemBin
         ret = self.core.deployDApp(params)
-        print(ret)
         return ret
 
     def deploy_user_dapp(self, account, gethpass):
         # Deploy User DApp
         params = {}
         params['account'] = account
-        params['gethpass'] = gethpass
+        params['passwd'] = gethpass
         params['abi'] = dapp.UserAbi
         params['bin'] = dapp.UserBin
         params['kwargs'] = {'_addrSystem': self.system_dapp_addr}
@@ -48,7 +45,7 @@ class OwnershipManager():
         # Device DApp
         params = {}
         params['account'] = owner_account
-        params['gethpass'] = gethpass
+        params['passwd'] = gethpass
         params['abi'] = dapp.DeviceAbi
         params['bin'] = dapp.DeviceBin
         ret = self.core.deployDApp(params)
@@ -59,7 +56,7 @@ class OwnershipManager():
         # Owner Ticket DApp
         params = {}
         params['account'] = owner_account
-        params['gethpass'] = gethpass
+        params['passwd'] = gethpass
         params['abi'] = dapp.OwnerTicketAbi
         params['bin'] = dapp.OwnerTicketBin
         kwargs = {'_userDAppAddr': user_dapp_addr}
@@ -73,7 +70,7 @@ class OwnershipManager():
     def request_change_owner(self, account, gethpass, requester_dapp_addr, device_did, payload):
         params = {}
         params['account'] = account  # shoud be changed with a real account
-        params['gethpass'] = gethpass
+        params['passwd'] = gethpass
         params['abi'] = dapp.UserAbi
         params['contractAddress'] = requester_dapp_addr
         params['functionName'] = 'sendRequest'
@@ -87,7 +84,7 @@ class OwnershipManager():
     def change_owner(self, account, gethpass, user_dapp_addr, ticket_addr, user_did):
         params = {}
         params['account'] = account  # shoud be changed with a real account
-        params['gethpass'] = gethpass
+        params['passwd'] = gethpass
         params['abi'] = dapp.UserAbi
         params['contractAddress'] = user_dapp_addr
         params['functionName'] = 'acceptRequest'
@@ -100,7 +97,7 @@ class OwnershipManager():
     def set_owner_ticket(self, account, gethpass, device_dapp_addr, owner_ticket_addr):
         params = {}
         params['account'] = account
-        params['gethpass'] = gethpass  # todo must setup this gethpath before running
+        params['passwd'] = gethpass  # todo must setup this gethpath before running
         params['abi'] = dapp.DeviceAbi
         params['contractAddress'] = device_dapp_addr
         params['functionName'] = 'setOwnerTicket'
@@ -115,7 +112,7 @@ class OwnershipManager():
         # add did
         params = {}
         params['account'] = CONFIG['SYSTEM_EOA']
-        params['gethpass'] = CONFIG['SYSTEM_GETHPASS']  # todo must setup this gethpath before running
+        params['passwd'] = CONFIG['SYSTEM_GETHPASS']  # todo must setup this gethpath before running
         params['abi'] = dapp.SystemAbi
         params['contractAddress'] = self.system_dapp_addr
         params['functionName'] = 'addMember'
@@ -139,7 +136,6 @@ class OwnershipManager():
         ret = self.core.callFunction(params)
         return ret
 
-
 class KeyManager():
     def __init__(self, passphrase="Raputa The Castle"):
         self.core = EthCore2(url=CONFIG['RPC-URL'], mode=Mode.PRODUCT)
@@ -162,7 +158,6 @@ class KeyManager():
         b_prvkey = bytes.fromhex(prvkey)
         pk = keys.PrivateKey(b_prvkey)
         return pk.public_key
-
 
 class AESCipher():
     def __init__(self, passphrase):
@@ -212,7 +207,7 @@ class EthCore2:
     # Account의 밸런스 값을 조회해서 넘겨주는 루틴
     def getBalance(self, params):
         balance = self.w3.eth.getBalance(
-            self.w3.toChecksumAddress(params['impaccount']))
+            self.w3.toChecksumAddress(params['account']))
 
         # retValue
         retValue = {'code': ResCode.OK.value}
@@ -274,7 +269,7 @@ class EthCore2:
         # 해당 사용자의 패스워드를 이용해서 Unlock 함.
         if self.mode != Mode.DEV:
             self.w3.geth.personal.unlockAccount(self.w3.toChecksumAddress(
-                params['account']), params['gethpass'], 0)
+                params['account']), params['passwd'], 0)
 
         # # 원래는 바이트 이어야 하므로 hex 값에서 바이트 코드로 변경
         # tx_hash = bytes.fromhex(parameters['txHash'])
@@ -304,9 +299,9 @@ class EthCore2:
         # get parameters
         if 'kwargs' in params:
             kwargs = params['kwargs']
-            result = funx(**kwargs).call()
+            result = funx(**kwargs).call({'from': self.w3.toChecksumAddress(params['account'])})
         else:
-            result = funx().call()
+            result = funx().call({'from': self.w3.toChecksumAddress(params['account'])})
 
         print(result)
         # 현재는 그냥 100% 성공이라고 했음.
@@ -323,7 +318,7 @@ class EthCore2:
         # 해당 사용자의 패스워드를 이용해서 Unlock 함.
         if self.mode != Mode.DEV:
             self.w3.geth.personal.unlockAccount(self.w3.toChecksumAddress(
-                params['account']), params['gethpass'], 0)
+                params['account']), params['passwd'], 0)
 
         # # 원래는 바이트 이어야 하므로 hex 값에서 바이트 코드로 변경
         # tx_hash = bytes.fromhex(parameters['txHash'])
@@ -381,7 +376,6 @@ class EthCore2:
                 params['account']), params['passwd'], 0)
 
         # contract 생성
-        print(type(params['bin']), ":", params['bin'])
         contract = self.w3.eth.contract(abi=params['abi'], bytecode=params['bin'])
 
         # get parameters
@@ -495,9 +489,7 @@ class EthCore:
         self.w3 = Web3(HTTPProvider(url))
 
     # Account의 밸런스 값을 조회해서 넘겨주는 루틴
-
     def getBalance(self, parameters):
-        print(parameters)
         balance = self.w3.eth.getBalance(
             self.w3.toChecksumAddress(parameters['account']))
 
@@ -505,8 +497,6 @@ class EthCore:
         retValue = {'code': ResCode.OK.value}
         retValue['account'] = parameters['account']
         retValue['balance'] = balance
-
-        print(retValue)
 
         return retValue
 
@@ -563,7 +553,7 @@ class EthCore:
     def callFunction(self, parameters):
 
         # 해당 사용자의 패스워드를 이용해서 Unlock 함.
-        if self.net != NetType.GANACHE:
+        if self.net != Mode.GANACHE:
             self.w3.geth.personal.unlockAccount(self.w3.toChecksumAddress(
                 parameters['account']), parameters['gethpass'], 0)
 
@@ -659,8 +649,12 @@ class EthCore:
         return retValue
 
 
-    # DApp을 Deployment
+    # get public key
+    def getPublicKey(self, params):
+        self.w3.eth.defaultAccount = self.w3.toChecksumAddress(params['account'])
+        print(self.w3.eth.defaultAccount)
 
+    # DApp을 Deployment
     def deployDApp(self, payload):
         # 파라미터를 먼저 얻음.
         parameters = payload['params']
@@ -724,10 +718,10 @@ class EthCore:
 
         return retValue
 
+
     # Account를 생성
-    def createAccount(self, payload):
+    def createAccount(self, parameters):
         # 파라미터를 먼저 얻음.
-        parameters = payload
 
         # 해당 사용자의 패스워드를 이용해서 Unlock 함.
         addr = self.w3.geth.personal.newAccount(parameters['password'])
@@ -748,16 +742,14 @@ class EthCore:
 
         # unlock Adam's pass
         adam_account = self.w3.toChecksumAddress(CONFIG['ADAM'])
-        noah_account = self.w3.toChecksumAddress(CONFIG['NOAH'])
-        # self.w3.geth.personal.unlockAccount(adam_account, 'yes36%')
+        self.w3.geth.personal.unlockAccount(adam_account, 'yes36%')
 
         # 파라미터를 먼저 얻음.
         parameters = payload['params']
-        print(parameters)
 
         args = {}
         args['to'] = self.w3.toChecksumAddress(parameters['to'])
-        args['from'] = noah_account
+        args['from'] = adam_account
         args['value'] = parameters['amount']* pow(10 ,18)
 
         # 해당 사용자의 패스워드를 이용해서 Unlock 함.
@@ -774,11 +766,4 @@ class EthCore:
         retValue = {'code': ResCode.OK.value}
         retValue['balance'] = balance
 
-        return retValue
-
-    def keyEncrypt(self, payload):
-
-        # Account 생성 후 Key 전달
-
-        retValue = { 'key' : 'aaaa'}
         return retValue

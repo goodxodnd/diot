@@ -154,6 +154,17 @@ class ZenMongo():
         except PyMongoError as ex:
             return False
 
+    def is_exist2(self, collection):
+        try:
+            count = self.db[collection].count()
+            if count > 0:
+                return True
+            else:
+                return False
+        except PyMongoError as ex:
+            return False
+
+
     #############################################
     # DAPP utility methods
     #############################################
@@ -392,6 +403,50 @@ class ZenMongo():
     #############################################
     # Deployed DAPP utility methods
     #############################################
+
+    def add_systemdapp(self, system_dapp_addr):
+        """ Add DApp system deployment
+
+        Args:
+            systemdapp: systemdapp address
+
+        Returns:
+            result (dict): 저장 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        return self.add_one('Config', system_dapp_addr.get_doc())
+
+    def systemdapp_is_exist(self):
+        """ dapp system이 존재하는지 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 True
+                            실패 시 False, error 일때 False
+        """
+
+        return self.is_exist2('Config')
+
+    def find_systemdapp(self):
+        """ systemDApp을 info(1)로 검색
+
+        Args:
+            info: Config의 MongoDB document info (_id)
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'info': 1}
+        return self.find_one('Config', query)
+
+
+
+
     def add_deployed(self, deployed):
         """ DApp의 Deploy 정보를 추가
 

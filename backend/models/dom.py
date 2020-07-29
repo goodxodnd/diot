@@ -34,7 +34,7 @@ class Docu():
 class User(Docu):
     """ 사용자 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, account, did, email, logpass, gethpass, coreAccount, corePrvkey):
+    def __init__(self, did, email, logpass, gethpass, coreAccount, corePrvkey,user_dapp_addr):
         """ 초기화 함수
         Args:
             account (str): blockchain account
@@ -45,13 +45,13 @@ class User(Docu):
        """
         super().__init__()
         self.collection = 'users'
-        self.doc['account'] = account
         self.doc['did'] = did
         self.doc['email'] = email
         self.doc['logpass'] = logpass
         self.doc['gethpass'] = gethpass
         self.doc['coreAccount'] = coreAccount
         self.doc['corePrvkey'] = corePrvkey
+        self.doc['user_dapp_addr'] = user_dapp_addr
 
     def get_account(self):
         """ 사용자 로그인 account를 반환
@@ -105,3 +105,18 @@ class Device(Docu):
         self.doc['desc'] = devicedesc
         self.doc['public'] = public
         self.doc['upload_time'] = datetime.datetime.now()
+
+
+class Config(Docu):
+    """ 사용자 정보를 갖고 있는 Object Mapper """
+
+    def __init__(self, info,system_dapp_addr):
+        """ 초기화 함수
+        Args:
+            system_dapp_addr (str): system_dapp_addr
+
+       """
+        super().__init__()
+        self.collection = 'Config'
+        self.doc['info'] = info
+        self.doc['system_dapp_addr'] = system_dapp_addr

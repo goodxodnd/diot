@@ -184,7 +184,7 @@ import ethmodal from './ethmodal'
 
     },
     created() {
-      // this.getJSONResponse()
+      this.getJSONResponse()
     }
   }
 
