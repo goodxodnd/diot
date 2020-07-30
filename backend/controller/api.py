@@ -69,12 +69,12 @@ def register():
     else:
         print('a-3')
         #core Account Creation
-        coreAccount, corePrvkey = key_manager.create_account(logpass)
+        coreAccount, corePrvkey = api_page.resource['key_manager'].create_account(logpass)
 
         print(coreAccount, corePrvkey)
 
         # Deploy user dapp
-        ret = ownership_manager.deploy_user_dapp(coreAccount, gethpass=logpass)
+        ret = api_page.resource['ownership_manager'].deploy_user_dapp(coreAccount, gethpass=logpass)
         if ret['code'] == ResCode.OK.value:
             user_dapp_addr = ret['deployResult']['contractAddress']
             print('b',user_dapp_addr)
@@ -151,7 +151,7 @@ def fill_eth(*args, **kwargs):
         payload = {"params": params}
 
         # call core
-        result = core.fillEth(payload)
+        result = api_page.resource['core'].fillEth(payload)
         response = json.dumps(result, default=json_util.default)
         return response
         print(response)
@@ -176,7 +176,7 @@ def getbalance(*args, **kwargs):
         parameters['account'] = payload['coreAccount']
 
         # call core
-        result = core.getBalance(parameters)
+        result = api_page.resource['core'].getBalance(parameters)
         response = json.dumps(result, default=json_util.default)
         print(response)
         return response
