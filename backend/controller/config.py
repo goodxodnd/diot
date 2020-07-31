@@ -7,8 +7,8 @@ CONFIG = {
     # 'S-CHANNEL': 'resChannel',      # Sending Channel
     'GANACHE': 'http://localhost:7545', # Ganache URL, 실제 적용 시에 적절한 값으로 바뀌어야 함.
     'RPC-URL': 'http://210.114.89.52:8545', # RPC URL, 실제 적용 시에 적절한 값으로 바뀌어야 함.
-    # 'ADAM': '0xb3b4ef17ba517e75b79169354fd9dfff51b9d592'
-    'SYSTEM_EOA': '0xb3b4ef17ba517e75b79169354fd9dfff51b9d592',
+    'ADAM': '0xe9f5245d9201e3dfd34a944f2a6c84adbbb37730',
+    'SYSTEM_EOA': '0xe9f5245d9201e3dfd34a944f2a6c84adbbb37730',
     'SYSTEM_GETHPASS': 'yes36%', #todo you must set this gethpass
     'JOHN_EOA': '0xA22e44C5E018f7B3eE3cA40ee011c143b3cB1d21',
     'BOB_EOA': '0xbd5Ba492eF36019658F94dD2908CB2D906078C8D',

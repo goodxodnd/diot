@@ -8,8 +8,6 @@ from backend.controller.core import EthCore2
 from backend.controller import core
 from backend.controller.core import OwnershipManager
 
-core = EthCore2(url=CONFIG['RPC-URL'], mode=Mode.PRODUCT)
-ownership_manager = OwnershipManager(core)
 view_page = Blueprint('view_page', 'view_page', template_folder='templates')
 view_page.resource = {}
 
@@ -27,17 +25,17 @@ def get_main():
             system_dapp_addr = params['system_dapp_addr']
             print('a', system_dapp_addr)
 
-            ownership_manager.set_system_dapp(system_dapp_addr)
+            view_page.resource['ownership_manager'].set_system_dapp(system_dapp_addr)
 
             return render_template('index.html')
 
         else:
             print('system deploy.')
-            ret = ownership_manager.deploy_system_dapp(CONFIG['SYSTEM_EOA'], CONFIG['SYSTEM_GETHPASS'])
+            ret = view_page.resource['ownership_manager'].deploy_system_dapp(CONFIG['SYSTEM_EOA'], CONFIG['SYSTEM_GETHPASS'])
             if ret['code'] == ResCode.OK.value:
                 system_dapp_addr = ret['deployResult']['contractAddress']
                 print(system_dapp_addr)
-                ownership_manager.set_system_dapp(system_dapp_addr)
+                view_page.resource['ownership_manager'].set_system_dapp(system_dapp_addr)
 
                 info = 1
                 payload = Config(info, system_dapp_addr)

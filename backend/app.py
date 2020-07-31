@@ -5,6 +5,8 @@ from backend.models.database import ZenMongo
 from backend.controller.core import EthCore2
 from backend.controller.config import CONFIG, Mode, ResCode
 from backend.controller.core import OwnershipManager,KeyManager
+from backend.controller.que import Que
+
 
 core = EthCore2(url=CONFIG['RPC-URL'], mode=Mode.PRODUCT)
 ownership_manager = OwnershipManager(core)
@@ -15,6 +17,10 @@ app = Flask(__name__)
 app.register_blueprint(view_page, url_prefix='/')
 app.register_blueprint(api_page, url_prefix='/api')
 
+# Redis connect
+que = Que('DIOT_EVENT_QUE')
+api_page.resource['redis'] = que
+view_page.resource['redis'] = que
 
 
 # DB connect

@@ -3,6 +3,7 @@ import json
 from backend.controller.config import CONFIG
 import time
 
+
 class Que(object):
     # def __init__(self, que_name, host=CONFIG['REDIS_IP'], port=CONFIG['REDIS_PORT'], db=0):
     def __init__(self, que_name, host='210.114.89.53', port='15900', db=0):
@@ -39,6 +40,8 @@ class Que(object):
             return None
         return json.loads(element)
 
+
+# todo check
 if __name__ == '__main__':
     que = Que('DIOT_EVENT_QUE')
     while True:
