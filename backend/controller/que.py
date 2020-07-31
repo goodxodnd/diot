@@ -1,11 +1,11 @@
 import redis
 import json
 from backend.controller.config import CONFIG
-
+import time
 
 class Que(object):
     # def __init__(self, que_name, host=CONFIG['REDIS_IP'], port=CONFIG['REDIS_PORT'], db=0):
-    def __init__(self, que_name, host='210.114.89.152', port='15900', db=0):
+    def __init__(self, que_name, host='210.114.89.53', port='15900', db=0):
         # redis_server 생성
         self.rq = redis.StrictRedis(host, port, db)
         self.que_name = que_name
@@ -35,4 +35,17 @@ class Que(object):
 
     def get_dict(self):
         element = self.get()
+        if element is None:
+            return None
         return json.loads(element)
+
+if __name__ == '__main__':
+    que = Que('DIOT_EVENT_QUE')
+    while True:
+        dict = que.get_dict()
+        if dict is not None:
+            print(dict)
+        else:
+            print("I'm waiting")
+        time.sleep(1)
+
