@@ -84,9 +84,11 @@ export default new Vuex.Store({
             }
         },
         submit({commit}, deviceObj) {
-         console.log(deviceObj)
+          const token = sessionStorage.getItem("access_token")
+          const did = sessionStorage.getItem("did")
+
           axios
-            .post("http://localhost:9999/api/add_device", deviceObj)
+            .get("http://localhost:9999/api/add_device", deviceObj)
             .then(res => {
               let response = res.data
 
@@ -97,6 +99,17 @@ export default new Vuex.Store({
                 console.log('device register success')
               }
             })
+//         axios
+//          .get('http://localhost:9999/api/add_device', { params: {deviceObj},
+//            headers: {
+//                "Authorization": token,
+//                "did":did,
+//            },
+//        })
+//        .then(res => {
+//           let response = res.data
+//        })
+
         }
         ,
         loginRefresh( {commit} ) {
@@ -107,7 +120,9 @@ export default new Vuex.Store({
             }
             else
                 commit('loginError')
-
+            .catch(error => {
+            console.log(error)
+          })
         },
         logout({commit}) {
                 commit("logout")

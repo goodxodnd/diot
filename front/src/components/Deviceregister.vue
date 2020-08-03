@@ -9,7 +9,7 @@
             <div class="box-text">Registration</div>
             <div class="box-signup">
               <label class="txt01">Device Name</label>
-                <input type="text" class="device" v-model="deviceName" placeholder="Enter Device Name">
+                <input type="text" class="device" v-model="name" placeholder="Enter Device Name">
               <label class="txt02" >Device Type</label>
                 <input class="type" type="text" v-model="deviceType" placeholder="Enter Device Type"/>
               <label class="txt03" >Device Information</label>

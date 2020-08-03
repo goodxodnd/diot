@@ -210,13 +210,26 @@ def add_dapp(*args, **kwargs):
 
 @api_page.route('/add_device', methods=['GET', 'POST'])
 def add_device():
-    deviceName = request.json['deviceName']
+    did = request.headers.get('did')
+
+    name = request.json['name']
     deviceType = request.json['deviceType']
     info = request.json['info']
-    didNum = request.json['didNum']
+    did = request.json['did']
     publicKey = request.json['publicKey']
 
-    device = Device(deviceName, deviceType, info, didNum, publicKey)
+    did = request.json
+    print('c', did)
+    # 4. Register DApps
+    # ret = api_page.resource['ownership_manager'].register_member('John', john_eoa, john_dapp_addr)
+    # if ret['code'] != ResCode.OK.value:
+    #     print(ret)
+    #     exit(-1)
+    # else:
+    #     print('well done')
+
+
+    device = Device(name, deviceType, info, did, publicKey)
     print('a-3', device)
 
     mongoResult = api_page.resource['mongo'].add_device(device)

@@ -89,7 +89,7 @@ class DApp(Docu):
 class Device(Docu):
     """ Device DApp 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, deviceName, deviceType, info, didNum, publicKey):
+    def __init__(self, name, deviceType, info, did, publicKey):
         """ 초기화 함수
         Args:
             user (User): DApp의 소유자
@@ -99,10 +99,10 @@ class Device(Docu):
        """
         super().__init__()
         self.collection = 'device'
-        self.doc['deviceName'] = deviceName
+        self.doc['name'] = name
         self.doc['deviceType'] = deviceType
         self.doc['info'] = info
-        self.doc['didNum'] = didNum
+        self.doc['did'] = did
         self.doc['publicKey'] = publicKey
         self.doc['upload_time'] = datetime.datetime.now()
 
@@ -120,3 +120,18 @@ class Config(Docu):
         self.collection = 'Config'
         self.doc['info'] = info
         self.doc['system_dapp_addr'] = system_dapp_addr
+
+class Ticket(Docu):
+    """ 사용자 정보를 갖고 있는 Object Mapper """
+
+    def __init__(self, ticketType, belongTo, dapp_addr):
+        """ 초기화 함수
+        Args:
+            system_dapp_addr (str): system_dapp_addr
+
+       """
+        super().__init__()
+        self.collection = 'ticket'
+        self.doc['ticketType'] = ticketType
+        self.doc['belongTo'] = belongTo
+        self.doc['dapp_addr'] = dapp_addr
