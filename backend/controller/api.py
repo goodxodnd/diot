@@ -6,17 +6,11 @@ import json
 import jwt
 from backend.models.dom import User
 from backend.models.dom import Device
-from backend.controller.core import EthCore2
 from backend.models.dom import DApp
-from backend.controller.core import KeyManager
+
 from backend.controller.config import CONFIG, Mode, ResCode
-from backend.controller.core import OwnershipManager
 
-from backend.models.database import ZenMongo
 
-core = EthCore2(url=CONFIG['RPC-URL'], mode=Mode.PRODUCT)
-ownership_manager = OwnershipManager(core)
-key_manager = KeyManager(passphrase='abcd')
 
 from pymongo import MongoClient, collection
 
@@ -67,11 +61,19 @@ def register():
             'a-code': 404
         })
     else:
-        print('a-3')
-        #core Account Creation
+        # core Account Creation
         coreAccount, corePrvkey = api_page.resource['key_manager'].create_account(logpass)
 
         print(coreAccount, corePrvkey)
+
+        # Fill eth
+        params = {
+            "to": coreAccount,
+            "amount": 5
+        }
+
+        result = api_page.resource['core'].fillEth(params)
+        print(result)
 
         # Deploy user dapp
         ret = api_page.resource['ownership_manager'].deploy_user_dapp(coreAccount, gethpass=logpass)
@@ -81,6 +83,7 @@ def register():
 
         # get account addr
         user = User(did, email, logpass, gethpass, coreAccount, corePrvkey,user_dapp_addr)
+        print('c', user)
 
         # add user to db
         mongoResult = api_page.resource['mongo'].add_user(user)
@@ -206,7 +209,6 @@ def add_dapp(*args, **kwargs):
 
 
 @api_page.route('/add_device', methods=['GET', 'POST'])
-@login_required
 def add_device():
     deviceName = request.json['deviceName']
     deviceType = request.json['deviceType']
@@ -215,7 +217,10 @@ def add_device():
     publicKey = request.json['publicKey']
 
     device = Device(deviceName, deviceType, info, didNum, publicKey)
+    print('a-3', device)
+
     mongoResult = api_page.resource['mongo'].add_device(device)
+    print(mongoResult)
     response = json.dumps(mongoResult, default=json_util.default)
     return response
 

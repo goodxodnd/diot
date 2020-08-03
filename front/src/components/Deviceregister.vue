@@ -11,7 +11,7 @@
               <label class="txt01">Device Name</label>
                 <input type="text" class="device" v-model="deviceName" placeholder="Enter Device Name">
               <label class="txt02" >Device Type</label>
-                <input class="type" type="email" v-model="deviceType" placeholder="Enter Device Type"/>
+                <input class="type" type="text" v-model="deviceType" placeholder="Enter Device Type"/>
               <label class="txt03" >Device Information</label>
                 <input class="info" type="text" v-model="info" placeholder="Enter Device Information"/>
               <label class="txt04">DID Number</label>
@@ -19,7 +19,7 @@
               <label class="txt05">Public Key</label>
                 <input class="key" type="text" v-model="publicKey" placeholder="Enter Public Key"/>
             </div>
-            <b-button variant="light" @click="submit({deviceName,Email,info,didNum,publicKey})" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
+            <b-button variant="light" @click="submit({deviceName,deviceType,info,didNum,publicKey})" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
 
           </div>
         <div class="col-md-2"></div>

@@ -107,7 +107,6 @@ class OwnershipManager():
 
         return self.core.callTx(params)
 
-
     def register_member(self, did, eoa_addr, dapp_addr):
         # add did
         params = {}
