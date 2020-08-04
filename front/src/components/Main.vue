@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="row">
-        <div class="col-md-8" id="main">
+        <div class="col-md-8" id="main" img src="../assets/bg04.jpg">
           <div class="main-title01">WELCOME TO DIOT</div>
             <router-link to="/signin">
               <b-button variant="light" class="sign-in">SIGN IN</b-button>

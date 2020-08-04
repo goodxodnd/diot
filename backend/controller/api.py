@@ -147,14 +147,14 @@ def fill_eth(*args, **kwargs):
     if user_info['code'] == 200:
         # get params
         params = {
-                "to": user_info['payload']['account'],
+                "to": user_info['payload']['coreAccount'],
                 "amount": 5
             }
 
         payload = {"params": params}
 
         # call core
-        result = api_page.resource['core'].fillEth(payload)
+        result = api_page.resource['core'].fillEth(params)
         response = json.dumps(result, default=json_util.default)
         return response
         print(response)

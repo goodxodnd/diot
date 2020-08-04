@@ -1,11 +1,9 @@
 <template>
  <div class="Sidebar" v-show="isLogin">
   <div class="header">
-       <div class="title">
          <router-link to="/dashboard" style="color:white;">
-         <img src="../assets/main-logo.png">
+         <img src="../assets/main-logo.png" style="position:relative; left:5%;">
          </router-link>
-       </div>
   </div>
   <div class="menu">
    <div class="title-menu">Device</div>
@@ -112,7 +110,7 @@ font-size: 1.5em;
 font-weight: bold;
 color: white;
 position: relative;
-left:10%;
+left:15%;
 top:0%;
 }
 .main-menu{
