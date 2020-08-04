@@ -231,12 +231,18 @@ def add_device():
         print(device_dapp_addr)
 
     # 4. Register DApps
-    # ret = api_page.resource['ownership_manager'].register_member(UserDid, UserEoa, User_dapp_addr)
-    # if ret['code'] != ResCode.OK.value:
-    #     print(ret)
-    #     exit(-1)
-    # else:
-    #     print('well done')
+    ret = api_page.resource['ownership_manager'].register_member(UserDid, UserEoa, User_dapp_addr)
+    if ret['code'] != ResCode.OK.value:
+        print(ret)
+        exit(-1)
+    else:
+        print('well done')
+
+    ret = api_page.resource['ownership_manager'].register_member(did, UserEoa, device_dapp_addr)
+    if ret['code'] != ResCode.OK.value:
+        print(ret)
+        exit(-1)
+    print('well done.')
 
 
     device = Device(name, deviceType, info, did, publicKey,device_dapp_addr)
