@@ -89,7 +89,7 @@ class DApp(Docu):
 class Device(Docu):
     """ Device DApp 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, name, deviceType, info, did, publicKey):
+    def __init__(self, name, deviceType, info, did, publicKey, device_dapp_addr):
         """ 초기화 함수
         Args:
             user (User): DApp의 소유자
@@ -104,6 +104,7 @@ class Device(Docu):
         self.doc['info'] = info
         self.doc['did'] = did
         self.doc['publicKey'] = publicKey
+        self.doc['device_dapp_addr'] = device_dapp_addr
         self.doc['upload_time'] = datetime.datetime.now()
 
 

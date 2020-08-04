@@ -221,9 +221,14 @@ def add_device():
     user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
 
     UserEoa = user_info['payload']['coreAccount']
+    UserPass = user_info['payload']['logpass']
     User_dapp_addr = user_info['payload']['user_dapp_addr']
 
-
+    # 3. Device Dapp Deployment
+    ret = api_page.resource['ownership_manager'].deploy_device_dapp(UserEoa, UserPass)
+    if ret['code'] == ResCode.OK.value:
+        device_dapp_addr = ret['deployResult']['contractAddress']
+        print(device_dapp_addr)
 
     # 4. Register DApps
     # ret = api_page.resource['ownership_manager'].register_member(UserDid, UserEoa, User_dapp_addr)
@@ -234,7 +239,7 @@ def add_device():
     #     print('well done')
 
 
-    device = Device(name, deviceType, info, did, publicKey)
+    device = Device(name, deviceType, info, did, publicKey,device_dapp_addr)
     print('a-3', device)
 
     mongoResult = api_page.resource['mongo'].add_device(device)
