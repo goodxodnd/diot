@@ -15,11 +15,11 @@
               <label class="txt03" >Device Information</label>
                 <input class="info" type="text" v-model="info" placeholder="Enter Device Information"/>
               <label class="txt04">DID Number</label>
-                <input class="did" type="text" v-model="didNum" placeholder="Enter DID Number"/>
+                <input class="did" type="text" v-model="did" placeholder="Enter DID Number"/>
               <label class="txt05">Public Key</label>
                 <input class="key" type="text" v-model="publicKey" placeholder="Enter Public Key"/>
             </div>
-            <b-button variant="light" @click="submit({deviceName,deviceType,info,didNum,publicKey})" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
+            <b-button variant="light" @click="submit({name,deviceType,info,did,publicKey})" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
 
           </div>
         <div class="col-md-2"></div>

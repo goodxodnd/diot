@@ -86,9 +86,11 @@ export default new Vuex.Store({
         submit({commit}, deviceObj) {
           const token = sessionStorage.getItem("access_token")
           const did = sessionStorage.getItem("did")
+          deviceObj["didName"] = did;
+          console.log(deviceObj)
 
           axios
-            .get("http://localhost:9999/api/add_device", deviceObj)
+            .post("http://localhost:9999/api/add_device", deviceObj)
             .then(res => {
               let response = res.data
 
