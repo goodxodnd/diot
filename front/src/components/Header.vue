@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" v-show="isLogin">
       <div class="col-md-11" style="height:50px;"></div>
         <div class="col-md-1" style="height:50px;">
            <img src="../assets/alram.png" style="position:relative; left:20%;">
