@@ -81,6 +81,14 @@ def register():
             user_dapp_addr = ret['deployResult']['contractAddress']
             print('b',user_dapp_addr)
 
+        # register member
+        ret = api_page.resource['ownership_manager'].register_member(did, coreAccount, user_dapp_addr)
+        if ret['code'] != ResCode.OK.value:
+            print(ret)
+            exit(-1)
+        else:
+            print('well done')
+
         # get account addr
         user = User(did, email, logpass, gethpass, coreAccount, corePrvkey,user_dapp_addr)
         print('c', user)
@@ -231,13 +239,6 @@ def add_device():
         print(device_dapp_addr)
 
     # 4. Register DApps
-    ret = api_page.resource['ownership_manager'].register_member(UserDid, UserEoa, User_dapp_addr)
-    if ret['code'] != ResCode.OK.value:
-        print(ret)
-        exit(-1)
-    else:
-        print('well done')
-
     ret = api_page.resource['ownership_manager'].register_member(did, UserEoa, device_dapp_addr)
     if ret['code'] != ResCode.OK.value:
         print(ret)
