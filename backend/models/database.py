@@ -444,9 +444,6 @@ class ZenMongo():
         query = {'info': 1}
         return self.find_one('Config', query)
 
-
-
-
     def add_deployed(self, deployed):
         """ DApp의 Deploy 정보를 추가
 
@@ -602,3 +599,18 @@ class ZenMongo():
             dapp_result = self.find_dapp_by_id(result['payload']['dapp'])
             result['payload']['abi'] = dapp_result['payload']['abi']
         return result
+
+    ############################
+    # Ticket Method
+
+    def add_ticket(self, ticket):
+        """ 사용자를 추가
+
+        Args:
+            device: 사용자 정보를 담고있는 Device 인스턴스
+
+        Returns:
+            result (dict): 저장 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        return self.add_one('ticket', ticket.get_doc())

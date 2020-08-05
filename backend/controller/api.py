@@ -6,7 +6,7 @@ import json
 import jwt
 from backend.models.dom import User
 from backend.models.dom import Device
-from backend.models.dom import DApp
+from backend.models.dom import DApp, Ticket
 
 from backend.controller.config import CONFIG, Mode, ResCode
 
@@ -243,8 +243,7 @@ def add_device():
     if ret['code'] != ResCode.OK.value:
         print(ret)
         exit(-1)
-    print('well done.')
-
+    print('register DApp well done.')
 
     device = Device(name, deviceType, info, did, publicKey,device_dapp_addr)
     print('a-3', device)
@@ -252,7 +251,35 @@ def add_device():
     mongoResult = api_page.resource['mongo'].add_device(device)
     print(mongoResult)
     response = json.dumps(mongoResult, default=json_util.default)
+
+    # 6. Owner Ticket Deployment
+    ret = api_page.resource['ownership_manager'].deploy_owner_ticket(UserEoa, UserPass, User_dapp_addr, device_dapp_addr)
+    if ret['code'] == ResCode.OK.value:
+        owner_ticket_addr = ret['deployResult']['contractAddress']
+        print(owner_ticket_addr)
+
+    belongTo = UserDid
+    ticketType = owner_ticket_addr
+    dapp_addr = User_dapp_addr
+
+    ticket = Ticket(ticketType,belongTo,dapp_addr)
+    ticketResult = api_page.resource['mongo'].add_ticket(ticket)
+    print('t', ticketResult)
+
+    # 7. set the owner ticket to device
+    ret = api_page.resource['ownership_manager'].set_owner_ticket(UserEoa, UserPass, device_dapp_addr, owner_ticket_addr)
+    if ret['code'] == ResCode.OK.value:
+        print('owner ticket well')
     return response
+
+# TODO ownerRequest
+# @api_page.route('/ownerRequest', methods=['POST'])
+# def owner_request():
+#     given_name = request.args.get('name')
+#     age = request.args.get('age')
+#     user = {'name':given_name, 'age':age}
+#     api_page.resource['mongo'].add_user(user)
+#     return 'Write Success'
 
 
 @api_page.route('/add_user', methods=['GET'])

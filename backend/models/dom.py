@@ -122,6 +122,7 @@ class Config(Docu):
         self.doc['info'] = info
         self.doc['system_dapp_addr'] = system_dapp_addr
 
+
 class Ticket(Docu):
     """ 사용자 정보를 갖고 있는 Object Mapper """
 
