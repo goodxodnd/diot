@@ -11,6 +11,7 @@
         </div>
         <div class="col-md-5">
           <div class="box02">
+          <form @keydown.enter="login({did, password})">
             <div class="box02-text">Sign In</div>
             <div class="box02-signin">
               <input class="did-number" v-model="did" name="did" type="text" placeholder="Enter DID Numer"/>
@@ -21,6 +22,7 @@
           <div class="question">
             <a href="/signup.vue"><b>Sign up here</b></a>
           </div>
+          </form>
         </div>
         <div class="col-md-1"></div>
       <div class="col-md-1"></div>

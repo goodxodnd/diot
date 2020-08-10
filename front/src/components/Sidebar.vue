@@ -54,6 +54,9 @@
     </div>
     <br>
     <div class="title-menu" @click="logout()">Sign out</div>
+    <div class="title-menu">
+    <router-link to="/mypage" style="color:white;">mypage</router-link>
+    </div>
 </div>
  </div>
 </template>

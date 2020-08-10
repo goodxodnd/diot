@@ -1,11 +1,10 @@
 <template>
   <div class="row" v-show="isLogin">
       <div class="col-md-11" style="height:50px;"></div>
-        <div class="col-md-1" style="height:50px;">
-           <img src="../assets/alram.png" style="position:relative; left:20%;">
-            <img src="../assets/header-user.png" style="position:relative; left:40%;">
-        </div>
-    </div>
+      <div class="col-md-1" style="height:50px;">
+        <img src="../assets/alram.png" style="position:relative; left:20%;">
+        <img src="../assets/header-user.png" style="position:relative; left:40%;">
+      </div>
   </div>
 </template>
 
@@ -22,16 +21,18 @@ import { mapState, mapActions } from "vuex"
         ...mapState(["isLogin"])
     },
     methods: {
-        ...mapActions(["logout"]),
-
-
-
+        ...mapActions(["logout"])
       }
-    }
+  }
 </script>
 
 <style>
 .main-header {
  height: 50px;
+}
+.dropdown:hover   .dropdown-menu {
+background: rgba(0,0,0,0.08);
+display:block;
+margin-top:-5px;
 }
 </style>

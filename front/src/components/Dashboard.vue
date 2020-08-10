@@ -13,7 +13,7 @@
             <b-card class="dash-card01" title="Authority Request result"><b-button class= "more brn-primary-outline " style="color:black; background-color:transparent; outline:none;">+More</b-button>
                <b-card-text>
                   <img src="../assets/user.png" style="position:relative; top:-20px; ">
-                 <div class="content01"><b>TOM</b><br>Request Authority to Print</div>
+                 <div class="content01"><b>UserDid : {{userDid}}</b><br> user Email : {{userEmail}} <br> </div>
                </b-card-text>
             </b-card>
              </div>
@@ -136,7 +136,9 @@ import ethmodal from './ethmodal'
   export default {
     data() {
       return {
-        balance: 0
+        balance: 0,
+        userDid: null,
+        userEmail: null
       }
     },
     components: {
@@ -162,7 +164,7 @@ import ethmodal from './ethmodal'
           console.log(error)
         })
       },
-      getJSONResponse(){
+      getJSONResponse() {
         const did = sessionStorage.getItem("did")
         const path = 'http://localhost:9999/api/balance'
         const token = sessionStorage.getItem("access_token")
@@ -180,11 +182,34 @@ import ethmodal from './ethmodal'
         .catch(error => {
           console.log(error)
         })
+      },
+      getUserInfo() {
+        const did = sessionStorage.getItem("did")
+        const path = 'http://localhost:9999/api/getUserInfo'
+        const token = sessionStorage.getItem("access_token")
+
+        axios
+          .get(path, {params: {},
+          headers: {
+            "Authorization" :token,
+            "did" : did
+
+          }
+          })
+          .then(response => {
+            console.log(response)
+            this.userDid = response.data.did
+            this.userEmail = response.data.email
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
 
     },
     created() {
       this.getJSONResponse()
+      this.getUserInfo()
     }
   }
 

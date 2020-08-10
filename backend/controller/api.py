@@ -146,6 +146,34 @@ def login():
         })
 
 
+@api_page.route('/getUserInfo', methods=['GET'])
+@login_required
+def getUserInfo(*args, **kwargs):
+    did = request.headers.get('did')
+
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
+    if user_info['code'] == 200:
+
+        # get params
+        print(user_info)
+
+        payload = user_info['payload']
+
+        return payload
+
+        # parameters = {}
+        # parameters['account'] = payload['coreAccount']
+        #
+        # # call core
+        # result = api_page.resource['core'].getBalance(parameters)
+        # response = json.dumps(result, default=json_util.default)
+        # print(response)
+        # return response
+    else:
+        return user_info
+
+
+
 @api_page.route('/fill_eth', methods=['GET'])
 @login_required
 def fill_eth(*args, **kwargs):
@@ -272,14 +300,23 @@ def add_device():
         print('owner ticket well')
     return response
 
+
 # TODO ownerRequest
-# @api_page.route('/ownerRequest', methods=['POST'])
-# def owner_request():
-#     given_name = request.args.get('name')
-#     age = request.args.get('age')
-#     user = {'name':given_name, 'age':age}
-#     api_page.resource['mongo'].add_user(user)
-#     return 'Write Success'
+@api_page.route('/request_owner', methods=['POST'])
+def request_owner():
+    UserDid = request.json['didName']
+
+    user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
+
+    UserEoa = user_info['payload']['coreAccount']
+    UserPass = user_info['payload']['logpass']
+    User_dapp_addr = user_info['payload']['user_dapp_addr']
+
+    # 8. Change Request. (Bob to John)
+    # ret = ownership_manager.request_change_owner(UserEoa, UserPass, User_dapp_addr, 'device@did', 'bob@did')
+    # if ret['code'] == ResCode.OK.value:
+    #     print('well')
+
 
 
 @api_page.route('/add_user', methods=['GET'])

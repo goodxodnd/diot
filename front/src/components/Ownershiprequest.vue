@@ -1,59 +1,100 @@
 <template>
     <div class="row">
         <div class="col-md-2">
-          <div class= "sub-title">All Device List</div>
+          <div class= "ownership-sub-title">All Device List</div>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-9">
-          <div class="main-title">Ownership Request</div>
+          <div class="ownership-main-title">Ownership Request</div>
         </div>
         <div class="col-md-2">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <b-card class="card01" title="Device name"><b-button class= "ownership">Ownership</b-button>
+            <b-card class="authority-request-card01" title="Device name">
                <b-card-text>
-               service-<br>2020.06.15<br>Tier
+               service-<br>2020.06.15<br>Tier<br>
+                 <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
                </b-card-text>
             </b-card>
-            <b-card class="card02" title="Device name"><b-button class= "ownership">Ownership</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-            <b-card class="card03" title="Device name"><b-button class= "ownership">Ownership</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-             <b-card class="card04" title="Device name"><b-button class= "ownership">Ownership</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-          </div>
+        </div>
         <div class="col-md-1"></div>
         <div class="col-md-8">
-          <b-card class="card05" title="Set Alram" sub-title="Device Info">
-             <b-button class= "request">Request</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
+          <b-card class="ownership-request-card05" title="Set Alram" sub-title="Device Info">
+            <b-button class= "request" @click="requestOwner()  style="color:white; background-color:#f04b4c;" >Request</b-button>
+            <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
           </b-card>
-          <b-card class="card06" title="Service Info">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <b-card class="ownership-request-card02" title="Device name">
+            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+              <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
+            </b-card-text>
+
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+          <b-card class="ownership-request-card06" title="Service Info">
             <b-card-text></b-card-text>
           </b-card>
         </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <b-card class="ownership-request-card03" title="Device name">
+            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+              <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
+            </b-card-text>
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+          <b-card class="ownership-request-card04" title="Device name">
+            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+             <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
+            </b-card-text>
+          </b-card>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8"></div>
         <div class="col-md-1"></div>
     </div>
 
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex"
+  export default {
+    data() {
+
+    },
+    computed: {
+            ...mapState(["isLogin", "isLoginError"])
+    },
+    methods: {
+        ...mapActions(["requestOwner"]),
+
+
+
+
+    }
+}
+
 </script>
 
 <style>
-.sub-title {
+.ownership-sub-title {
 position: relative;
-top: 45px;
+top: 70%;
 font-weight: bold;
-font-size: 35px;
+font-size: 1.6em;
 }
-.main-title {
+.ownership-main-title {
 position: relative;
-top: 30px;
+top: 40%;
 font-weight: bold;
-font-size: 50px;
+font-size: 3em;
 }
 .form-control {
   border: 1px solid #3d6098;
@@ -62,28 +103,28 @@ font-size: 50px;
   top: 50px;
   width: 250px;
 }
-.ownership {
+.ownership-btn {
 position: relative;
-top: 80px;
-left: 110px;
+top: 40%;
+left: 40%;
 background-color: #f04b4c;
-width:110px;
+width:60%;
 }
-.card01 {
+.ownership-request-card01 {
 position: relative;
-top:80px;
+top:35%;
 }
-.card02 {
+.ownership-request-card02 {
 position: relative;
-top:110px;
+top:25%;
 }
-.card03 {
+.ownership-request-card03 {
 position: relative;
-top:140px;
+top:-60%;
 }
-.card04 {
+.ownership-request-card04 {
 position: relative;
-top:170px;
+top:-45%;
 }
 .request {
 position: relative;
@@ -99,16 +140,13 @@ left: 850px;
 background-color: #f04b4c;
 width:100px;
 }
-.card05 {
+.ownership-request-card05 {
 position: relative;
 top: 80px;
 }
-.card06 {
+.ownership-request-card06 {
 position: relative;
 top: 120px;
 height:450px;
 }
-
-
-
 </style>

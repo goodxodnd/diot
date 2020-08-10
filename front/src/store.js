@@ -101,16 +101,24 @@ export default new Vuex.Store({
                 console.log('device register success')
               }
             })
-//         axios
-//          .get('http://localhost:9999/api/add_device', { params: {deviceObj},
-//            headers: {
-//                "Authorization": token,
-//                "did":did,
-//            },
-//        })
-//        .then(res => {
-//           let response = res.data
-//        })
+        },
+        requestOwner() {
+          const token = sessionStorage.getItem("access_token")
+          const did = sessionStorage.getItem("did")
+          requestObj["didName"] = did;
+
+          axios
+            .post("http://localhost:9999/api/request_owner", requestObj)
+            .then(res => {
+              let response = res.data
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+                console.log('device register success')
+              }
+            })
 
         }
         ,
