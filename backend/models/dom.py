@@ -127,7 +127,7 @@ class Config(Docu):
 class Ticket(Docu):
     """ 사용자 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, ticketType, belongTo, dapp_addr):
+    def __init__(self, owner_ticket_addr, belongTo, user_dapp_addr):
         """ 초기화 함수
         Args:
             system_dapp_addr (str): system_dapp_addr
@@ -135,16 +135,16 @@ class Ticket(Docu):
        """
         super().__init__()
         self.collection = 'ticket'
-        self.doc['ticketType'] = ticketType
+        self.doc['owner_ticket_addr'] = owner_ticket_addr
         self.doc['belongTo'] = belongTo
-        self.doc['dapp_addr'] = dapp_addr
-
+        self.doc['user_dapp_addr'] = user_dapp_addr
+        self.doc['upload_time'] = datetime.datetime.now()
 
 
 class EventRequest(Docu):
     """ Event 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, eventFrom, EventTo, payload ):
+    def __init__(self, _from, _to, _payload, _timestamp, event):
         """ 초기화 함수
         Args:
             system_dapp_addr (str): system_dapp_addr
@@ -152,9 +152,10 @@ class EventRequest(Docu):
        """
         super().__init__()
         self.collection = 'eventRequest'
-        self.doc['eventFrom'] = eventFrom
-        self.doc['EventTo'] = EventTo
-        self.doc['payload'] = payload
+        self.doc['_from'] = _from
+        self.doc['_to'] = _to
+        self.doc['_payload'] = _payload
+        self.doc['event'] = event
         self.doc['done'] = False
 
 

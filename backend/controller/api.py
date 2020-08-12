@@ -178,26 +178,30 @@ def getUserInfo(*args, **kwargs):
 def getDeviceInfo(*args, **kwargs):
     did = request.headers.get('did')
 
-    device_info = api_page.resource['mongo'].find_device_by_did(did)
-    if device_info['code'] == 200:
+    device_info = api_page.resource['mongo'].find_all_device()
+    print(device_info)
 
-        # get params
-        print(device_info)
-
-        payload = device_info['payload']
-
-        return payload
-
-        # parameters = {}
-        # parameters['account'] = payload['coreAccount']
-        #
-        # # call core
-        # result = api_page.resource['core'].getBalance(parameters)
-        # response = json.dumps(result, default=json_util.default)
-        # print(response)
-        # return response
-    else:
-        return device_info
+    # if device_info['code'] == 200:
+    #
+    #     # get params
+    #     print(device_info)
+    #
+    #     payload = device_info['payload']
+    #
+    #     return payload
+    #
+    #     # parameters = {}
+    #     # parameters['account'] = payload['coreAccount']
+    #     #
+    #     # # call core
+    #     # result = api_page.resource['core'].getBalance(parameters)
+    #     # response = json.dumps(result, default=json_util.default)
+    #     # print(response)
+    #     # return response
+    # else:
+    #     return device_info
+    response = json.dumps(device_info, default=json_util.default)
+    return response
 
 
 
@@ -315,10 +319,9 @@ def add_device():
         print(owner_ticket_addr)
 
     belongTo = UserDid
-    ticketType = owner_ticket_addr
-    dapp_addr = User_dapp_addr
+    user_dapp_addr = User_dapp_addr
 
-    ticket = Ticket(ticketType,belongTo,dapp_addr)
+    ticket = Ticket(owner_ticket_addr,belongTo,user_dapp_addr)
     ticketResult = api_page.resource['mongo'].add_ticket(ticket)
     print('t', ticketResult)
 
@@ -333,6 +336,7 @@ def add_device():
 @api_page.route('/request_owner', methods=['POST'])
 def request_owner():
     UserDid = request.json['didName']
+    DeviceDid = request.json['Did']
 
     user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
 
@@ -341,9 +345,9 @@ def request_owner():
     User_dapp_addr = user_info['payload']['user_dapp_addr']
 
     # 8. Change Request. (Bob to John)
-    # ret = ownership_manager.request_change_owner(UserEoa, UserPass, User_dapp_addr, 'device@did', 'bob@did')
-    # if ret['code'] == ResCode.OK.value:
-    #     print('well')
+    ret = api_page.resource['ownership_manager'].request_change_owner(UserEoa, UserPass, User_dapp_addr, DeviceDid, UserDid)
+    if ret['code'] == ResCode.OK.value:
+        print('well')
 
 
 

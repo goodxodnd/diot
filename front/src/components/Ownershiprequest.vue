@@ -9,11 +9,12 @@
         </div>
         <div class="col-md-2">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <b-card class="authority-request-card01" title="Device name">
+            <b-card class="authority-request-card01">
                <b-card-text>
-               <div class="DeviceName">{{DeviceName}}</div><br>
-
-                <br>2020.06.15<br>Tier<br>
+               <div class="DeviceName"><b>{{DeviceName}}</b></div>
+                <div>Owner: {{UserDid}}</div>
+                {{Did}}
+                <br>2020.06.15<br>
                  <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
                </b-card-text>
             </b-card>
@@ -21,42 +22,23 @@
         <div class="col-md-1"></div>
         <div class="col-md-8">
           <b-card class="ownership-request-card05" title="Set Alram" sub-title="Device Info">
-            <b-button class= "request" @click="requestOwner() style="color:white; background-color:#f04b4c;"> Request</b-button>
-            <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
+            <b-button class= "request-btn" @click="requestOwner({DeviceName,UserDid,Did})" style="color:white; background-color:#f04b4c;"> Request</b-button>
+            <b-card-text> service-<br>2020.06.15</b-card-text>
           </b-card>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-2">
-          <b-card class="ownership-request-card02" title="Device name">
-            <b-card-text> service-<br>2020.06.15<br>Tier<br>
-              <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
-            </b-card-text>
-
-          </b-card>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-8">
-          <b-card class="ownership-request-card06" title="Service Info">
-            <b-card-text></b-card-text>
-          </b-card>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-2">
-          <b-card class="ownership-request-card03" title="{{DeviceName}}">
-            <b-card-text> {{DeviceType}}-<br>2020.06.15<br>{{Did}}<br>
-              <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
-            </b-card-text>
-          </b-card>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-8"></div>
         <div class="col-md-1"></div>
         <div class="col-md-2">
-          <b-card class="ownership-request-card04" title="Device name">
-            <b-card-text> service-<br>2020.06.15<br>Tier<br>
-             <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
-            </b-card-text>
-          </b-card>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-8"></div>
@@ -66,6 +48,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex"
 import axios from 'axios'
 
 export default {
@@ -73,10 +56,12 @@ export default {
       return {
         DeviceName: null,
         DeviceType: null,
-        Did:null
+        Did:null,
+        UserDid:null
       }
     },
     methods: {
+      ...mapActions(["requestOwner"]),
       getDeviceInfo() {
         const did = sessionStorage.getItem("did")
         const path = 'http://localhost:9999/api/getDeviceInfo'
@@ -91,9 +76,11 @@ export default {
           })
           .then(response => {
             console.log(response)
-            this.DeviceName = response.data.name
-            this.DeviceType = response.data.deviceType
-            this.Did = response.data.did
+            this.DeviceName = response.data[0].name
+            this.DeviceType = response.data[0].deviceType
+            this.Did = response.data[0].did
+            this.UserDid = response.data[0].user_did
+
           })
           .catch(error => {
             console.log(error)
@@ -149,10 +136,10 @@ top:-60%;
 position: relative;
 top:-45%;
 }
-.request {
+.request-btn {
 position: relative;
-top: -60px;
-left: 950px;
+top: 40%;
+left: 88%;
 background-color: #f04b4c;
 width:100px;
 }

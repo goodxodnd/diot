@@ -102,7 +102,7 @@ export default new Vuex.Store({
               }
             })
         },
-        requestOwner() {
+        requestOwner({commit},requestObj) {
           const token = sessionStorage.getItem("access_token")
           const did = sessionStorage.getItem("did")
           requestObj["didName"] = did;
@@ -110,6 +110,7 @@ export default new Vuex.Store({
           axios
             .post("http://localhost:9999/api/request_owner", requestObj)
             .then(res => {
+              console.log(requestObj)
               let response = res.data
 
               if (response['code'] == '404'){
