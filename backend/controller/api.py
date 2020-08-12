@@ -173,6 +173,33 @@ def getUserInfo(*args, **kwargs):
         return user_info
 
 
+@api_page.route('/getDeviceInfo', methods=['GET'])
+@login_required
+def getDeviceInfo(*args, **kwargs):
+    did = request.headers.get('did')
+
+    device_info = api_page.resource['mongo'].find_device_by_did(did)
+    if device_info['code'] == 200:
+
+        # get params
+        print(device_info)
+
+        payload = device_info['payload']
+
+        return payload
+
+        # parameters = {}
+        # parameters['account'] = payload['coreAccount']
+        #
+        # # call core
+        # result = api_page.resource['core'].getBalance(parameters)
+        # response = json.dumps(result, default=json_util.default)
+        # print(response)
+        # return response
+    else:
+        return device_info
+
+
 
 @api_page.route('/fill_eth', methods=['GET'])
 @login_required
@@ -259,6 +286,7 @@ def add_device():
     UserEoa = user_info['payload']['coreAccount']
     UserPass = user_info['payload']['logpass']
     User_dapp_addr = user_info['payload']['user_dapp_addr']
+    user_did = user_info['payload']['did']
 
     # 3. Device Dapp Deployment
     ret = api_page.resource['ownership_manager'].deploy_device_dapp(UserEoa, UserPass)
@@ -273,7 +301,7 @@ def add_device():
         exit(-1)
     print('register DApp well done.')
 
-    device = Device(name, deviceType, info, did, publicKey,device_dapp_addr)
+    device = Device(name, deviceType, info, did, publicKey,user_did, device_dapp_addr)
     print('a-3', device)
 
     mongoResult = api_page.resource['mongo'].add_device(device)

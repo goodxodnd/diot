@@ -11,7 +11,9 @@
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
             <b-card class="authority-request-card01" title="Device name">
                <b-card-text>
-               service-<br>2020.06.15<br>Tier<br>
+               <div class="DeviceName">{{DeviceName}}</div><br>
+
+                <br>2020.06.15<br>Tier<br>
                  <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
                </b-card-text>
             </b-card>
@@ -19,7 +21,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-8">
           <b-card class="ownership-request-card05" title="Set Alram" sub-title="Device Info">
-            <b-button class= "request" @click="requestOwner()  style="color:white; background-color:#f04b4c;" >Request</b-button>
+            <b-button class= "request" @click="requestOwner() style="color:white; background-color:#f04b4c;"> Request</b-button>
             <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
           </b-card>
         </div>
@@ -40,8 +42,8 @@
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-2">
-          <b-card class="ownership-request-card03" title="Device name">
-            <b-card-text> service-<br>2020.06.15<br>Tier<br>
+          <b-card class="ownership-request-card03" title="{{DeviceName}}">
+            <b-card-text> {{DeviceType}}-<br>2020.06.15<br>{{Did}}<br>
               <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
             </b-card-text>
           </b-card>
@@ -64,23 +66,44 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
-  export default {
-    data() {
+import axios from 'axios'
 
-    },
-    computed: {
-            ...mapState(["isLogin", "isLoginError"])
+export default {
+    data() {
+      return {
+        DeviceName: null,
+        DeviceType: null,
+        Did:null
+      }
     },
     methods: {
-        ...mapActions(["requestOwner"]),
+      getDeviceInfo() {
+        const did = sessionStorage.getItem("did")
+        const path = 'http://localhost:9999/api/getDeviceInfo'
+        const token = sessionStorage.getItem("access_token")
 
-
-
-
+        axios
+          .get(path, {params: {},
+          headers: {
+            "Authorization" :token,
+            "did" : did
+          }
+          })
+          .then(response => {
+            console.log(response)
+            this.DeviceName = response.data.name
+            this.DeviceType = response.data.deviceType
+            this.Did = response.data.did
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    created() {
+      this.getDeviceInfo()
     }
-}
-
+  }
 </script>
 
 <style>
@@ -105,10 +128,10 @@ font-size: 3em;
 }
 .ownership-btn {
 position: relative;
-top: 40%;
-left: 40%;
+top: 50%;
+left: 35%;
 background-color: #f04b4c;
-width:60%;
+
 }
 .ownership-request-card01 {
 position: relative;

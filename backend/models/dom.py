@@ -89,7 +89,7 @@ class DApp(Docu):
 class Device(Docu):
     """ Device DApp 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, name, deviceType, info, did, publicKey, device_dapp_addr):
+    def __init__(self, name, deviceType, info, did, publicKey, user_did , device_dapp_addr):
         """ 초기화 함수
         Args:
             user (User): DApp의 소유자
@@ -105,6 +105,7 @@ class Device(Docu):
         self.doc['did'] = did
         self.doc['publicKey'] = publicKey
         self.doc['device_dapp_addr'] = device_dapp_addr
+        self.doc['user_did'] = user_did
         self.doc['upload_time'] = datetime.datetime.now()
 
 
@@ -137,3 +138,38 @@ class Ticket(Docu):
         self.doc['ticketType'] = ticketType
         self.doc['belongTo'] = belongTo
         self.doc['dapp_addr'] = dapp_addr
+
+
+
+class EventRequest(Docu):
+    """ Event 정보를 갖고 있는 Object Mapper """
+
+    def __init__(self, eventFrom, EventTo, payload ):
+        """ 초기화 함수
+        Args:
+            system_dapp_addr (str): system_dapp_addr
+
+       """
+        super().__init__()
+        self.collection = 'eventRequest'
+        self.doc['eventFrom'] = eventFrom
+        self.doc['EventTo'] = EventTo
+        self.doc['payload'] = payload
+        self.doc['done'] = False
+
+
+class EventAccept(Docu):
+    """ Event 정보를 갖고 있는 Object Mapper """
+
+    def __init__(self, preOwner, newOwner, device):
+        """ 초기화 함수
+        Args:
+            system_dapp_addr (str): system_dapp_addr
+
+       """
+        super().__init__()
+        self.collection = 'eventAccept'
+        self.doc['preOwner'] = preOwner
+        self.doc['newOwner'] = newOwner
+        self.doc['device'] = device
+        self.doc['done'] = False
