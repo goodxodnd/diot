@@ -653,7 +653,8 @@ class ZenMongo():
             result (dict): 저장 성공시에는 code:200, 애러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        return self.add_one('eventRequest', eventRequest.get_doc())
+
+        return self.add_one('eventRequest', eventRequest)
 
     def add_event_Accept(self, eventAccept):
         """ 사용자를 추가

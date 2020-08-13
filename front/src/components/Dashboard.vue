@@ -1,5 +1,18 @@
 <template>
     <div class="row" :class="$mq">
+      <div style="position: relative; top:35px; left:97%;">
+        <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
+        <b-modal v-model="modalShow">Hello From Modal!</b-modal>
+      </div>
+      <div style="position: relative; top:-70%; left:93%;">
+              <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+              <template v-slot:button-content>
+              <img src='../assets/header-user.png'>
+              </template>
+              <b-dropdown-item href="#">My page</b-dropdown-item>
+              <b-dropdown-item href="#">Sign out</b-dropdown-item>
+              </b-dropdown>
+          </div>
         <div class="col-md-12">
           <div class="main-title02">Dashboard</div>
         </div>
@@ -138,7 +151,8 @@ import ethmodal from './ethmodal'
       return {
         balance: 0,
         userDid: null,
-        userEmail: null
+        userEmail: null,
+         modalShow: false
       }
     },
     components: {

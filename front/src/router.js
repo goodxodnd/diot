@@ -19,7 +19,6 @@ import Tieraccept from './components/Tieraccept.vue'
 import Tiermanagement from './components/Tiermanagement.vue'
 import Tierrequest from './components/Tierrequest.vue'
 import Tierserviceset from './components/Tierserviceset.vue'
-import Header from './components/Header.vue'
 
 import store from "./store";
 

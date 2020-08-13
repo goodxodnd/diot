@@ -1,19 +1,14 @@
 <template>
-  <div>
-    <b-button @click="modalShow = !modalShow">Open Modal</b-button>
-
-    <b-modal v-model="modalShow">Hello From Modal!</b-modal>
-  </div>
+<div>
+  <b-dropdown id="dropdown-1" text="Dropdown Button" class="m-md-2">
+    <b-dropdown-item>My page</b-dropdown-item>
+    <b-dropdown-divider></b-dropdown-divider>
+    <b-dropdown-item>Sign out</b-dropdown-item>
+  </b-dropdown>
+</div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        modalShow: false
-      }
-    }
-  }
 </script>
 
 <style>

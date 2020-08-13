@@ -49,13 +49,13 @@ if __name__ == '__main__':
     while True:
         dict = que.get_dict()
         if dict is not None:
-
+            print(dict)
             if dict['event'] == 'OwnerChangeRequest':
                 # add event to db
                 mongoResult = zen_mongo.add_event_Request(dict)
             else:
                 mongoResult = zen_mongo.add_event_Accept(dict)
-            print(dict)
+
         else:
             print("I'm waiting")
         time.sleep(1)
