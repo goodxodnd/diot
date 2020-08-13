@@ -1,10 +1,10 @@
 <template>
     <div class="row" :class="$mq">
-      <div style="position: relative; top:35px; left:97%;">
+      <div style="position: relative; top:33px; left:93%;">
         <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
         <b-modal v-model="modalShow">Hello From Modal!</b-modal>
       </div>
-      <div style="position: relative; top:-70%; left:93%;">
+      <div style="position: relative; top:30px; left:86%;">
               <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
               <template v-slot:button-content>
               <img src='../assets/header-user.png'>
