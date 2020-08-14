@@ -121,6 +121,25 @@ export default new Vuex.Store({
               }
             })
 
+        },
+        acceptOwner({commit},acceptObj) {
+          const token = sessionStorage.getItem("access_token")
+          const did = sessionStorage.getItem("did")
+          acceptObj["didName"] = did;
+          axios
+            .post("http://localhost:9999/api/change_owner", acceptObj)
+            .then(res => {
+              console.log(requestObj)
+              let response = res.data
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+                console.log(' accpet owner success')
+              }
+            })
+
         }
         ,
         loginRefresh( {commit} ) {

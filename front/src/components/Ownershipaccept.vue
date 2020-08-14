@@ -1,58 +1,95 @@
 <template>
     <div class="row">
         <div class="col-md-2">
-          <div class= "sub-title">My Device List</div>
+          <div class= "ownership-sub-title">All Device List</div>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-9">
-          <div class="main-title">Ownership Accept</div>
+          <div class="ownership-main-title">Ownership Accept</div>
         </div>
         <div class="col-md-2">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <b-card class="card01" title="Device name"><b-button class= "ownership">Ownership</b-button>
+            <b-card class="authority-request-card01">
                <b-card-text>
-               service-<br>2020.06.15<br>Tier
+               <div class="DeviceName"><b>{{DeviceName}}</b></div>
+
+
+                 <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
                </b-card-text>
             </b-card>
-            <b-card class="card02" title="Device name"><b-button class= "ownership">Ownership</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-            <b-card class="card03" title="Device name"><b-button class= "ownership">Ownership</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-             <b-card class="card04" title="Device name"><b-button class= "ownership">Ownership</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-            </b-card>
-          </div>
+        </div>
         <div class="col-md-1"></div>
         <div class="col-md-8">
-          <b-card class="card05" title="Set Alram" sub-title="Device Info">
-             <b-button class= "accept">Accept</b-button><b-button class="reject">Reject</b-button>
-               <b-card-text> service-<br>2020.06.15<br>Tier</b-card-text>
-          </b-card>
-          <b-card class="card06" title="Ownership log">
+          <b-card class="ownership-request-card05">
             <b-card-text>
-            <br>
-              <b-table striped hover :items="items"></b-table>
+             <b>{{DeviceName}}</b>
+             <br><b>{{RequestUserName}}</b>
+            <b-button class= "request-btn" @click="acceptOwner({RequestUserName})" style="color:white; background-color:#f04b4c;"> Accept</b-button>
             </b-card-text>
           </b-card>
         </div>
         <div class="col-md-1"></div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8"></div>
+        <div class="col-md-1"></div>
     </div>
+
 
 </template>
 
 <script>
-  export default {
+import { mapState, mapActions } from "vuex"
+import axios from 'axios'
+
+export default {
     data() {
       return {
-        items: [
-          { receive: 40, user: 'Dickerson', date: '2018.06.15' },
-          {receive: 40, user: 'Dickerson', date: '2019.05.04' },
-          {receive: 40, user: 'Dickerson', date: '2020.06.15'  },
-          {receive: 40, user: 'Dickerson', date: '2018.12.19'  }
-        ]
+        DeviceName: null,
+        UserName:null,
+        RequestUserName:null
       }
+    },
+    methods: {
+      ...mapActions(["acceptOwner"]),
+      find_event() {
+        const did = sessionStorage.getItem("did")
+        const path = 'http://localhost:9999/api/find_event'
+        const token = sessionStorage.getItem("access_token")
+
+        axios
+          .get(path, {params: {},
+          headers: {
+            "Authorization" :token,
+            "did" : did
+          }
+          })
+          .then(response => {
+            console.log(response)
+            this.DeviceName = response.data.device_name
+            this.RequestUserName = response.data.RequestUserName
+            this.UserName = response.data.UserName
+
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    created() {
+      this.find_event()
     }
   }
 </script>

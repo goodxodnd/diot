@@ -349,22 +349,58 @@ def request_owner():
     if ret['code'] == ResCode.OK.value:
         print('well')
 
+    return ret
 
-@api_page.route('/find_event', methods=['POST'])
+
+@api_page.route('/find_event', methods=['GET'])
 def find_event():
+    did = request.headers.get('did')
+
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
+    device_info = api_page.resource['mongo'].find_device_by_did(did)
+
+    user_dapp_addr = user_info['payload']['user_dapp_addr']
+
+    print('user_dapp_addr', user_dapp_addr)
+
+    deice_name = device_info['payload']['name']
+
+    user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
+    print('c', user_event_request )
+    _payload = user_event_request['payload']['_payload']
+
+    result = {'device_name': deice_name, 'RequestUserName': _payload , 'UserName' : did}
+
+    print(result)
+
+    response = json.dumps(result, default=json_util.default)
+
+    return response
+
+
+@api_page.route('/change_owner', methods=['POST'])
+def change_owner():
     UserDid = request.json['didName']
+    print('userdid', UserDid)
 
     user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
 
+    UserEoa = user_info['payload']['coreAccount']
+    UserPass = user_info['payload']['logpass']
     User_dapp_addr = user_info['payload']['user_dapp_addr']
 
-    user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(User_dapp_addr)
+    ticket_info = api_page.resource['mongo'].find_ticket_by_did(UserDid)
+    print('t', ticket_info)
+    owner_ticket_addr = ticket_info['payload']['owner_ticket_addr']
 
-    print(user_event_request)
+    # 9-1. Change Owner. (Bob -> John)
+    ret = api_page.resource['ownership_manager'].change_owner(UserEoa, UserPass , User_dapp_addr, owner_ticket_addr, 'john@did')
+    if ret['code'] == ResCode.OK.value:
+        print('well')
 
-    response = json.dumps(user_event_request, default=json_util.default)
+    print('r', ret)
 
-    return response
+    return ret
 
 
 @api_page.route('/add_user', methods=['GET'])

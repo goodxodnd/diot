@@ -624,6 +624,22 @@ class ZenMongo():
         """
         return self.add_one('ticket', ticket.get_doc())
 
+    def find_ticket_by_did(self, user_did):
+        """ Ticket를 did로 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'user_did': user_did}
+        return self.find_one('ticket', query)
+
+
     def find_device_by_did(self, user_did):
         """ 사용자를 account로 검색
 
