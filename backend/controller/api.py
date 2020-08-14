@@ -350,6 +350,22 @@ def request_owner():
         print('well')
 
 
+@api_page.route('/find_event', methods=['POST'])
+def find_event():
+    UserDid = request.json['didName']
+
+    user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
+
+    User_dapp_addr = user_info['payload']['user_dapp_addr']
+
+    user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(User_dapp_addr)
+
+    print(user_event_request)
+
+    response = json.dumps(user_event_request, default=json_util.default)
+
+    return response
+
 
 @api_page.route('/add_user', methods=['GET'])
 def add_user():
