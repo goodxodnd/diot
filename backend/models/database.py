@@ -392,7 +392,7 @@ class ZenMongo():
         query = {'_id': ObjectId(oid)}
         return self.del_one('device', query)
 
-    def find_device_by_did(self, device):
+    def find_device_by_did(self, did):
         """ device를 account로 검색
 
         Args:
@@ -404,7 +404,7 @@ class ZenMongo():
                            에러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        query = {'device': device}
+        query = {'user_did': did}
         return self.find_one('users', query)
 
 
@@ -636,7 +636,7 @@ class ZenMongo():
                            에러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        query = {'user_did': user_did}
+        query = {'belongTo': user_did}
         return self.find_one('ticket', query)
 
 
@@ -728,3 +728,18 @@ class ZenMongo():
         query = {'_to': user_dapp_addr}
         return self.find_one('eventRequest', query)
 
+    def change_owner_by_device(self, DeviceName, UserDid ):
+        """ 사용자를 account로 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'user_did': UserDid}
+        doc = {'DeviceName': DeviceName }
+        return self.replace_one('device', query, doc)

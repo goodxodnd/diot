@@ -12,11 +12,11 @@
         <div class="col-md-5">
           <div class="box02">
           <form @keydown.enter="login({did, password})">
-            <div class="box02-text">Sign In</div>
+            <div class="sign-in-text">Sign In</div>
             <div class="box02-signin">
-              <input class="did-number" v-model="did" name="did" type="text" placeholder="Enter DID Numer"/>
+              <input class="did-number" v-model="did" name="did" type="text" placeholder="Enter Did"/>
               <br>
-              <input class="password" v-model="password" name="password" type="password" placeholder="Enter Password"/>
+              <input class="sign-in-password" v-model="password" name="password" type="password" placeholder="Enter Password"/>
             </div>
             <b-button @click="login({ did, password})" variant="light" class="signin">S I G N  I N</b-button></div>
           <div class="question">
@@ -56,7 +56,7 @@ export default {
 background-color: #3d6098;
 position: relative;
   left:-15%;
-top:30%;
+top:45%;
 width:100%;
 height:500px;
 border-top-left-radius:50px;
@@ -91,13 +91,13 @@ left: 85px;
 background-color: #E7E7E7;
 position: relative;
   left:-25%;
-top:30%;
+top:45%;
 width:100%;
 height:500px;
 border-top-right-radius:50px;
 border-bottom-right-radius:50px;
 }
-.box02-text {
+.sign-in-text {
 font-size: 40px;
 font-weight: bold;
 position: relative;
@@ -108,18 +108,18 @@ left: 160px;
 font-size: 20px;
 }
 .did-number {
-width: 250px;
+width: 55%;
 height: 45px;
 position: relative;
 top: 100px;
-left: 110px;
+left: 25%;
 }
-.password {
-width: 250px;
+.sign-in-password {
+width: 55%;
 height: 45px;
 position: relative;
-top: 130px;
-left: 110px;
+top: 120px;
+left: 25%;
 }
 .signin {
 width: 250px;

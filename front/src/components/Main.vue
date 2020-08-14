@@ -24,8 +24,8 @@ font-size: 50px;
 font-weight: bold;
 color: black;
 position: relative;
-top:120%;
-  left:20%;
+top:190%;
+  left:10%;
 }
 .sign-in {
 font-weight: bold;
@@ -33,8 +33,8 @@ font-size: 25px;
 width: 200px;
 height: 70px;
 position: relative;
-top: 160%;
-  left:25%;
+top: 250%;
+  left:15%;
 
 }
 .sign-up {
@@ -45,11 +45,10 @@ color: white;
 width: 200px;
 height: 70px;
 position: relative;
-top: 160%;
-left:30%;
+top: 250%;
+left:20%;
 }
 .container{
-background: url("../assets/background.jpg");
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;

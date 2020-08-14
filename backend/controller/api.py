@@ -355,6 +355,7 @@ def request_owner():
 @api_page.route('/find_event', methods=['GET'])
 def find_event():
     did = request.headers.get('did')
+    print('did', did)
 
     user_info = api_page.resource['mongo'].find_user_by_did(did)
     device_info = api_page.resource['mongo'].find_device_by_did(did)
@@ -362,7 +363,7 @@ def find_event():
     user_dapp_addr = user_info['payload']['user_dapp_addr']
 
     print('user_dapp_addr', user_dapp_addr)
-
+    print('device_info', device_info)
     deice_name = device_info['payload']['name']
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
@@ -381,6 +382,7 @@ def find_event():
 @api_page.route('/change_owner', methods=['POST'])
 def change_owner():
     UserDid = request.json['didName']
+    DeviceName = request.json['DeviceName']
     print('userdid', UserDid)
 
     user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
@@ -393,6 +395,10 @@ def change_owner():
     print('t', ticket_info)
     owner_ticket_addr = ticket_info['payload']['owner_ticket_addr']
 
+    change_info = api_page.resource['mongo'].change_owner_by_device(DeviceName, UserDid)
+    print('change info', change_info)
+
+
     # 9-1. Change Owner. (Bob -> John)
     ret = api_page.resource['ownership_manager'].change_owner(UserEoa, UserPass , User_dapp_addr, owner_ticket_addr, 'john@did')
     if ret['code'] == ResCode.OK.value:
@@ -401,6 +407,34 @@ def change_owner():
     print('r', ret)
 
     return ret
+
+#
+# @api_page.route('/checkEvent', methods=['GET'])
+# def checkEvent():
+#     did = request.headers.get('did')
+#     print('did', did)
+#
+#     user_info = api_page.resource['mongo'].find_user_by_did(did)
+#     device_info = api_page.resource['mongo'].find_device_by_did(did)
+#
+#     user_dapp_addr = user_info['payload']['user_dapp_addr']
+#
+#     print('user_dapp_addr', user_dapp_addr)
+#     print('device_info', device_info)
+#     deice_name = device_info['payload']['name']
+#
+#     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
+#     print('c', user_event_request )
+#     _payload = user_event_request['payload']['_payload']
+#
+#     result = {'device_name': deice_name, 'RequestUserName': _payload , 'UserName' : did}
+#
+#     print(result)
+#
+#     response = json.dumps(result, default=json_util.default)
+#
+#     return response
+
 
 
 @api_page.route('/add_user', methods=['GET'])

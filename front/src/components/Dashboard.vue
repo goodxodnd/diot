@@ -1,8 +1,8 @@
 <template>
-    <div class="row" :class="$mq">
+    <div class="row" :class="$mq" style="position:relative; top:-5%;">
       <div style="position: relative; top:33px; left:93%;">
         <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
-        <b-modal v-model="modalShow">Hello From Modal!</b-modal>
+        <b-modal v-model="modalShow">Ownership Accept &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b-button style="color:white; background-color:#f04b4c; left:20%;"> <router-link to="/ownershipaccept" style="color:white;">ownership accept</router-link></b-button></b-modal>
       </div>
       <div style="position: relative; top:30px; left:86%;">
               <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
@@ -218,12 +218,20 @@ import ethmodal from './ethmodal'
           .catch(error => {
             console.log(error)
           })
-      }
+      },
+         checkEvent: function () {
+           $.get('http://localhost:9999/api/checkEvent',function(response){
+             this.posts = response.data;
+             setInterval(this.checkEvent, 10000);
+           }.bind(this));
+         };
+
 
     },
     created() {
       this.getJSONResponse()
       this.getUserInfo()
+
     }
   }
 

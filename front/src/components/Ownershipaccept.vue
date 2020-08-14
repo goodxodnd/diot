@@ -24,7 +24,7 @@
             <b-card-text>
              <b>{{DeviceName}}</b>
              <br><b>{{RequestUserName}}</b>
-            <b-button class= "request-btn" @click="acceptOwner({RequestUserName})" style="color:white; background-color:#f04b4c;"> Accept</b-button>
+            <b-button class= "request-btn" @click="acceptOwner({DeviceName,RequestUserName})" style="color:white; background-color:#f04b4c;"> Accept</b-button>
             </b-card-text>
           </b-card>
         </div>
@@ -95,17 +95,17 @@ export default {
 </script>
 
 <style>
-.sub-title {
+.ownership-sub-title {
 position: relative;
-top: 45px;
+top: 70%;
 font-weight: bold;
-font-size: 35px;
+font-size: 1.6em;
 }
-.main-title {
+.ownership-main-title {
 position: relative;
-top: 30px;
+top: 40%;
 font-weight: bold;
-font-size: 50px;
+font-size: 3em;
 }
 .form-control {
   border: 1px solid #3d6098;
@@ -114,33 +114,33 @@ font-size: 50px;
   top: 50px;
   width: 250px;
 }
-.ownership {
+.ownership-btn {
 position: relative;
-top: 80px;
-left: 110px;
+top: 50%;
+left: 35%;
 background-color: #f04b4c;
-width:110px;
+
 }
-.card01 {
+.ownership-request-card01 {
 position: relative;
-top:80px;
+top:35%;
 }
-.card02 {
+.ownership-request-card02 {
 position: relative;
-top:110px;
+top:25%;
 }
-.card03 {
+.ownership-request-card03 {
 position: relative;
-top:140px;
+top:-60%;
 }
-.card04 {
+.ownership-request-card04 {
 position: relative;
-top:170px;
+top:-45%;
 }
-.accept {
+.request-btn {
 position: relative;
-top: -60px;
-left: 950px;
+top: 40%;
+left: 88%;
 background-color: #f04b4c;
 width:100px;
 }
@@ -151,16 +151,13 @@ left: 850px;
 background-color: #f04b4c;
 width:100px;
 }
-.card05 {
+.ownership-request-card05 {
 position: relative;
 top: 80px;
 }
-.card06 {
+.ownership-request-card06 {
 position: relative;
 top: 120px;
 height:450px;
 }
-
-
-
 </style>

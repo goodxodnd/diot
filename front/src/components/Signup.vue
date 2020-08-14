@@ -13,7 +13,7 @@
           <div class="box04">
             <div class="box04-text">Sign Up</div>
             <div class="box04-signup">
-              <input class="id" v-model="did" name="did" type="text" placeholder="Enter DID Number"/>
+              <input class="id" v-model="did" name="did" type="text" placeholder="Enter Did "/>
               <input class="email" v-model="Email" name="Email" type="email" placeholder="Enter Email"/>
               <input class="password" v-model="password" name="password" type="password" placeholder="Enter Password"/>
               <input class="password02" v-model="passwordConfirm" name="passwordConfirm" type="password" placeholder="Renter Password"/>
@@ -51,8 +51,9 @@
 .box03 {
 background-color: #3d6098;
 position: relative;
-top:145px;
-width:475px;
+top:45%;
+left:-42%;
+width:100%;
 height:500px;
 border-top-left-radius:50px;
 border-bottom-left-radius:50px;
@@ -75,8 +76,9 @@ color: white;
 .box04 {
 background-color: #E7E7E7;
 position: relative;
-top:145px;
-width:475px;
+top:45%;
+left:-50%;
+width:100%;
 height:500px;
 border-top-right-radius:50px;
 border-bottom-right-radius:50px;
@@ -85,46 +87,45 @@ border-bottom-right-radius:50px;
 font-size: 40px;
 font-weight: bold;
 position: relative;
-top: 40px;
-left: 160px;
+top: 5%;
+left: 30%;
 }
 .box04-signin{
 font-size: 20px;
 }
 .id {
-width: 250px;
+width: 55%;
 height: 45px;
 position: relative;
-top: 70px;
-left: 110px;
+top: 60px;
+left: 22%;
 }
 .email {
-width: 250px;
+width: 55%;
 height: 45px;
 position: relative;
 top: 90px;
-left: 110px;
+left: 22%;
 }
 .password {
-width: 250px;
+width: 55%;
 height: 45px;
 position: relative;
 top: 110px;
-left: 110px;
+left: 22%;
 }
 .password02 {
-width: 250px;
+width: 55%;
 height: 45px;
 position: relative;
 top: 130px;
-left: 110px;
+left: 22%;
 }
 .signup {
-width: 250px;
+width: 60%;
 height:50px;
 position: relative;
-top:170px;
-left:110px;
+left:23%;
 font-size: 27px;
 font-weight: bold;
 background-color:#3d6098;
