@@ -379,6 +379,28 @@ def find_event():
     return response
 
 
+@api_page.route('/checkOwnerShip', methods=['GET'])
+def checkOwnerShip():
+    did = request.headers.get('did')
+    print('did', did)
+
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
+
+    user_dapp_addr = user_info['payload']['user_dapp_addr']
+
+    user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
+    print('c', user_event_request)
+    _payload = user_event_request['payload']['_payload']
+
+    result = {'RequestUserName': _payload, 'UserName': did}
+
+    print(result)
+
+    response = json.dumps(result, default=json_util.default)
+
+    return response
+
+
 @api_page.route('/change_owner', methods=['POST'])
 def change_owner():
     UserDid = request.json['didName']
@@ -395,8 +417,8 @@ def change_owner():
     print('t', ticket_info)
     owner_ticket_addr = ticket_info['payload']['owner_ticket_addr']
 
-    change_info = api_page.resource['mongo'].change_owner_by_device(DeviceName, UserDid)
-    print('change info', change_info)
+    # change_info = api_page.resource['mongo'].change_owner_by_device(DeviceName, UserDid)
+    # print('change info', change_info)
 
 
     # 9-1. Change Owner. (Bob -> John)

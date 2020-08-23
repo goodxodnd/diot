@@ -152,7 +152,8 @@ import ethmodal from './ethmodal'
         balance: 0,
         userDid: null,
         userEmail: null,
-         modalShow: false
+         modalShow: false,
+         event: 500
       }
     },
     components: {
@@ -219,18 +220,32 @@ import ethmodal from './ethmodal'
             console.log(error)
           })
       },
-         checkEvent: function () {
-           $.get('http://localhost:9999/api/checkEvent',function(response){
-             this.posts = response.data;
-             setInterval(this.checkEvent, 10000);
-           }.bind(this));
-         };
+         checkEvent(){
+            const did = sessionStorage.getItem("did")
+            const token = sessionStorage.getItem("access_token")
 
+          this.event = setInterval(() => {
+            axios
+              .get('http://localhost:9999/api/checkOwnerShip', { params: {},
+                    headers:{
+                    "Authorization" :token,
+                    "did": did
+                  },
+                    })
+              .then(response => {
+                  alert('new Event')
+                  })
+              .catch(error => {
+                console.log(error)
+        })
+    }, 50000);
+}
 
     },
     created() {
       this.getJSONResponse()
       this.getUserInfo()
+      this.checkEvent()
 
     }
   }
