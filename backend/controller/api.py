@@ -364,13 +364,13 @@ def find_event():
 
     print('user_dapp_addr', user_dapp_addr)
     print('device_info', device_info)
-    deice_name = device_info['payload']['name']
+    device_name = device_info['payload']['name']
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
     print('c', user_event_request )
     _payload = user_event_request['payload']['_payload']
 
-    result = {'device_name': deice_name, 'RequestUserName': _payload , 'UserName' : did}
+    result = {'device_name': device_name, 'RequestUserName': _payload , 'UserName' : did}
 
     print(result)
 
@@ -382,19 +382,20 @@ def find_event():
 @api_page.route('/checkOwnerShip', methods=['GET'])
 def checkOwnerShip():
     did = request.headers.get('did')
-    print('did', did)
+    print('did:', did)
 
     user_info = api_page.resource['mongo'].find_user_by_did(did)
 
     user_dapp_addr = user_info['payload']['user_dapp_addr']
+    print('user_dapp_addr: ', user_dapp_addr)
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
-    print('c', user_event_request)
+    print('c-1', user_event_request)
     _payload = user_event_request['payload']['_payload']
 
     result = {'RequestUserName': _payload, 'UserName': did}
 
-    print(result)
+    print('result:', result)
 
     response = json.dumps(result, default=json_util.default)
 
@@ -413,12 +414,16 @@ def change_owner():
     UserPass = user_info['payload']['logpass']
     User_dapp_addr = user_info['payload']['user_dapp_addr']
 
+    user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(User_dapp_addr)
+    print('user-event', user_event_request)
+    _payload = user_event_request['payload']['_payload']
+
     ticket_info = api_page.resource['mongo'].find_ticket_by_did(UserDid)
     print('t', ticket_info)
     owner_ticket_addr = ticket_info['payload']['owner_ticket_addr']
 
-    # change_info = api_page.resource['mongo'].change_owner_by_device(DeviceName, UserDid)
-    # print('change info', change_info)
+    change_info = api_page.resource['mongo'].update_one(UserDid, _payload)
+    print('change info', change_info)
 
 
     # 9-1. Change Owner. (Bob -> John)

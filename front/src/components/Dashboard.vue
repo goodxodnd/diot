@@ -2,7 +2,7 @@
     <div class="row" :class="$mq" style="position:relative; top:-5%;">
       <div style="position: relative; top:33px; left:93%;">
         <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
-        <b-modal v-model="modalShow">Ownership Accept &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b-button style="color:white; background-color:#f04b4c; left:20%;"> <router-link to="/ownershipaccept" style="color:white;">ownership accept</router-link></b-button></b-modal>
+        <b-modal v-model="modalShow" style="position:relative; left:10%;">New Request or Accept<br><br><b-button style="position: relative; color:white; background-color:#f04b4c; left:50%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
       </div>
       <div style="position: relative; top:30px; left:86%;">
               <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
@@ -233,19 +233,19 @@ import ethmodal from './ethmodal'
                   },
                     })
               .then(response => {
-                  alert('new Event')
+                  console.log(response)
                   })
               .catch(error => {
                 console.log(error)
-        })
-    }, 50000);
-}
+          })
+        }, 50000);
+      }
 
     },
     created() {
       this.getJSONResponse()
       this.getUserInfo()
-      this.checkEvent()
+
 
     }
   }

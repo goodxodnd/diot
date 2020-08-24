@@ -27,6 +27,7 @@ export default new Vuex.Store({
             state.isLogin = false,
             state.isLoginError = false,
             sessionStorage.removeItem("access_token");
+            sessionStorage.removeItem("did");
 
         }
     },

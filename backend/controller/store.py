@@ -51,9 +51,11 @@ if __name__ == '__main__':
         if dict is not None:
             print(dict)
             if dict['event'] == 'OwnerChangeRequest':
+                dict['done'] = False
                 # add event to db
                 mongoResult = zen_mongo.add_event_Request(dict)
             else:
+                dict['done'] = False
                 mongoResult = zen_mongo.add_event_Accept(dict)
 
         else:

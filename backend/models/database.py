@@ -70,6 +70,7 @@ class ZenMongo():
         Args:
             collection: document를 업데이트하기 위한 컬렉션의 이름
             query: document를 업데이트 하기 위한 필터
+            {'id':3455}
             doc: 업데이트를 할 document
 
         Returns:
@@ -696,7 +697,7 @@ class ZenMongo():
                            에러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        query = {'user_did': user_did}
+        query = {'user_did': user_did, 'done': False}
         return self.find_one('eventRequest', query)
 
     def find_all_device(self):
@@ -728,7 +729,7 @@ class ZenMongo():
         query = {'_to': user_dapp_addr}
         return self.find_one('eventRequest', query)
 
-    def change_owner_by_device(self, DeviceName, UserDid ):
+    def change_owner_by_device(self, UserDid, NewUserDid):
         """ 사용자를 account로 검색
 
         Args:
@@ -741,5 +742,38 @@ class ZenMongo():
 
         """
         query = {'user_did': UserDid}
-        doc = {'DeviceName': DeviceName }
+        doc = {'user_did': NewUserDid}
         return self.replace_one('device', query, doc)
+
+    def update_one(self, UserDid, _payload):
+        """
+        :param filter: {'user_did': UserDid}
+        :param update: {'$set': {'user_did': 'new_userid'}}
+        :return:
+        """
+        filter = {'user_did': UserDid}
+        update = {'$set': {'user_did': _payload}}
+
+        return self.db['device'].find_one_and_update(filter, update)
+
+    def update_request(self):
+        """
+        :param filter: {'user_did': UserDid}
+        :param update: {'$set': {'user_did': 'new_userid'}}
+        :return:
+        """
+        filter = {'done': False}
+        update = {'$set': {'done': True}}
+
+        return self.db['eventRequest'].find_one_and_update(filter, update)
+
+    def update_accept(self):
+        """
+        :param filter: {'user_did': UserDid}
+        :param update: {'$set': {'user_did': 'new_userid'}}
+        :return:
+        """
+        filter = {'done': False}
+        update = {'$set': {'done': True}}
+
+        return self.db['eventAccept'].find_one_and_update(filter, update)
