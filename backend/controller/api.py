@@ -204,7 +204,6 @@ def getDeviceInfo(*args, **kwargs):
     return response
 
 
-
 @api_page.route('/fill_eth', methods=['GET'])
 @login_required
 def fill_eth(*args, **kwargs):

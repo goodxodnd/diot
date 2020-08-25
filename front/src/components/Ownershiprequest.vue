@@ -1,47 +1,13 @@
 <template>
     <div class="row">
-        <div class="col-md-2">
-          <div class= "ownership-sub-title">All Device List</div>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="ownership-main-title">Ownership Request</div>
         </div>
-        <div class="col-md-2">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <b-card class="authority-request-card01">
-               <b-card-text>
-               <div class="DeviceName"><b>{{DeviceName}}</b></div>
-                <div>Owner: {{UserDid}}</div>
-                {{Did}}
-                <br>2020.06.15<br>
-                 <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
-               </b-card-text>
-            </b-card>
+        <div class="col-md-11">
+          <div class="request-table">
+            <b-table striped hover :items="items"></b-table>
+          </div>
         </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8">
-          <b-card class="ownership-request-card05" title="Set Alram" sub-title="Device Info">
-            <b-button class= "request-btn" @click="requestOwner({DeviceName,UserDid,Did})" style="color:white; background-color:#f04b4c;"> Request</b-button>
-            <b-card-text> service-<br>2020.06.15</b-card-text>
-          </b-card>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8"></div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8"></div>
         <div class="col-md-1"></div>
     </div>
 
@@ -54,6 +20,7 @@ import axios from 'axios'
 export default {
     data() {
       return {
+        items: [],
         DeviceName: null,
         DeviceType: null,
         Did:null,
@@ -76,10 +43,21 @@ export default {
           })
           .then(response => {
             console.log(response)
-            this.DeviceName = response.data[0].name
-            this.DeviceType = response.data[0].deviceType
-            this.Did = response.data[0].did
-            this.UserDid = response.data[0].user_did
+            var local_items = []
+            for (var arr of response.data) {
+
+              var deviceInfo = {}
+
+              deviceInfo['DeviceName'] = arr.name
+              deviceInfo['DeviceType'] = arr.deviceType
+              deviceInfo['Did'] = arr.did
+              deviceInfo['UserDid'] = arr.user_did
+
+              local_items.push(deviceInfo)
+            }
+
+            this.items = local_items
+            console.log(this.items)
 
           })
           .catch(error => {
@@ -98,7 +76,7 @@ export default {
 position: relative;
 top: 70%;
 font-weight: bold;
-font-size: 1.6em;
+font-size: 1.5em;
 }
 .ownership-main-title {
 position: relative;
@@ -158,5 +136,9 @@ top: 80px;
 position: relative;
 top: 120px;
 height:450px;
+}
+.request-table {
+position: relative;
+top:40%;
 }
 </style>

@@ -53,13 +53,8 @@
       <router-link to="/tieraccpet" style="color:white;">Register</router-link>
     </div>
     <br>
-    <div class="title-menu" @click="logout()">Sign out</div>
-    <div class="title-menu">
-    <router-link to="/mypage" style="color:white;">mypage</router-link>
-    </div>
-    <div class="title-menu">
-    <router-link to="/no" style="color:white;">no</router-link>
-    </div>
+
+
 </div>
  </div>
 </template>

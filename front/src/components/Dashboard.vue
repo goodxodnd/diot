@@ -1,16 +1,21 @@
 <template>
     <div class="row" :class="$mq" style="position:relative; top:-5%;">
-      <div style="position: relative; top:33px; left:93%;">
-        <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
-        <b-modal v-model="modalShow" style="position:relative; left:10%;">New Request or Accept<br><br><b-button style="position: relative; color:white; background-color:#f04b4c; left:50%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
-      </div>
-      <div style="position: relative; top:30px; left:86%;">
+      <div style="position: relative; top: -6%; left:95%;">
+        <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent; top:-6%; left:95%;"><img src='../assets/alram.png'></b-button>
+        <b-modal v-model="modalShow" hide-footer>
+         <div class="d-block text-center">
+          <h5>New Request or Accept!</h5>
+         </div>
+          <br><b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
+     </div>
+      <div style="position: relative; top:-6%; left:87%;">
               <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
               <template v-slot:button-content>
               <img src='../assets/header-user.png'>
               </template>
-              <b-dropdown-item href="#">My page</b-dropdown-item>
-              <b-dropdown-item href="#">Sign out</b-dropdown-item>
+              <b-dropdown-item><router-link to="/mypage">My Page</router-link></b-dropdown-item>
+              <b-dropdown-item @click="logout()" >Sign out</b-dropdown-item>
+              <div class="title-menu" >Sign out</div>
               </b-dropdown>
           </div>
         <div class="col-md-12">
@@ -143,6 +148,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex"
 import axios from 'axios'
 import ethmodal from './ethmodal'
 
@@ -160,6 +166,7 @@ import ethmodal from './ethmodal'
       ethmodal
     },
     methods: {
+    ...mapActions(["logout"]),
       fill_eth() {
         const path = 'http://localhost:9999/api/fill_eth'
         const did = sessionStorage.getItem("did")
@@ -255,7 +262,7 @@ import ethmodal from './ethmodal'
 <style>
 .main-title02 {
 position: relative;
-top: 30%;
+top: 15%;
 font-weight: bold;
 font-size: 3em;
 }

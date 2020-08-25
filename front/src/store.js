@@ -100,6 +100,8 @@ export default new Vuex.Store({
               }
               else {
                 console.log('device register success')
+                alert('device register success')
+                router.push("/dashboard")
               }
             })
         },
