@@ -8,13 +8,9 @@
           <div class="ownership-main-title">Ownership Accept</div>
         </div>
         <div class="col-md-2">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
             <b-card class="authority-request-card01">
                <b-card-text>
                <div class="DeviceName"><b>{{DeviceName}}</b></div>
-
-
-                 <b-button class= "ownership-btn" style="color:white; background-color:#f04b4c;">Ownership</b-button>
                </b-card-text>
             </b-card>
         </div>
@@ -24,7 +20,7 @@
             <b-card-text>
              <b>{{DeviceName}}</b>
              <br><b>{{RequestUserName}}</b>
-            <b-button class= "request-btn" @click="acceptOwner({DeviceName,RequestUserName})" style="color:white; background-color:#f04b4c;"> Accept</b-button>
+            <b-button class= "accept-btn" @click="acceptOwner({DeviceName,RequestUserName})" style="color:white; background-color:#f04b4c; position:relative; left:81%;"> Accept</b-button>
             </b-card-text>
           </b-card>
         </div>
@@ -117,13 +113,13 @@ font-size: 3em;
 .ownership-btn {
 position: relative;
 top: 50%;
-left: 35%;
+left: 42%;
 background-color: #f04b4c;
 
 }
 .ownership-request-card01 {
 position: relative;
-top:35%;
+top:65%;
 }
 .ownership-request-card02 {
 position: relative;
@@ -137,10 +133,10 @@ top:-60%;
 position: relative;
 top:-45%;
 }
-.request-btn {
+.accept-btn {
 position: relative;
 top: 40%;
-left: 88%;
+left: 81%;
 background-color: #f04b4c;
 width:100px;
 }

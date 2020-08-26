@@ -5,7 +5,31 @@
         </div>
         <div class="col-md-11">
           <div class="request-table">
-            <b-table striped hover :items="items"></b-table>
+
+            <b-table-simple hover>
+              <b-thead head-variant="secondary">
+                <b-tr>
+                <b-th>DeviceName</b-th>
+                <b-th>DeviceType</b-th>
+                <b-th>Device Did</b-th>
+                <b-th>Owner Did</b-th>
+                <b-th></b-th>
+                </b-tr>
+              </b-thead>
+              <b-tbody>
+                <b-tr v-for="item in items">
+                  <b-td>{{item.DeviceName}}</b-td>
+                  <b-td>{{item.DeviceType}}</b-td>
+                  <b-td>{{item.Did}}</b-td>
+                  <b-td>{{item.UserDid}}</b-td>
+                  <b-td><b-button @click="requestOwner(item)">Request</b-button></b-td>
+
+
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
+
+
           </div>
         </div>
         <div class="col-md-1"></div>
