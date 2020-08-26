@@ -391,8 +391,9 @@ def checkOwnerShip():
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
     print('c-1', user_event_request)
     _payload = user_event_request['payload']['_payload']
+    event = user_event_request['payload']['event']
 
-    result = {'RequestUserName': _payload, 'UserName': did}
+    result = {'RequestUserName': _payload, 'UserName': did, 'event': event}
 
     print('result:', result)
 
@@ -424,6 +425,9 @@ def change_owner():
     change_info = api_page.resource['mongo'].update_one(UserDid, _payload)
     print('change info', change_info)
 
+    # Change DB request boolean (False -> True)
+    change_request = api_page.resource['mongo'].update_request()
+    print(change_request)
 
     # 9-1. Change Owner. (Bob -> John)
     ret = api_page.resource['ownership_manager'].change_owner(UserEoa, UserPass , User_dapp_addr, owner_ticket_addr, 'john@did')

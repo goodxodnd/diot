@@ -4,10 +4,10 @@
         <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent; top:-6%; left:95%;"><img src='../assets/alram.png'></b-button>
         <b-modal v-model="modalShow" hide-footer>
          <div class="d-block text-center">
-          <h5>New Request or Accept!</h5>
+          <h5>{{modalTitle}}</h5>
          </div>
           <br><b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
-     </div>
+      </div>
       <div style="position: relative; top:-6%; left:87%;">
               <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
               <template v-slot:button-content>
@@ -21,11 +21,7 @@
         <div class="col-md-12">
           <div class="main-title02">Dashboard</div>
         </div>
-        <div class="col-md-12">
-          <div class="e-button">
-            <b-button @click="fill_eth()">charging Eth</b-button><p>Ethereum Balance: {{balance}} Wei</p>
-          </div>
-        </div>
+
         <div class="col-md-7">
           <div class="Authority-box">
             <b-card class="dash-card01" title="Authority Request result"><b-button class= "more brn-primary-outline " style="color:black; background-color:transparent; outline:none;">+More</b-button>
@@ -155,6 +151,7 @@ import ethmodal from './ethmodal'
   export default {
     data() {
       return {
+        modalTitle: 'None Alarm',
         balance: 0,
         userDid: null,
         userEmail: null,
@@ -241,6 +238,14 @@ import ethmodal from './ethmodal'
                     })
               .then(response => {
                   console.log(response)
+                  console.log(response.data.event)
+
+                  if (response.data.event == 'OwnerChangeRequest')
+                  {
+                      this.modalTitle = 'Owner Change Request!'
+                    }
+
+
                   })
               .catch(error => {
                 console.log(error)
@@ -252,6 +257,7 @@ import ethmodal from './ethmodal'
     created() {
       this.getJSONResponse()
       this.getUserInfo()
+      this.checkEvent()
 
 
     }
