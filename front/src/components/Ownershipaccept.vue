@@ -8,7 +8,7 @@
           <div class="ownership-main-title">Ownership Accept</div>
         </div>
         <div class="col-md-2">
-            <b-card class="authority-request-card01">
+            <b-card class="authority-request-card01" style="position: relative; top:80%;">
                <b-card-text>
                <div class="DeviceName"><b>{{DeviceName}}</b></div>
                </b-card-text>
@@ -119,7 +119,7 @@ background-color: #f04b4c;
 }
 .ownership-request-card01 {
 position: relative;
-top:65%;
+top:80%;
 }
 .ownership-request-card02 {
 position: relative;

@@ -22,7 +22,7 @@
                   <b-td>{{item.DeviceType}}</b-td>
                   <b-td>{{item.Did}}</b-td>
                   <b-td>{{item.UserDid}}</b-td>
-                  <b-td><b-button @click="requestOwner(item)">Request</b-button></b-td>
+                  <b-td><b-button @click="requestOwner(item)" style="color:white; background-color:#f04b4c;">Request</b-button></b-td>
 
 
                 </b-tr>

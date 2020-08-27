@@ -81,7 +81,7 @@ export default new Vuex.Store({
                 })
             }
             else {
-                alert('password is not same')
+                alert('Password is not same')
             }
         },
         submit({commit}, deviceObj) {
@@ -100,7 +100,7 @@ export default new Vuex.Store({
               }
               else {
                 console.log('device register success')
-                alert('device register success')
+                alert('Device Register Success!')
                 router.push("/dashboard")
               }
             })
@@ -120,7 +120,7 @@ export default new Vuex.Store({
                 console.log('error')
               }
               else {
-                console.log('device register success')
+                alert('Request Success!')
               }
             })
 
@@ -140,6 +140,7 @@ export default new Vuex.Store({
               }
               else {
                 console.log(' accpet owner success')
+                alert('Accept Success!')
               }
             })
 

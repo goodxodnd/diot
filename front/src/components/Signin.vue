@@ -4,8 +4,8 @@
         <div class="col-md-5">
           <div class="box01">
             <div class="box01-text">Welcome to diot</div>
-            <div class="box01-subtext">sldkfnsldkf nlskdnfklsd sdlkfnsldkfs <br>sdkjfsdf skdjfnsdkj sdkjfnssz fsdsasd<br>
-            sfsdfsdlkdnfsf sdlfknsdfk sdflksndfk<br> sdkjfskdjf sdfjs sdkjf. </div>
+            <div class="box01-subtext">Manage your professional diot.<br>Diot is a decentralized Web service <br>that uses a Blockchain.<br>
+            </div>
             <b-button variant="light" class="know-more">Know More</b-button>
           </div>
         </div>

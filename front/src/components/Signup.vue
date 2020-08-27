@@ -5,8 +5,8 @@
         <div class="col-md-5">
           <div class="box03">
             <div class="box03-text">Manage your<br> professional diot</div>
-            <div class="box03-subtext">sldkfnsldkf nlskdnfklsd sdlkfnsldkfs <br>sdkjfsdf skdjfnsdkj sdkjfnssz fsdsasd<br>
-            sfsdfsdlkdnfsf sdlfknsdfk sdflksndfk<br> sdkjfskdjf sdfjs sdkjf. </div>
+            <div class="box03-subtext">Diot is a decentralized Web service <br>that uses a Blockchain.<br>
+            Welcome to Diot.<br><br>Can you join us? </div>
           </div>
         </div>
         <div class="col-md-5">
@@ -18,7 +18,7 @@
               <input class="password" v-model="password" name="password" type="password" placeholder="Enter Password"/>
               <input class="password02" v-model="passwordConfirm" name="passwordConfirm" type="password" placeholder="Renter Password"/>
             </div>
-            <b-button @click="register({did,password,passwordConfirm,Email})" variant="light" class="signup">S I G N  U P</b-button></div>
+            <b-button @click="register({did,password,passwordConfirm,Email})" variant="light" class="signup-btn" style="position:relative;">S I G N  U P</b-button></div>
           <div class="question">
             <a href="/signup.vue">Sign up here</a>
           </div>
@@ -121,11 +121,12 @@ position: relative;
 top: 130px;
 left: 22%;
 }
-.signup {
-width: 60%;
+.signup-btn {
+width:55%;
 height:50px;
 position: relative;
-left:23%;
+left:22%;
+top:32%;
 font-size: 27px;
 font-weight: bold;
 background-color:#3d6098;

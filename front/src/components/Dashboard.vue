@@ -1,7 +1,7 @@
 <template>
     <div class="row" :class="$mq" style="position:relative; top:-5%;">
-      <div style="position: relative; top: -6%; left:95%;">
-        <b-button @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent; top:-6%; left:95%;"><img src='../assets/alram.png'></b-button>
+      <div style="position: relative; top:2px; left: 94%;">
+        <b-button class="alarm" @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
         <b-modal v-model="modalShow" hide-footer>
          <div class="d-block text-center">
           <h5>{{modalTitle}}</h5>
@@ -27,7 +27,7 @@
             <b-card class="dash-card01" title="Authority Request result"><b-button class= "more brn-primary-outline " style="color:black; background-color:transparent; outline:none;">+More</b-button>
                <b-card-text>
                   <img src="../assets/user.png" style="position:relative; top:-20px; ">
-                 <div class="content01"><b>UserDid : {{userDid}}</b><br> user Email : {{userEmail}} <br> </div>
+                 <div class="content01"><b>{{userDid}}</b><br> {{userEmail}} <br> </div>
                </b-card-text>
             </b-card>
              </div>
@@ -120,7 +120,7 @@
               <br>
               <br>
             <b-card-text class="text03">
-                Request Tier
+                Request Ticket
             </b-card-text>
             <b-button class= "request01" style="color:white; background-color:#f04b4c;">Request</b-button>
           </b-card>
@@ -250,7 +250,7 @@ import ethmodal from './ethmodal'
               .catch(error => {
                 console.log(error)
           })
-        }, 50000);
+        }, 5000);
       }
 
     },
