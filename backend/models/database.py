@@ -406,9 +406,7 @@ class ZenMongo():
 
         """
         query = {'user_did': did}
-        return self.find_one('users', query)
-
-
+        return self.find('users', query)
 
     #############################################
     # Deployed DAPP utility methods
@@ -714,6 +712,21 @@ class ZenMongo():
         """
         return self.find_all('device')
 
+    def find_Mydevice_did(self, user_did):
+        """ 사용자 device 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'user_did': user_did}
+        return self.find('device', query)
+
     def find_EventRequest_by_DappAddr(self, user_dapp_addr):
         """ Event Request를 검색
 
@@ -777,3 +790,14 @@ class ZenMongo():
         update = {'$set': {'done': True}}
 
         return self.db['eventAccept'].find_one_and_update(filter, update)
+
+    def ticket_update(self, UserDid, _payload ,new_user_dapp_addr):
+        """
+        :param filter: {'user_did': UserDid}
+        :param update: {'$set': {'user_did': 'new_userid'}}
+        :return:
+        """
+        filter = {'belongTo': UserDid}
+        update = {'$set': {'belongTo': _payload, 'user_dapp_addr': new_user_dapp_addr}}
+
+        return self.db['ticket'].find_one_and_update(filter, update)

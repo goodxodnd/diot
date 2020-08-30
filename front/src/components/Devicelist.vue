@@ -1,55 +1,98 @@
 <template>
-  <div>
     <div class="row">
-        <div class="col-md-2.5">
-          <div class="device-list-title">Device List</div>
+        <div class="col-md-12">
+          <div class="ownership-main-title">My Device List</div>
         </div>
-        <div class="col-md-8">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search" style="position:relative; top:50%; ">
-        </div>
-        <div class="col-md-2"></div>
         <div class="col-md-11">
-            <b-card class= "device-list01" >
-              <b-button class= "service" style="color:white; background-color:#f04b4c;">Service</b-button>
-              <b-button class= "using" style="color:white; background-color:#f04b4c;">Using</b-button>
-              <img src="../assets/printer.png" style="position:relative; top:15%; left:-20%; ">
-                 <div class="content02"><b>Printer(Color)</b><br>Device Info<br>DID-NUMBER 11564-23182-12945</div>
-            </b-card>
+          <div class="device-table">
+
+            <b-table-simple hover>
+              <b-thead head-variant="secondary">
+                <b-tr>
+                <b-th>DeviceName</b-th>
+                <b-th>DeviceType</b-th>
+                <b-th>Info</b-th>
+                <b-th>Device Did</b-th>
+                <b-th>Owner Did</b-th>
+
+                </b-tr>
+              </b-thead>
+              <b-tbody>
+                <b-tr v-for="item in items">
+                  <b-td>{{item.DeviceName}}</b-td>
+                  <b-td>{{item.DeviceType}}</b-td>
+                  <b-td>{{item.Info}}</b-td>
+                  <b-td>{{item.Did}}</b-td>
+                  <b-td>{{item.UserDid}}</b-td>
+
+
+
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
+
+
+          </div>
         </div>
         <div class="col-md-1"></div>
-        <div class="col-md-11">
-            <b-card class= "device-list02" >
-              <b-button class= "service" style="color:white; background-color:#f04b4c;">Service</b-button>
-              <b-button class= "using" style="color:white; background-color:#f04b4c;">Using</b-button>
-              <img src="../assets/printer.png" style="position:relative; top:15%; left:-20% ">
-                 <div class="content02"><b>Printer(Mono)</b><br>Device Info<br>DID-NUMBER 11564-25282-23945</div>
-            </b-card>
-        </div>
-        <div class="col-md-1"></div>
-          <div class="col-md-11">
-            <b-card class= "device-list03" >
-              <b-button class= "service" style="color:white; background-color:#f04b4c;">Service</b-button>
-              <b-button class= "using" style="color:white; background-color:#f04b4c;">Using</b-button>
-              <img src="../assets/watch.png" style="position:relative; top:15%; left:-20% ">
-                 <div class="content02"><b>Watch</b><br>Device Info<br>DID-NUMBER 23422-45673-12643</div>
-            </b-card>
-          </div>
-        <div class="col-md-1"></div>
-          <div class="col-md-11">
-            <b-card class= "device-list04" >
-              <b-button class= "service" style="color:white; background-color:#f04b4c;">Service</b-button>
-              <b-button class= "using" style="color:white; background-color:#f04b4c;">Using</b-button>
-              <img src="../assets/tabelet.png" style="position:relative; top:15%; left:-20%">
-                 <div class="content02"><b>Tabelet</b><br>Device Info<br>DID-NUMBER 23421-23434-39423</div>
-            </b-card>
-          </div>
-        <div class="col-md-1"></div>
-       </div>
-  </div>
+    </div>
 
 </template>
 
 <script>
+import axios from 'axios'
+
+export default {
+    data() {
+      return {
+        items: [],
+      }
+    },
+    methods: {
+      getMyDeviceList() {
+        const did = sessionStorage.getItem("did")
+        const path = 'http://localhost:9999/api/getMyDeviceList'
+        const token = sessionStorage.getItem("access_token")
+
+        axios
+          .get(path, {params: {},
+          headers: {
+            "Authorization" :token,
+            "did" : did
+          }
+          })
+          .then(response => {
+            console.log(response)
+            var local_items = []
+
+            for (var arr of response.data.payload) {
+
+              var deviceInfo = {}
+
+              deviceInfo['DeviceName'] = arr.name
+              deviceInfo['DeviceType'] = arr.deviceType
+              deviceInfo['Info'] = arr.info
+              deviceInfo['Did'] = arr.did
+              deviceInfo['UserDid'] = arr.user_did
+
+              console.log('Info',deviceInfo)
+
+              local_items.push(deviceInfo)
+            }
+
+            this.items = local_items
+            console.log(this.items)
+
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    created() {
+      this.getMyDeviceList()
+    }
+  }
 </script>
 
 <style>

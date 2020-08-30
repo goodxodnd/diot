@@ -132,15 +132,17 @@ export default new Vuex.Store({
           axios
             .post("http://localhost:9999/api/change_owner", acceptObj)
             .then(res => {
-              console.log(requestObj)
+              console.log(acceptObj)
               let response = res.data
+              alert('Accept Success!')
+              router.push("/dashboard")
 
               if (response['code'] == '404'){
                 console.log('error')
               }
               else {
                 console.log(' accpet owner success')
-                alert('Accept Success!')
+
               }
             })
 

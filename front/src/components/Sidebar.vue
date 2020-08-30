@@ -8,9 +8,6 @@
   <div class="menu">
    <div class="title-menu">Device</div>
     <div class="main-menu">
-      <router-link to="/devicesearch" style="color:white;">Search</router-link>
-    </div>
-    <div class="main-menu">
       <router-link to="/devicelist" style="color:white;">List</router-link>
     </div>
     <div class="main-menu">
@@ -20,19 +17,19 @@
     <br>
    <div class="title-menu">Service</div>
     <div class="main-menu">
-      <router-link to="/service" style="color:white;">My Service</router-link>
+      My Service
     </div>
     <div class="main-menu">
-       <router-link to="/serviceregister" style="color:white;">Register</router-link>
+       Register
     </div>
     <br>
     <br>
    <div class="title-menu">Authority</div>
     <div class="main-menu">
-      <router-link to="/authorityrequest" style="color:white;">Request</router-link>
+      Request
     </div>
     <div class="main-menu">
-       <router-link to="/authorityaccept" style="color:white;">Accept</router-link>
+       Accept
     </div>
     <br>
     <br>
@@ -47,10 +44,10 @@
     <br>
    <div class="title-menu">Ticket</div>
     <div class="main-menu">
-      <router-link to="/tierrequest" style="color:white;">My Ticket</router-link>
+      My Ticket
    </div>
     <div class="main-menu">
-      <router-link to="/tieraccpet" style="color:white;">Register</router-link>
+      Register
     </div>
     <br>
 

@@ -204,6 +204,37 @@ def getDeviceInfo(*args, **kwargs):
     return response
 
 
+@api_page.route('/getMyDeviceList', methods=['GET'])
+@login_required
+def getMyDeviceList(*args, **kwargs):
+    did = request.headers.get('did')
+
+    myDeviceInfo = api_page.resource['mongo'].find_Mydevice_did(did)
+    print('My device',myDeviceInfo)
+
+    # if device_info['code'] == 200:
+    #
+    #     # get params
+    #     print(device_info)
+    #
+    #     payload = device_info['payload']
+    #
+    #     return payload
+    #
+    #     # parameters = {}
+    #     # parameters['account'] = payload['coreAccount']
+    #     #
+    #     # # call core
+    #     # result = api_page.resource['core'].getBalance(parameters)
+    #     # response = json.dumps(result, default=json_util.default)
+    #     # print(response)
+    #     # return response
+    # else:
+    #     return device_info
+    response = json.dumps(myDeviceInfo, default=json_util.default)
+    return response
+
+
 @api_page.route('/fill_eth', methods=['GET'])
 @login_required
 def fill_eth(*args, **kwargs):
@@ -366,7 +397,7 @@ def find_event():
     device_name = device_info['payload']['name']
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
-    print('c', user_event_request )
+    print('user_event_request!', user_event_request )
     _payload = user_event_request['payload']['_payload']
 
     result = {'device_name': device_name, 'RequestUserName': _payload , 'UserName' : did}
@@ -390,16 +421,25 @@ def checkOwnerShip():
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
     print('c-1', user_event_request)
-    _payload = user_event_request['payload']['_payload']
-    event = user_event_request['payload']['event']
 
-    result = {'RequestUserName': _payload, 'UserName': did, 'event': event}
+    if user_event_request['code'] == 404:
 
-    print('result:', result)
+        print('none request')
 
-    response = json.dumps(result, default=json_util.default)
+        return jsonify('none request')
 
-    return response
+    else:
+
+        _payload = user_event_request['payload']['_payload']
+        event = user_event_request['payload']['event']
+
+        result = {'RequestUserName': _payload, 'UserName': did, 'event': event}
+
+        print('result:', result)
+
+        response = json.dumps(result, default=json_util.default)
+
+        return response
 
 
 @api_page.route('/change_owner', methods=['POST'])
@@ -418,16 +458,26 @@ def change_owner():
     print('user-event', user_event_request)
     _payload = user_event_request['payload']['_payload']
 
+    # new user info
+    new_user_info = api_page.resource['mongo'].find_user_by_did(_payload)
+    new_user_dapp_addr = new_user_info['payload']['user_dapp_addr']
+
+
     ticket_info = api_page.resource['mongo'].find_ticket_by_did(UserDid)
     print('t', ticket_info)
     owner_ticket_addr = ticket_info['payload']['owner_ticket_addr']
 
+    # Change DB Device
     change_info = api_page.resource['mongo'].update_one(UserDid, _payload)
     print('change info', change_info)
 
     # Change DB request boolean (False -> True)
     change_request = api_page.resource['mongo'].update_request()
     print(change_request)
+
+    # Change Ticket
+    ticket_change = api_page.resource['mongo'].ticket_update(UserDid, _payload, new_user_dapp_addr)
+    print('ticket', ticket_change)
 
     # 9-1. Change Owner. (Bob -> John)
     ret = api_page.resource['ownership_manager'].change_owner(UserEoa, UserPass , User_dapp_addr, owner_ticket_addr, 'john@did')

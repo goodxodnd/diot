@@ -1,7 +1,8 @@
 <template>
     <div class="row" :class="$mq" style="position:relative; top:-5%;">
+      <div style="position:relative; left:98%;" v-show="isAlarm"> <img src='../assets/error.png'></div>
       <div style="position: relative; top:2px; left: 94%;">
-        <b-button class="alarm" @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/alram.png'></b-button>
+        <b-button class="alarm" @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/noneAlarm.png'></b-button>
         <b-modal v-model="modalShow" hide-footer>
          <div class="d-block text-center">
           <h5>{{modalTitle}}</h5>
@@ -151,6 +152,7 @@ import ethmodal from './ethmodal'
   export default {
     data() {
       return {
+        isAlarm: false,
         modalTitle: 'None Alarm',
         balance: 0,
         userDid: null,
@@ -243,6 +245,7 @@ import ethmodal from './ethmodal'
                   if (response.data.event == 'OwnerChangeRequest')
                   {
                       this.modalTitle = 'Owner Change Request!'
+                      this.isAlarm = true
                     }
 
 
