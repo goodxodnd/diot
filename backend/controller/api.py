@@ -179,7 +179,7 @@ def getDeviceInfo(*args, **kwargs):
     did = request.headers.get('did')
 
     device_info = api_page.resource['mongo'].find_all_device()
-    print(device_info)
+    print('deviceinfo', device_info)
 
     # if device_info['code'] == 200:
     #
@@ -201,6 +201,7 @@ def getDeviceInfo(*args, **kwargs):
     # else:
     #     return device_info
     response = json.dumps(device_info, default=json_util.default)
+    print('response', response)
     return response
 
 
@@ -388,23 +389,26 @@ def find_event():
     print('did', did)
 
     user_info = api_page.resource['mongo'].find_user_by_did(did)
-    device_info = api_page.resource['mongo'].find_device_by_did(did)
+    device_all_info = api_page.resource['mongo'].find_device_by_did(did)
 
     user_dapp_addr = user_info['payload']['user_dapp_addr']
 
     print('user_dapp_addr', user_dapp_addr)
-    print('device_info', device_info)
-    device_name = device_info['payload']['name']
+    print('device_info', device_all_info)
+    device_name = device_all_info['payload']['name']
+    device_info = device_all_info['payload']['info']
+    device_did = device_all_info['payload']['did']
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
     print('user_event_request!', user_event_request )
     _payload = user_event_request['payload']['_payload']
 
-    result = {'device_name': device_name, 'RequestUserName': _payload , 'UserName' : did}
+    result = {'device_name': device_name, 'device_info': device_info,'device_did': device_did , 'RequestUserName': _payload , 'UserName' : did}
 
     print(result)
 
     response = json.dumps(result, default=json_util.default)
+    print('event response', response)
 
     return response
 
@@ -417,10 +421,8 @@ def checkOwnerShip():
     user_info = api_page.resource['mongo'].find_user_by_did(did)
 
     user_dapp_addr = user_info['payload']['user_dapp_addr']
-    print('user_dapp_addr: ', user_dapp_addr)
 
     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
-    print('c-1', user_event_request)
 
     if user_event_request['code'] == 404:
 

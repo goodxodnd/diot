@@ -18,7 +18,8 @@
               <b-dropdown-item @click="logout()" >Sign out</b-dropdown-item>
               <div class="title-menu" >Sign out</div>
               </b-dropdown>
-          </div>
+      </div>
+
         <div class="col-md-12">
           <div class="main-title02">Dashboard</div>
         </div>
@@ -147,7 +148,6 @@
 <script>
 import { mapState, mapActions } from "vuex"
 import axios from 'axios'
-import ethmodal from './ethmodal'
 
   export default {
     data() {
@@ -160,9 +160,6 @@ import ethmodal from './ethmodal'
          modalShow: false,
          event: 500
       }
-    },
-    components: {
-      ethmodal
     },
     methods: {
     ...mapActions(["logout"]),

@@ -1,48 +1,58 @@
 <template>
     <div class="row">
-        <div class="col-md-2">
-          <div class= "ownership-sub-title">All Device List</div>
+
+        <div style="position: relative; top:2px; left: 94%;">
+        <b-button class="alarm" @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/noneAlarm.png'></b-button>
+        <b-modal v-model="modalShow" hide-footer>
+         <div class="d-block text-center">
+          <h5>{{modalTitle}}</h5>
+         </div>
+          <br><b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
         </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-9">
+        <div style="position: relative; top:-6%; left:87%;">
+              <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+              <template v-slot:button-content>
+              <img src='../assets/header-user.png'>
+              </template>
+              <b-dropdown-item><router-link to="/mypage">My Page</router-link></b-dropdown-item>
+              <b-dropdown-item @click="logout()" >Sign out</b-dropdown-item>
+              <div class="title-menu" >Sign out</div>
+              </b-dropdown>
+        </div>
+
+        <div class="col-md-12">
           <div class="ownership-main-title">Ownership Accept</div>
         </div>
-        <div class="col-md-2">
-            <b-card class="authority-request-card01" style="position: relative; top:80%;">
-               <b-card-text>
-               <div class="DeviceName"><b>{{DeviceName}}</b></div>
-               </b-card-text>
-            </b-card>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8">
-          <b-card class="ownership-request-card05">
-            <b-card-text>
-             <b>{{DeviceName}}</b>
-             <br><b>{{RequestUserName}}</b>
-            <b-button class= "accept-btn" @click="acceptOwner({DeviceName,RequestUserName})" style="color:white; background-color:#f04b4c; position:relative; left:81%;"> Accept</b-button>
-            </b-card-text>
-          </b-card>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8"></div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-8"></div>
-        <div class="col-md-1"></div>
-    </div>
+        <div class="col-md-11">
+          <div class="accept-table">
 
+            <b-table-simple hover>
+              <b-thead head-variant="secondary">
+                <b-tr>
+                <b-th>DeviceName</b-th>
+                <b-th>DeviceInfo</b-th>
+                <b-th>Device Did</b-th>
+                <b-th>Request User</b-th>
+                <b-th></b-th>
+                </b-tr>
+              </b-thead>
+              <b-tbody>
+                <b-tr v-for="item in items">
+                  <b-td>{{this.DeviceName}}</b-td>
+                  <b-td>{{this.DeviceInfo}}</b-td>
+                  <b-td>{{this.DeviceDid}}</b-td>
+                  <b-td>{{this.RequestUserName}}</b-td>
+                  <b-td><b-button @click="acceptOwner({DeviceName,RequestUserName})" style="color:white; background-color:#f04b4c;">Accept</b-button></b-td>
+
+
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
+
+
+          </div>
+        </div>
+        <div class="col-md-1"></div>
 
 </template>
 
@@ -53,13 +63,17 @@ import axios from 'axios'
 export default {
     data() {
       return {
+        isAlarm: false,
         DeviceName: null,
         UserName:null,
-        RequestUserName:null
+        RequestUserName:null,
+        DeviceInfo: null,
+        DeviceDid: null
       }
     },
     methods: {
       ...mapActions(["acceptOwner"]),
+      ...mapActions(["logout"]),
       find_event() {
         const did = sessionStorage.getItem("did")
         const path = 'http://localhost:9999/api/find_event'
@@ -77,6 +91,8 @@ export default {
             this.DeviceName = response.data.device_name
             this.RequestUserName = response.data.RequestUserName
             this.UserName = response.data.UserName
+            this.DeviceInfo = response.data.device_info
+            this.DeviceDid = response.data.device_did
 
           })
           .catch(error => {
@@ -93,13 +109,14 @@ export default {
 <style>
 .ownership-sub-title {
 position: relative;
-top: 70%;
+top: 300%;
+left: -45%;
 font-weight: bold;
 font-size: 1.6em;
 }
 .ownership-main-title {
 position: relative;
-top: 40%;
+top: -10%;
 font-weight: bold;
 font-size: 3em;
 }
