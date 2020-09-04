@@ -742,6 +742,22 @@ class ZenMongo():
         query = {'_to': user_dapp_addr}
         return self.find_one('eventRequest', query)
 
+    def find_EventAccept_by_DappAddr(self, user_dapp_addr):
+        """ Event Accept를 검색
+
+        Args:
+            DappAddress: 사용자의 DappAddress
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'_new': user_dapp_addr}
+        return self.find_one('eventAccept', query)
+
+
     def change_owner_by_device(self, UserDid, NewUserDid):
         """ 사용자를 account로 검색
 

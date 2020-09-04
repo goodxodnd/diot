@@ -1,24 +1,5 @@
 <template>
-    <div class="row" :class="$mq" style="position:relative; top:-5%;">
-      <div style="position:relative; left:98%;" v-show="isAlarm"> <img src='../assets/error.png'></div>
-      <div style="position: relative; top:2px; left: 94%;">
-        <b-button class="alarm" @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/noneAlarm.png'></b-button>
-        <b-modal v-model="modalShow" hide-footer>
-         <div class="d-block text-center">
-          <h5>{{modalTitle}}</h5>
-         </div>
-          <br><b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
-      </div>
-      <div style="position: relative; top:-6%; left:87%;">
-              <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-              <template v-slot:button-content>
-              <img src='../assets/header-user.png'>
-              </template>
-              <b-dropdown-item><router-link to="/mypage">My Page</router-link></b-dropdown-item>
-              <b-dropdown-item @click="logout()" >Sign out</b-dropdown-item>
-              <div class="title-menu" >Sign out</div>
-              </b-dropdown>
-      </div>
+    <div class="row" :class="$mq" style="position:relative;">
 
         <div class="col-md-12">
           <div class="main-title02">Dashboard</div>
@@ -146,13 +127,13 @@
 </template>
 
 <script>
+import store from '../store'
 import { mapState, mapActions } from "vuex"
 import axios from 'axios'
 
   export default {
     data() {
       return {
-        isAlarm: false,
         modalTitle: 'None Alarm',
         balance: 0,
         userDid: null,
@@ -160,6 +141,9 @@ import axios from 'axios'
          modalShow: false,
          event: 500
       }
+    },
+    computed: {
+        ...mapState(["isAlarm"])
     },
     methods: {
     ...mapActions(["logout"]),
@@ -236,20 +220,38 @@ import axios from 'axios'
                   },
                     })
               .then(response => {
-                  console.log(response)
-                  console.log(response.data.event)
+                  console.log(response.data.event, response)
 
                   if (response.data.event == 'OwnerChangeRequest')
                   {
                       this.modalTitle = 'Owner Change Request!'
-                      this.isAlarm = true
+                      this.$store.commit("alarmOn")
                     }
-
-
                   })
               .catch(error => {
                 console.log(error)
-          })
+                })
+
+            axios
+              .get('http://localhost:9999/api/checkOwnerShipAccept', { params: {},
+                    headers:{
+                    "Authorization" :token,
+                    "did": did
+                  },
+                    })
+              .then(response => {
+                  console.log(response.data.event, response)
+
+                  if (response.data.event == 'OwnerChangeRequest')
+                  {
+                      this.modalTitle = 'Owner Change Request!'
+                      this.$store.commit("alarmOn")
+                    }
+                  })
+              .catch(error => {
+                console.log(error)
+                })
+
         }, 5000);
       }
 
@@ -430,7 +432,6 @@ font-size: 0.9em;
     top:50%;
 
   }
-
 
 
 

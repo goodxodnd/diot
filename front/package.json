@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
+    "sweetalert": "^2.1.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-js-modal": "^2.0.0-rc.6",

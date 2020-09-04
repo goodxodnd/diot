@@ -444,10 +444,34 @@ def checkOwnerShip():
         return response
 
 
+@api_page.route('/checkOwnerShipAccept', methods=['GET'])
+def checkOwnerShipAccept():
+    did = request.headers.get('did')
+    print('did:', did)
+
+    user_info = api_page.resource['mongo'].find_user_by_did(did)
+
+    user_dapp_addr = user_info['payload']['user_dapp_addr']
+
+    user_event_request = api_page.resource['mongo'].find_EventAccept_by_DappAddr(user_dapp_addr)
+
+    if user_event_request['code'] == 404:
+
+        print('none accept')
+
+        return jsonify('none accept')
+
+    else:
+
+
+        return jsonify('accpet done')
+
+
 @api_page.route('/change_owner', methods=['POST'])
 def change_owner():
     UserDid = request.json['didName']
     DeviceName = request.json['DeviceName']
+    RequestUserName = request.json['RequestUserName']
     print('userdid', UserDid)
 
     user_info = api_page.resource['mongo'].find_user_by_did(UserDid)
@@ -475,14 +499,14 @@ def change_owner():
 
     # Change DB request boolean (False -> True)
     change_request = api_page.resource['mongo'].update_request()
-    print(change_request)
+    print('change_request_boolean', change_request)
 
     # Change Ticket
     ticket_change = api_page.resource['mongo'].ticket_update(UserDid, _payload, new_user_dapp_addr)
     print('ticket', ticket_change)
 
     # 9-1. Change Owner. (Bob -> John)
-    ret = api_page.resource['ownership_manager'].change_owner(UserEoa, UserPass , User_dapp_addr, owner_ticket_addr, 'john@did')
+    ret = api_page.resource['ownership_manager'].change_owner(UserEoa, UserPass , User_dapp_addr, owner_ticket_addr, RequestUserName)
     if ret['code'] == ResCode.OK.value:
         print('well')
 

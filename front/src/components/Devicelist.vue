@@ -1,31 +1,10 @@
 <template>
     <div class="row">
-        <div style="position: relative; top:2px; left: 94%;">
-        <b-button class="alarm" @click="modalShow = !modalShow" style="background-color:transparent; border: solid transparent;"><img src='../assets/noneAlarm.png'></b-button>
-        <b-modal v-model="modalShow" hide-footer>
-         <div class="d-block text-center">
-          <h5>{{modalTitle}}</h5>
-         </div>
-          <br><b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
-      </div>
-      <div style="position: relative; top:-6%; left:87%;">
-              <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-              <template v-slot:button-content>
-              <img src='../assets/header-user.png'>
-              </template>
-              <b-dropdown-item><router-link to="/mypage">My Page</router-link></b-dropdown-item>
-              <b-dropdown-item @click="logout()" >Sign out</b-dropdown-item>
-              <div class="title-menu" >Sign out</div>
-              </b-dropdown>
-      </div>
-
-
-
         <div class="col-md-12">
-          <div class="ownership-main-title">My Device List</div>
+          <div class="device-main-title">My Device List</div>
         </div>
         <div class="col-md-11">
-          <div class="device-table">
+          <div class="device-table" style="position:relative; top:10%;">
 
             <b-table-simple hover>
               <b-thead head-variant="secondary">
@@ -120,6 +99,12 @@ export default {
 </script>
 
 <style>
+.device-main-title {
+position: relative;
+top: -10%;
+font-weight: bold;
+font-size: 3em;
+}
 .device-list-title {
 position: relative;
 top: 30%;
