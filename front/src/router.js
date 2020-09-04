@@ -19,7 +19,7 @@ import Tieraccept from './components/Tieraccept.vue'
 import Tiermanagement from './components/Tiermanagement.vue'
 import Tierrequest from './components/Tierrequest.vue'
 import Tierserviceset from './components/Tierserviceset.vue'
-
+import No from './components/No.vue'
 import store from "./store";
 
 
@@ -161,6 +161,12 @@ export default new Router({
         component: Devicesearch,
         beforeEnter: onlyAuthUser
     },
+    {
+        path:'/no',
+        name: 'No',
+        component: No,
+        beforeEnter: onlyAuthUser
+    }
 
   ]
 })

@@ -10,17 +10,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueMq from 'vue-mq'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.config.productionTip = false
 
 
-Vue.use(BootstrapVue,VueMq, {
-  breakpoints: {
-    mobile: 1600,
-    desktop:Infinity,
-  },
-  defaultBreakpoint:'md'
-});
+Vue.use(BootstrapVue);
+Vue.use(VueSweetalert2);
 
 // /* eslint-disable no-new */
 // new Vue({

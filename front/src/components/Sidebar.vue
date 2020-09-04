@@ -49,6 +49,10 @@
     <div class="main-menu">
       Register
     </div>
+   <div class="title-menu">Test</div>
+   <div class="main-menu">
+       <router-link to="/no" style="color:white;">No</router-link>
+    </div>
     <br>
 
 

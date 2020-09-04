@@ -100,7 +100,12 @@ export default new Vuex.Store({
               }
               else {
                 console.log('device register success')
-                alert('Device Register Success!')
+                  $swal.fire({
+                  icon: 'success',
+                  title: 'Device Regist Success!',
+                  showConfirmButton: false,
+                  timer: 1500
+                      })
                 router.push("/dashboard")
               }
             })

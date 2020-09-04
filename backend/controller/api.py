@@ -10,11 +10,6 @@ from backend.models.dom import DApp, Ticket
 
 from backend.controller.config import CONFIG, Mode, ResCode
 
-
-
-from pymongo import MongoClient, collection
-
-
 api_page = Blueprint('api_page',__name__)
 api_page.resource = {'JWT_SECRET_KEY': '8akdjfl*#Q@OS)_Dkljdlkdja'}
 
@@ -161,14 +156,6 @@ def getUserInfo(*args, **kwargs):
 
         return payload
 
-        # parameters = {}
-        # parameters['account'] = payload['coreAccount']
-        #
-        # # call core
-        # result = api_page.resource['core'].getBalance(parameters)
-        # response = json.dumps(result, default=json_util.default)
-        # print(response)
-        # return response
     else:
         return user_info
 
@@ -181,25 +168,6 @@ def getDeviceInfo(*args, **kwargs):
     device_info = api_page.resource['mongo'].find_all_device()
     print('deviceinfo', device_info)
 
-    # if device_info['code'] == 200:
-    #
-    #     # get params
-    #     print(device_info)
-    #
-    #     payload = device_info['payload']
-    #
-    #     return payload
-    #
-    #     # parameters = {}
-    #     # parameters['account'] = payload['coreAccount']
-    #     #
-    #     # # call core
-    #     # result = api_page.resource['core'].getBalance(parameters)
-    #     # response = json.dumps(result, default=json_util.default)
-    #     # print(response)
-    #     # return response
-    # else:
-    #     return device_info
     response = json.dumps(device_info, default=json_util.default)
     print('response', response)
     return response
@@ -213,25 +181,6 @@ def getMyDeviceList(*args, **kwargs):
     myDeviceInfo = api_page.resource['mongo'].find_Mydevice_did(did)
     print('My device',myDeviceInfo)
 
-    # if device_info['code'] == 200:
-    #
-    #     # get params
-    #     print(device_info)
-    #
-    #     payload = device_info['payload']
-    #
-    #     return payload
-    #
-    #     # parameters = {}
-    #     # parameters['account'] = payload['coreAccount']
-    #     #
-    #     # # call core
-    #     # result = api_page.resource['core'].getBalance(parameters)
-    #     # response = json.dumps(result, default=json_util.default)
-    #     # print(response)
-    #     # return response
-    # else:
-    #     return device_info
     response = json.dumps(myDeviceInfo, default=json_util.default)
     return response
 
@@ -283,28 +232,6 @@ def getbalance(*args, **kwargs):
         return response
     else:
         return user_info
-
-
-@api_page.route('/add_dapp', methods=['GET', 'POST'])
-@login_required
-def add_dapp(*args, **kwargs):
-    did = kwargs['did']
-
-    result = api_page.resource['mongo'].find_user_by_did(did)
-    if result['code'] == 200:
-        user = result['payload']
-        name = request.json['name']
-        desc = request.json['desc']
-        abi = request.json['abi']
-        binary = request.json['bin']
-        dapp = DApp(user, name, desc, abi, binary)
-        result = api_page.resource['mongo'].add_dapp(dapp)
-
-    print(result)
-    ret_val = jsonify(result)
-    print(ret_val)
-    return ret_val
-
 
 @api_page.route('/add_device', methods=['GET', 'POST'])
 def add_device():
@@ -463,7 +390,6 @@ def checkOwnerShipAccept():
 
     else:
 
-
         return jsonify('accpet done')
 
 
@@ -514,63 +440,3 @@ def change_owner():
 
     return ret
 
-#
-# @api_page.route('/checkEvent', methods=['GET'])
-# def checkEvent():
-#     did = request.headers.get('did')
-#     print('did', did)
-#
-#     user_info = api_page.resource['mongo'].find_user_by_did(did)
-#     device_info = api_page.resource['mongo'].find_device_by_did(did)
-#
-#     user_dapp_addr = user_info['payload']['user_dapp_addr']
-#
-#     print('user_dapp_addr', user_dapp_addr)
-#     print('device_info', device_info)
-#     deice_name = device_info['payload']['name']
-#
-#     user_event_request = api_page.resource['mongo'].find_EventRequest_by_DappAddr(user_dapp_addr)
-#     print('c', user_event_request )
-#     _payload = user_event_request['payload']['_payload']
-#
-#     result = {'device_name': deice_name, 'RequestUserName': _payload , 'UserName' : did}
-#
-#     print(result)
-#
-#     response = json.dumps(result, default=json_util.default)
-#
-#     return response
-
-
-
-@api_page.route('/add_user', methods=['GET'])
-def add_user():
-    given_name = request.args.get('name')
-    age = request.args.get('age')
-    user = {'name':given_name, 'age':age}
-    api_page.resource['mongo'].add_user(user)
-    return 'Write Success'
-
-
-@api_page.route('/del_user', methods=['GET'])
-def del_user():
-    given_name = request.args.get('name')
-    user = {'name':given_name}
-    api_page.resource['mongo'].del_user(user)
-    return 'Del Success'
-
-
-@api_page.route('/find_user', methods=['GET'])
-def find_user():
-    given_name = request.args.get('name')
-    user = {'name':given_name}
-    user = api_page.resource['mongo'].find_user(user)
-    return user
-
-
-@api_page.route('/update_user', methods=['GET'])
-def update_user():
-    given_name = request.args.get('name')
-    user = {'name':given_name}
-    user = api_page.resource['mongo'].update_user(user)
-    return user
