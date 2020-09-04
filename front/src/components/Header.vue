@@ -1,5 +1,5 @@
 <template>
-<div class="row">
+<div class="row" v-show="isLogin" >
     <div class="col-md-10"></div>
       <div class="col-md-2">
       <div style="position: relative;text-decoration:none; color:black; position:relative; left:7%;">
@@ -44,48 +44,12 @@ import axios from 'axios'
       }
     },
     computed: {
-        ...mapState(["isAlarm"])
+        ...mapState(["isAlarm"]),
+        ...mapState(["isLogin"])
     },
     methods: {
     ...mapActions(["logout"]),
-      fill_eth() {
-        const path = 'http://localhost:9999/api/fill_eth'
-        const did = sessionStorage.getItem("did")
-        const token = sessionStorage.getItem("access_token")
 
-        axios
-        .get(path, { params: {},
-            headers:{
-          "Authorization" :token,
-              "did": did
-          },
-        })
-        .then(response => {
-          this.balance = response.data.result.balance
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      },
-      getJSONResponse() {
-        const did = sessionStorage.getItem("did")
-        const path = 'http://localhost:9999/api/balance'
-        const token = sessionStorage.getItem("access_token")
-        axios
-          .get(path, {params: {},
-          headers: {
-            "Authorization" :token,
-            "did" : did
-          },
-        })
-        .then(response => {
-          console.log(response)
-          this.balance = response.data.balance
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      },
       getUserInfo() {
         const did = sessionStorage.getItem("did")
         const path = 'http://localhost:9999/api/getUserInfo'
@@ -158,7 +122,7 @@ import axios from 'axios'
 
     },
     created() {
-      this.getJSONResponse()
+
       this.getUserInfo()
       this.checkEvent()
 

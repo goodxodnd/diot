@@ -29,6 +29,9 @@
 
 <script>
     import { mapState, mapActions } from "vuex"
+    import axios from 'axios'
+    import router from '../router'
+
   export default {
     data() {
       return {
@@ -41,9 +44,33 @@
     },
     methods: {
         ...mapActions(["logout"]),
-        ...mapActions(["submit"]),
 
+        submit(deviceObj) {
+        const token = sessionStorage.getItem("access_token")
+        const did = sessionStorage.getItem("did")
+        deviceObj["didName"] = did;
+        console.log(deviceObj)
 
+        axios
+            .post("http://localhost:9999/api/add_device", deviceObj)
+            .then(res => {
+              let response = res.data
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+
+                  this.$swal.fire({
+                  icon: 'success',
+                  title: 'Device Register Success!',
+                  showConfirmButton: false,
+                  timer: 3000
+                      })
+                router.push("/dashboard")
+              }
+            })
+      }
 
 
     }

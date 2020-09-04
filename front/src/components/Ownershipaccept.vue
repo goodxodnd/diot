@@ -40,6 +40,8 @@
 <script>
 import { mapState, mapActions } from "vuex"
 import axios from 'axios'
+import router from '../router'
+
 
 export default {
     data() {
@@ -79,7 +81,33 @@ export default {
           .catch(error => {
             console.log(error)
           })
-      }
+      },
+      acceptOwner(acceptObj) {
+          const token = sessionStorage.getItem("access_token")
+          const did = sessionStorage.getItem("did")
+          acceptObj["didName"] = did;
+          axios
+            .post("http://localhost:9999/api/change_owner", acceptObj)
+            .then(res => {
+              console.log(acceptObj)
+              let response = res.data
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+                this.$swal.fire({
+                  icon: 'success',
+                  title: 'Device Accept Success!',
+                  showConfirmButton: false,
+                  timer: 3000
+                      })
+                  router.push("/dashboard")
+
+              }
+            })
+
+        }
     },
     created() {
       this.find_event()

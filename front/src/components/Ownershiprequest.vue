@@ -41,6 +41,7 @@
 <script>
 import { mapState, mapActions } from "vuex"
 import axios from 'axios'
+import router from '../router'
 
 export default {
     data() {
@@ -54,7 +55,6 @@ export default {
       }
     },
     methods: {
-      ...mapActions(["requestOwner"]),
       ...mapActions(["logout"]),
       getDeviceInfo() {
         const did = sessionStorage.getItem("did")
@@ -90,7 +90,35 @@ export default {
           .catch(error => {
             console.log(error)
           })
-      }
+      },
+      requestOwner(requestObj) {
+
+          const token = sessionStorage.getItem("access_token")
+          const did = sessionStorage.getItem("did")
+          requestObj["didName"] = did;
+
+          axios
+            .post("http://localhost:9999/api/request_owner", requestObj)
+            .then(res => {
+              console.log(requestObj)
+              let response = res.data
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+
+                 this.$swal.fire({
+                    icon: 'success',
+                    title: 'Request Success!',
+                    showConfirmButton: false,
+                    timer: 3000
+                      })
+                  router.push("/dashboard")
+              }
+            })
+
+        }
     },
     created() {
       this.getDeviceInfo()

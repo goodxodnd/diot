@@ -25,7 +25,10 @@ export default {
   components: {
     'Sidebar': Sidebar,
     'Header': Header,
-  }
+  },
+  computed: {
+
+    }
 }
 </script>
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
 import axios from 'axios'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 // test it.
 Vue.use(Vuex)
@@ -100,7 +101,7 @@ export default new Vuex.Store({
               }
               else {
                 console.log('device register success')
-                  $swal.fire({
+                  VueSweetalert2.$swal.fire({
                   icon: 'success',
                   title: 'Device Regist Success!',
                   showConfirmButton: false,
