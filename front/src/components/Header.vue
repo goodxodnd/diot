@@ -19,7 +19,7 @@
           <h5>{{modalTitle}}</h5>
          </div>
          <b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
-      <img src='../assets/error.png' v-show="isAlarm" style="position:relative; left:-15%;">
+      <img src='../assets/error.png' v-show="isAlarm" style="position:relative; left:80%; top:-60%;">
       </div>
 
 

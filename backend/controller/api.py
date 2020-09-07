@@ -165,11 +165,13 @@ def getUserInfo(*args, **kwargs):
 def getDeviceInfo(*args, **kwargs):
     did = request.headers.get('did')
 
-    device_info = api_page.resource['mongo'].find_all_device()
+    device_info = api_page.resource['mongo'].find_other_Device_did(did)
     print('deviceinfo', device_info)
 
-    response = json.dumps(device_info, default=json_util.default)
-    print('response', response)
+    result = device_info["payload"]
+
+    response = json.dumps(result, default=json_util.default)
+    print('DEVICE response', response)
     return response
 
 

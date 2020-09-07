@@ -11,7 +11,8 @@ export default new Vuex.Store({
     state:{
         userInfo: null,
         isLogin: false,
-        isLoginError: true
+        isLoginError: true,
+        isAlarm: false
     },
     mutations: {
         //login success
@@ -27,9 +28,16 @@ export default new Vuex.Store({
         logout(state) {
             state.isLogin = false,
             state.isLoginError = false,
+            state.isAlarm = false
             sessionStorage.removeItem("access_token");
             sessionStorage.removeItem("did");
 
+        },
+        alarmOn(state){
+            state.isAlarm = true
+        },
+        alarmOff(state){
+            state.isAlarm = false
         }
     },
     actions:{

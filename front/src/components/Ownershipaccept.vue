@@ -41,6 +41,7 @@
 import { mapState, mapActions } from "vuex"
 import axios from 'axios'
 import router from '../router'
+import store from '../store'
 
 
 export default {
@@ -103,6 +104,7 @@ export default {
                   timer: 3000
                       })
                   router.push("/dashboard")
+                  this.$store.commit("alarmOff")
 
               }
             })

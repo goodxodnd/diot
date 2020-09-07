@@ -114,7 +114,7 @@ export default {
                     showConfirmButton: false,
                     timer: 3000
                       })
-                  router.push("/dashboard")
+
               }
             })
 

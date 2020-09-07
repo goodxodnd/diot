@@ -727,6 +727,21 @@ class ZenMongo():
         query = {'user_did': user_did}
         return self.find('device', query)
 
+    def find_other_Device_did(self, user_did):
+        """ 사용자 device 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+
+        return self.find('device', {'user_did': {"$ne": user_did}})
+
     def find_EventRequest_by_DappAddr(self, user_dapp_addr):
         """ Event Request를 검색
 
@@ -739,7 +754,7 @@ class ZenMongo():
                            에러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        query = {'_to': user_dapp_addr}
+        query = {'_to': user_dapp_addr, 'done': False}
         return self.find_one('eventRequest', query)
 
     def find_EventAccept_by_DappAddr(self, user_dapp_addr):
