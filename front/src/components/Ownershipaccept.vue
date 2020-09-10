@@ -23,7 +23,7 @@
                   <b-td>{{DeviceInfo}}</b-td>
                   <b-td>{{DeviceDid}}</b-td>
                   <b-td>{{RequestUserName}}</b-td>
-                  <b-td><b-button @click="acceptOwner({DeviceName,RequestUserName})" style="color:white; background-color:#f04b4c;">Accept</b-button></b-td>
+                  <b-td><b-button @click="acceptOwner({DeviceName,RequestUserName})" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">Accept</b-button></b-td>
 
 
                 </b-tr>

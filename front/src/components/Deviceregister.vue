@@ -20,7 +20,7 @@
               <label class="txt05">Public Key</label>
                 <input class="key" type="text" v-model="publicKey" placeholder="Enter Public Key"/>
             </div>
-            <b-button variant="light" @click="submit({name,deviceType,info,did,publicKey})" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
+            <b-button variant="light" @click="submit({name,deviceType,info,did,publicKey})" onClick="this.disabled=true;" class="signup"style="color:white; background-color:#f04b4c;">R E G I S T R A T I O N</b-button></div>
 
           </div>
         <div class="col-md-2"></div>

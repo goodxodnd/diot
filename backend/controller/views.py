@@ -15,7 +15,6 @@ view_page.resource = {}
 @view_page.route('/', methods=['GET'])
 def get_main():
     try:
-
         system_dapp_addr_result = view_page.resource['mongo'].systemdapp_is_exist()
 
         if system_dapp_addr_result == True:

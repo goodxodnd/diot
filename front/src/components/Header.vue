@@ -18,8 +18,18 @@
          <div class="d-block text-center">
           <h5>{{modalTitle}}</h5>
          </div>
-         <b-button style="position: relative; color:white; background-color:#f04b4c; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button><b-button style="position: relative; color:white; background-color:#f04b4c; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button></b-modal>
-      <img src='../assets/error.png' v-show="isAlarm" style="position:relative; left:80%; top:-60%;">
+         <div v-if="modalTitle ==='Owner Change Request!'">
+         <b-button style="position: relative; color:white; background-color:#f04b4c; top:8px; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button>
+         <b-button style="position: relative; color:white; background-color:#f04b4c; top:8px; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button>
+         </div>
+
+
+         <div  v-else-if="modalTitle ==='Owner Change Done'">
+         <b-button @click="checkAccept()" style="position: relative; color:white; background-color:#f04b4c; top:8px; left:28%; width:45%;"> <router-link to="/ownershiprequest" style="color:white;">OK</router-link></b-button>
+         </div>
+
+         </b-modal>
+      <img src='../assets/error.png' v-show="isAlarm" style="position:relative; left:80%; top:-38px;">
       </div>
 
 
@@ -107,9 +117,9 @@ import axios from 'axios'
               .then(response => {
                   console.log(response.data.event, response)
 
-                  if (response.data.event == 'OwnerChangeRequest')
+                  if (response.data.event == 'OwnerAccept')
                   {
-                      this.modalTitle = 'Owner Change Request!'
+                      this.modalTitle = 'Owner Change Done'
                       this.$store.commit("alarmOn")
                     }
                   })
@@ -118,15 +128,44 @@ import axios from 'axios'
                 })
 
         }, 5000);
-      }
+      },
+      checkAccept() {
 
+        const did = sessionStorage.getItem("did")
+        const path = 'http://localhost:9999/api/checkAccept'
+        const token = sessionStorage.getItem("access_token")
+
+        axios
+          .get(path, {params: {},
+          headers: {
+            "Authorization" :token,
+            "did" : did
+
+          }
+          })
+          .then(response => {
+            console.log(response)
+
+            this.modalTitle = 'None Alarm'
+            this.$store.commit("alarmOff")
+
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+
+
+
+
+      }
     },
     created() {
 
+
+
       this.getUserInfo()
       this.checkEvent()
-
-
     }
   }
 

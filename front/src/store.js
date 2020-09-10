@@ -60,7 +60,8 @@ export default new Vuex.Store({
                                 }
                             }
                             commit('loginSuccess')
-                            router.push("/dashboard")
+                            window.location.href = '/dashboard';
+
                         }
                     else {
                         alert(' Check your Id&PW 1 ');

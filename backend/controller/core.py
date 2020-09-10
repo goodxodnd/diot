@@ -147,7 +147,7 @@ class KeyManager():
         print(hex_key)
         account = self.core.create_account_with_key(hex_key, passphrase)
         enc_prvkey = self.cipher.encrypt(hex_key)
-        return account, enc_prvkey
+        return account, enc_prvkey , hex_key
 
     def get_plainkey(self, enc_key):
         plain_key = self.cipher.decrypt(enc_key)
@@ -199,8 +199,16 @@ class EthCore2:
         self.mode = mode
         self.w3 = Web3(HTTPProvider(url))
 
-    def create_account_with_key(self, key, passwd):
-        account = self.w3.geth.personal.import_raw_key(key, passwd)
+    def create_account_with_key(self, prv_key, passwd):
+        """ create account with private key
+        Args:
+            prv_key (str): hexstring private key
+            passwd (str): user password
+
+        Returns:
+            str: the generated account
+        """
+        account = self.w3.geth.personal.import_raw_key(prv_key, passwd)
         return account
 
     # Account의 밸런스 값을 조회해서 넘겨주는 루틴

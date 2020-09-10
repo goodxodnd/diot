@@ -57,9 +57,15 @@ def register():
         })
     else:
         # core Account Creation
-        coreAccount, corePrvkey = api_page.resource['key_manager'].create_account(logpass)
+        coreAccount, corePrvkey, hex_prv_key = api_page.resource['key_manager'].create_account(logpass)
 
-        print(coreAccount, corePrvkey)
+        print('A-1',coreAccount, corePrvkey, hex_prv_key)
+
+        corePubkey = api_page.resource['key_manager'].get_pubkey(hex_prv_key)
+        strPubKey = str(corePubkey)
+
+
+        print('A-2', strPubKey)
 
         # Fill eth
         params = {
@@ -68,13 +74,13 @@ def register():
         }
 
         result = api_page.resource['core'].fillEth(params)
-        print(result)
+
 
         # Deploy user dapp
         ret = api_page.resource['ownership_manager'].deploy_user_dapp(coreAccount, gethpass=logpass)
         if ret['code'] == ResCode.OK.value:
             user_dapp_addr = ret['deployResult']['contractAddress']
-            print('b',user_dapp_addr)
+
 
         # register member
         ret = api_page.resource['ownership_manager'].register_member(did, coreAccount, user_dapp_addr)
@@ -85,7 +91,7 @@ def register():
             print('well done')
 
         # get account addr
-        user = User(did, email, logpass, gethpass, coreAccount, corePrvkey,user_dapp_addr)
+        user = User(did, email, logpass, gethpass, coreAccount, corePrvkey, strPubKey, user_dapp_addr)
         print('c', user)
 
         # add user to db
@@ -376,23 +382,37 @@ def checkOwnerShip():
 @api_page.route('/checkOwnerShipAccept', methods=['GET'])
 def checkOwnerShipAccept():
     did = request.headers.get('did')
-    print('did:', did)
 
     user_info = api_page.resource['mongo'].find_user_by_did(did)
 
     user_dapp_addr = user_info['payload']['user_dapp_addr']
 
+
     user_event_request = api_page.resource['mongo'].find_EventAccept_by_DappAddr(user_dapp_addr)
 
-    if user_event_request['code'] == 404:
+    print('userEVNET', user_event_request)
 
-        print('none accept')
+    if user_event_request['code'] == 200:
 
-        return jsonify('none accept')
+        print('accept alarm')
+        result = user_event_request['payload']
+        response = json.dumps(result, default=json_util.default)
+        return response
 
     else:
 
-        return jsonify('accpet done')
+        return jsonify('none accept')
+
+
+@api_page.route('/checkAccept', methods=['GET'])
+def checkAccept():
+    did = request.headers.get('did')
+
+    # Change DB accept boolean (False -> True)
+    change_request = api_page.resource['mongo'].update_accept()
+    print('change_request_boolean', change_request)
+
+    return jsonify('accept check done')
 
 
 @api_page.route('/change_owner', methods=['POST'])

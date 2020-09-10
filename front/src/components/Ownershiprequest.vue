@@ -23,7 +23,10 @@
                   <b-td>{{item.DeviceType}}</b-td>
                   <b-td>{{item.Did}}</b-td>
                   <b-td>{{item.UserDid}}</b-td>
-                  <b-td><b-button @click="requestOwner(item)" style="color:white; background-color:#f04b4c;">Request</b-button></b-td>
+                  <b-td><b-button @click="requestOwner(item)" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">Request</b-button></b-td>
+
+
+
 
 
                 </b-tr>
@@ -42,6 +45,10 @@
 import { mapState, mapActions } from "vuex"
 import axios from 'axios'
 import router from '../router'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
     data() {
@@ -51,8 +58,13 @@ export default {
         DeviceName: null,
         DeviceType: null,
         Did:null,
-        UserDid:null
+        UserDid:null,
+        isLoading: false,
+        fullPage: true
       }
+    },
+    components:{
+      Loading
     },
     methods: {
       ...mapActions(["logout"]),
@@ -92,6 +104,12 @@ export default {
           })
       },
       requestOwner(requestObj) {
+           this.isLoading = true;
+
+           // simulate AJAX
+           setTimeout(() => {
+           this.isLoading = false
+           },5000)
 
           const token = sessionStorage.getItem("access_token")
           const did = sessionStorage.getItem("did")
@@ -118,7 +136,11 @@ export default {
               }
             })
 
-        }
+        },
+        doAjax() {
+
+
+            }
     },
     created() {
       this.getDeviceInfo()

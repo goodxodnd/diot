@@ -34,7 +34,7 @@ class Docu():
 class User(Docu):
     """ 사용자 정보를 갖고 있는 Object Mapper """
 
-    def __init__(self, did, email, logpass, gethpass, coreAccount, corePrvkey,user_dapp_addr):
+    def __init__(self, did, email, logpass, gethpass, coreAccount, corePrvkey, corePubkey, user_dapp_addr):
         """ 초기화 함수
         Args:
             account (str): blockchain account
@@ -51,6 +51,7 @@ class User(Docu):
         self.doc['gethpass'] = gethpass
         self.doc['coreAccount'] = coreAccount
         self.doc['corePrvkey'] = corePrvkey
+        self.doc['corePubkey'] = corePubkey
         self.doc['user_dapp_addr'] = user_dapp_addr
 
     def get_account(self):

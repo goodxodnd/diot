@@ -11,12 +11,14 @@ import VueMq from 'vue-mq'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import VueSweetalert2 from 'vue-sweetalert2';
+import SweetModal from 'sweet-modal-vue/src/plugin.js'
 
 Vue.config.productionTip = false
 
 
 Vue.use(BootstrapVue);
 Vue.use(VueSweetalert2);
+Vue.use(SweetModal);
 
 // /* eslint-disable no-new */
 // new Vue({

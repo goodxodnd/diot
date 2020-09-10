@@ -769,7 +769,7 @@ class ZenMongo():
                            에러에는 code:500을 반환하고 payload에 에러메시지 반환
 
         """
-        query = {'_new': user_dapp_addr}
+        query = {'_new': user_dapp_addr, 'done': False}
         return self.find_one('eventAccept', query)
 
 

@@ -19,12 +19,14 @@
 <script>
 import Sidebar from './components/Sidebar.vue'
 import Header from './components/Header.vue'
+import No from './components/No.vue'
 
 
 export default {
   components: {
     'Sidebar': Sidebar,
     'Header': Header,
+    'No': No,
   },
   computed: {
 
