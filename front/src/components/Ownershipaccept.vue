@@ -6,34 +6,40 @@
         </div>
         <div class="col-md-11">
           <div class="accept-table">
-
             <b-table-simple hover>
               <b-thead head-variant="secondary">
                 <b-tr>
+                <b-th>Request User</b-th>
                 <b-th>DeviceName</b-th>
                 <b-th>DeviceInfo</b-th>
                 <b-th>Device Did</b-th>
-                <b-th>Request User</b-th>
                 <b-th></b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
                 <b-tr >
+                  <b-td>{{RequestUserName}}</b-td>
                   <b-td>{{DeviceName}}</b-td>
                   <b-td>{{DeviceInfo}}</b-td>
                   <b-td>{{DeviceDid}}</b-td>
-                  <b-td>{{RequestUserName}}</b-td>
-                  <b-td><b-button @click="acceptOwner({DeviceName,RequestUserName})" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">Accept</b-button></b-td>
-
-
+                  <b-td> <b-button @click="modalShow = !modalShow" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">View</b-button>
+                         <b-button @click="acceptOwner({DeviceName,RequestUserName})" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">Accept</b-button></b-td>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
-
-
           </div>
         </div>
+
         <div class="col-md-1"></div>
+        <div>
+        <b-modal v-model="modalShow" hide-footer>
+         <div class="d-block text-center">
+          <h5>{{modalTitle}}</h5>
+         </div>
+
+        </b-modal>
+
+        </div>
 
 </template>
 
@@ -47,12 +53,14 @@ import store from '../store'
 export default {
     data() {
       return {
+        modalTitle: 'None info',
         isAlarm: false,
         DeviceName: null,
         UserName:null,
         RequestUserName:null,
         DeviceInfo: null,
-        DeviceDid: null
+        DeviceDid: null,
+        modalShow: false,
       }
     },
     methods: {
@@ -108,6 +116,38 @@ export default {
 
               }
             })
+
+        },
+
+        researchDid(did) {
+          this.name = this.did
+          this.isSearch = true
+
+          axios
+          .get("http://localhost:8888/api/researchDid", {params: {},
+          headers: {
+            "did" : did
+          }
+          })
+          .then(res => {
+              console.log(did)
+              let response = res.data
+              let result = res.data.payload
+
+              if (response['code'] == '404'){
+                console.log('error')
+              }
+              else {
+                console.log(response)
+                console.log(result)
+                this.docu = result
+                sessionStorage.setItem("docu", result)
+              }
+            })
+          .catch(error => {
+            console.log(error)
+          })
+
 
         }
     },

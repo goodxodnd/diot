@@ -19,8 +19,7 @@
           <h5>{{modalTitle}}</h5>
          </div>
          <div v-if="modalTitle ==='Owner Change Request!'">
-         <b-button style="position: relative; color:white; background-color:#f04b4c; top:8px; left:27%;"> <router-link to="/ownershiprequest" style="color:white;">Request</router-link></b-button>
-         <b-button style="position: relative; color:white; background-color:#f04b4c; top:8px; left:33%;"> <router-link to="/ownershipaccept" style="color:white;">Accept</router-link></b-button>
+         <b-button style="position: relative; color:white; background-color:#f04b4c; top:8px; left:34%; width:150px;"> <router-link to="/ownershipaccept" style="color:white;">OK</router-link></b-button>
          </div>
 
 
@@ -153,9 +152,6 @@ import axios from 'axios'
           .catch(error => {
             console.log(error)
           })
-
-
-
 
 
       }

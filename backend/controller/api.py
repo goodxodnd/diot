@@ -462,3 +462,19 @@ def change_owner():
 
     return ret
 
+
+@api_page.route('/researchDid', methods=['GET','POST'])
+def research_Did():
+    # get parameters
+
+    did = request.headers.get('did')
+    print('did', did)
+
+    result = api_page.resource['mongo_resolve'].find_did_docu(did)
+
+    print('result-1', result)
+
+    response = json.dumps(result, default=json_util.default)
+
+    return response
+

@@ -2,6 +2,7 @@ from flask import Flask
 from backend.controller.api import api_page
 from backend.controller.views import view_page
 from backend.models.database import ZenMongo
+from backend.models.database import ZenMongo_resolve
 from backend.controller.core import EthCore2
 from backend.controller.config import CONFIG, Mode, ResCode
 from backend.controller.core import OwnershipManager,KeyManager
@@ -27,6 +28,10 @@ view_page.resource['redis'] = que
 zen_mongo = ZenMongo()
 api_page.resource['mongo'] = zen_mongo
 view_page.resource['mongo'] = zen_mongo
+
+# DB connect2
+zen_mongo_resolve = ZenMongo_resolve()
+api_page.resource['mongo_resolve'] = zen_mongo_resolve
 
 api_page.resource['ownership_manager'] = ownership_manager
 view_page.resource['ownership_manager'] = ownership_manager

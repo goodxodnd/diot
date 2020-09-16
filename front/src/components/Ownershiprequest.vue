@@ -19,10 +19,10 @@
               </b-thead>
               <b-tbody>
                 <b-tr v-for="item in items">
+                  <b-td>{{item.UserDid}}</b-td>
                   <b-td>{{item.DeviceName}}</b-td>
                   <b-td>{{item.DeviceType}}</b-td>
                   <b-td>{{item.Did}}</b-td>
-                  <b-td>{{item.UserDid}}</b-td>
                   <b-td><b-button @click="requestOwner(item)" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">Request</b-button></b-td>
 
 

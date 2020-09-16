@@ -832,3 +832,37 @@ class ZenMongo():
         update = {'$set': {'belongTo': _payload, 'user_dapp_addr': new_user_dapp_addr}}
 
         return self.db['ticket'].find_one_and_update(filter, update)
+
+class ZenMongo_resolve():
+    """ 몽고 DB에 접근하는 모든 요청을 처리하는 핸들러 클래스
+
+        Attributes:
+        db (MongoDB): MongoDB에 대응되는 db
+
+    """
+
+    def __init__(self, url='mongodb://210.114.89.53:16900', dbname='resolver'):
+        """ 초기화 함수
+        Args:
+            url (str): mongodb의 URL, 생성시 지정 가능함.
+            dbname (str): 컬렉션이 저장되는 데이터베이스 이름.
+       """
+        client = MongoClient(url)
+        self.db = client[dbname]
+
+    def find_did_docu(self, did):
+        """ 사용자 device 검색
+
+        Args:
+            did: 사용자의 did
+
+        Returns:
+            result (dict): 검색 성공시에는 code:200, payload에 query에 맞는 document 반환
+                           해당 document가 없으면, code:404 반환
+                           에러에는 code:500을 반환하고 payload에 에러메시지 반환
+
+        """
+        query = {'did': did}
+        return self.find_one('did', query)
+
+
