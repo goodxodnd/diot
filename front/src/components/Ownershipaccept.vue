@@ -22,7 +22,7 @@
                   <b-td>{{DeviceName}}</b-td>
                   <b-td>{{DeviceInfo}}</b-td>
                   <b-td>{{DeviceDid}}</b-td>
-                  <b-td> <b-button @click="modalShow = !modalShow" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">View</b-button>
+                  <b-td> <b-button @click="researchDid(RequestUserName)" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">View</b-button>
                          <b-button @click="acceptOwner({DeviceName,RequestUserName})" onClick="this.disabled=true;" style="color:white; background-color:#f04b4c;">Accept</b-button></b-td>
                 </b-tr>
               </b-tbody>
@@ -31,10 +31,14 @@
         </div>
 
         <div class="col-md-1"></div>
-        <div>
+        <div >
         <b-modal v-model="modalShow" hide-footer>
          <div class="d-block text-center">
-          <h5>{{modalTitle}}</h5>
+          <vue-json-pretty
+                    :data="docu"
+                    >
+            </vue-json-pretty>
+
          </div>
 
         </b-modal>
@@ -48,6 +52,7 @@ import { mapState, mapActions } from "vuex"
 import axios from 'axios'
 import router from '../router'
 import store from '../store'
+import VueJsonPretty from 'vue-json-pretty'
 
 
 export default {
@@ -61,6 +66,7 @@ export default {
         DeviceInfo: null,
         DeviceDid: null,
         modalShow: false,
+        docu: null,
       }
     },
     methods: {
@@ -116,32 +122,28 @@ export default {
 
               }
             })
-
         },
-
-        researchDid(did) {
-          this.name = this.did
-          this.isSearch = true
-
+        researchDid(RequestUserName) {
           axios
           .get("http://localhost:8888/api/researchDid", {params: {},
           headers: {
-            "did" : did
+            "did" : RequestUserName
           }
           })
           .then(res => {
-              console.log(did)
               let response = res.data
               let result = res.data.payload
+
+
 
               if (response['code'] == '404'){
                 console.log('error')
               }
               else {
-                console.log(response)
                 console.log(result)
                 this.docu = result
-                sessionStorage.setItem("docu", result)
+                this.modalShow = !this.modalShow
+
               }
             })
           .catch(error => {
@@ -150,11 +152,18 @@ export default {
 
 
         }
+
+
     },
     created() {
       this.find_event()
+    },
+    components: {
+      VueJsonPretty
     }
   }
+
+
 </script>
 
 <style>
