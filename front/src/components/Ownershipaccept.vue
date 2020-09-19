@@ -31,8 +31,8 @@
         </div>
 
         <div class="col-md-1"></div>
-        <div >
-        <b-modal v-model="modalShow" hide-footer>
+        <div class="modal-dialog modal-lg">
+        <b-modal id="modal-lg" size="lg" v-model="modalShow" hide-footer>
          <div class="d-block text-center">
           <vue-json-pretty
                     :data="docu"
